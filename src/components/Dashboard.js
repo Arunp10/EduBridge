@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from './Card'
 
-import profileImage from './Assets/teacher1.jpg'
+import profileImage from './Assets/teacher1.png'
 import profileImage2 from './Assets/teacher2.png'
 import profileImage3 from './Assets/teacher3.png'
 

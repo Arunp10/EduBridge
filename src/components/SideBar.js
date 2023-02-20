@@ -26,7 +26,7 @@ const Sidebar = () => {
                 <li class="nav-item mb-2"><a class="nav-link text-secondary" href="#"></a></li>
                 <li class="nav-item mb-2"><a class="nav-link text-secondary" href="#"></a></li>
                 <li class="nav-item mb-2"><a class="nav-link text-secondary" href="#"></a></li>
-                <li class="nav-item mb-2"><a class="nav-link text-secondary" href="#"></a></li>
+                <li class="nav-item mb-2"><button type="button" class="btn btn-danger">Logout</button></li>
             </ul>
        </div>
     )
