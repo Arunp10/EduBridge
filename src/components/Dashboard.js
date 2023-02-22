@@ -4,11 +4,12 @@ import Card from './Card'
 import profileImage from './Assets/teacher1.png'
 import profileImage2 from './Assets/teacher2.png'
 import profileImage3 from './Assets/teacher3.png'
-
+import Sidebar from './Sidebar'
 export default function Dashboard() {
   return (
+    <>
+    <Sidebar />
     <div class="col main pt-5 mt-3">
-         
          <nav aria-label="breadcrumb">
          <ol class="breadcrumb">
              <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -45,5 +46,6 @@ export default function Dashboard() {
          </div> 
          <hr/>
  </div>
-  )
+ </> 
+ )
 }

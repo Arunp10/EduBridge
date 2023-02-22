@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
 import Signup from './components/signup'
-import NavBar from './components/NavBar'
-import SideBar from './components/SideBar'
+import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
 import Dashboard from './components/Dashboard';
+import Appointment from './components/Appointment';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 class App extends Component {
   render() {
     return (
-      // <div>
-      //   <Signup />
-      // </div>
-      <div>
-            <NavBar/>
-                <div class="container-fluid" id="main">
-                 <div class="row row-offcanvas row-offcanvas-left">
-                   <SideBar/>
-                   <Dashboard/>
-             </div>
-            </div>  
-        </div> 
+        <div>
+          <Navbar />
+                  <div class="container-fluid" id="main">
+                  <div class="row row-offcanvas row-offcanvas-left">
+                  <Dashboard />
+                <Route path="/Appointment"><Appointment /></Route> 
+              </div>
+              </div> 
+          </div> 
     );
   }
 }
