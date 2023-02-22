@@ -18,4 +18,8 @@ const Card = (props) => {
   );
 }
 
+<<<<<<< HEAD
 export default Card;
+=======
+export default Card;
+>>>>>>> b3b8c4e45448a578c8297eec08e0770f7e9c3fde

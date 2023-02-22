@@ -4,11 +4,19 @@ import Card from './Card'
 import profileImage from './Assets/teacher1.png'
 import profileImage2 from './Assets/teacher2.png'
 import profileImage3 from './Assets/teacher3.png'
+<<<<<<< HEAD
 // import Sidebar from './Sidebar'
 export default function Dashboard() {
   return (
     <>
     {/* <Sidebar /> */}
+=======
+import Sidebar from './Sidebar'
+export default function Dashboard() {
+  return (
+    <>
+    <Sidebar />
+>>>>>>> b3b8c4e45448a578c8297eec08e0770f7e9c3fde
     <div class="col main pt-5 mt-3">
          <nav aria-label="breadcrumb">
          <ol class="breadcrumb">

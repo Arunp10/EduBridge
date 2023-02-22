@@ -27,7 +27,7 @@ export default function Login() {
       var password= data.get('password');
     if(email=="arunperchani@gmail.com" && password=="12345678"){
       console.log("success");
-      <NavLink path="./Dashboard"></NavLink>
+      
     }
 
     
