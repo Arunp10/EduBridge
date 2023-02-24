@@ -1,6 +1,6 @@
 import profileImage from "./Assets/teacher1.jpg";
 import React from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SideBar";
 
 export default function ProfileView() {
   return (

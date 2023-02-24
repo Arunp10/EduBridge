@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "./Card";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SideBar";
 import profileImage from "./Assets/teacher1.jpg";
 import profileImage2 from "./Assets/teacher2.png";
 import profileImage3 from "./Assets/teacher3.png";

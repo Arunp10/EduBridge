@@ -2,7 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
 import elogo from "../images/elogo.png";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SideBar";
 const Navbar = () => {
   return (
     <>

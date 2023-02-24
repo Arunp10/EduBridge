@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import "./App.css";
 import Navbar from "./components/NavBar";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/SideBar";
 import Dashboard from "./components/Dashboard";
 import ProfileView from "./components/ProfileView";
 import Appointment from "./components/Appointment";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import Signup from "./components/Signup";
+import Signup from "./components/signup";
 
 class App extends Component {
   render() {

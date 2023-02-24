@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Row, Col, Image } from "react-bootstrap";
 import profileImage from "./Assets/teacher1.jpg";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SideBar";
 
 const data = [
   {
