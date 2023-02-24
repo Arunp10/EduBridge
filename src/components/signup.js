@@ -1,84 +1,143 @@
-import React, { Component } from 'react';
-class Signup extends Component {
-    render(){
-        return(
-            <div>
-                <section className="signup">
-                    <div className="container mt-5">
-                        <div className="signup-content">
-                            <div className="signup-form">
-                                <h2 className="form-title">Sign up</h2>
-                                <form className="register-form" id="register-form">
-                                    <div className="form-group">
-                                        <label htmlFor="name">
-                                            <i class="zmdi zmdi-account material-icons-name"></i>
-                                        </label>
-                                        <input type="text" name="name" id="name" autoComplete="off" placeholder="Enter name"></input>
-                                    </div>
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+// import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Login from "./Login"
+import { Link } from 'react-router-dom';
 
-                                    <div className="form-group">
-                                        <label htmlFor="LastName">
-                                            <i class="zmdi zmdi-account material-icons-name"></i>
-                                        </label>
-                                        <input type="LastName" name="LastName" id="LastName" autoComplete="off" placeholder="Enter Last name"></input>
-                                    </div>
+const theme = createTheme();
 
-                                    <div className="form-group">
-                                        <label htmlFor="ContactNo">
-                                            <i class="zmdi zmdi-phone material-icons-name"></i>
-                                        </label>
-                                        <input type="ContactNo" name="ContactNo" id="ContactNo" autoComplete="off" placeholder="Enter phone no."></input>
-                                    </div>
+export default function Signup() {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+  };
 
-                                    <div className="form-group">
-                                        <label htmlFor="Email">
-                                            <i class="zmdi zmdi-email material-icons-name"></i>
-                                        </label>
-                                        <input type="Email" name="Email" id="Email" autoComplete="off" placeholder="Enter Email"></input>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label htmlFor="password">
-                                            <i class="zmdi zmdi-lock material-icons-name"></i>
-                                        </label>
-                                        <input type="password" name="password" id="password" autoComplete="off" placeholder="Enter password"></input>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label htmlFor="cpassword">
-                                            <i class="zmdi zmdi-lock material-icons-name"></i>
-                                        </label>
-                                        <input type="password" name="cpassword" id="cpassword" autoComplete="off" placeholder="Reenter your password"></input>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label htmlFor="work">
-                                            <i class="zmdi zmdi-slideshow material-icons-name"></i>
-                                        </label>
-                                        <input type="work" name="work" id="work" autoComplete="off" placeholder="Enter profession"></input>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label htmlFor="Domain">
-                                            <i class="zmdi zmdi-disqus material-icons-name"></i>
-                                        </label>
-                                        <input type="Domain" name="Domain" id="Domain" autoComplete="off" placeholder="Enter domain"></input>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label htmlFor="experience">
-                                            <i class="zmdi zmdi-assignment-o material-icons-name"></i>
-                                        </label>
-                                        <input type="experience" name="experience" id="experience" autoComplete="off" placeholder="Enter experience in domain"></input>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        )
-    }
-};
-
-export default Signup;
+  return (
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: '#47a4f2' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="given-name"
+                  name="firstName"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                required
+                fullWidth
+                name="work"
+                label="Work"
+                type="work"
+                id="work"
+                />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                    required
+                    fullWidth
+                    name="domain"
+                    label="Domain"
+                    type="domain"
+                    id="domain"
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                    required
+                    fullWidth
+                    name="experience"
+                    label="Experience"
+                    type="experience"
+                    id="experience"
+                    />
+                </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link className="nav-link" to="/Login" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
+}
