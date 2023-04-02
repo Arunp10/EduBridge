@@ -1,5 +1,6 @@
+// import { } from "@mui/icons-material";
 import React from "react";
-import { Card, Row, Col, Image } from "react-bootstrap";
+import { Card, Row, Col, Image,Button } from "react-bootstrap";
 import profileImage from "./Assets/teacher1.jpg";
 import Sidebar from "./SideBar";
 
@@ -24,76 +25,53 @@ const data = [
     avatar: "https://example.com/avatar2.jpg",
     time: "2:00 PM",
     date: "Feb 21, 2023",
-    name: "Mr. Amir Ali",
+    name: "Mr. Muhammad Qazami",
     description: "Data Science",
     status: "Confirmed",
   },
-  {
-    avatar: "https://example.com/avatar2.jpg",
-    time: "2:00 PM",
-    date: "Feb 22, 2023",
-    name: "Mr. Amir Ali",
-    description: "Machine Framework Assets",
-    status: "Confirmed",
-  },
-];
+]
 
 const ListItem = ({ avatar, time, date, name, description, status }) => (
-  <Card className="w-75">
-    <Card.Body>
-      <Row>
-        <Col xs={3} className="d-flex align-items-center">
-          <Image
-            src={profileImage }
-            roundedCircle
-            style={{ width: "100px", height: "100px", marginRight: "20px" }}
-          />
-        </Col>
-        <Col xs={9}>
-          <Row>
-            <Col xs={12}>
-              <h6 className="mb-1">{name}</h6>
-            </Col>
-            <Col xs={12}>
-              <small className="text-muted">{description}</small>
-            </Col>
-            <Col xs={12}>
-              <small className="text-muted">Time: {time}</small>
-            </Col>
-            <Col xs={12}>
-              <small className="text-muted">Date: {date}</small>
-            </Col>
-            <Col xs={12}>
-              <small className="text-muted">Status: {status}</small>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Col xs={3} className="d-flex align-items-center">
+    <>
+    <Card className="container">
+      <Card.Body>
         <Row>
-          <button type="button" class="btn btn-danger">
-            Cancel Appointment
-          </button>
-        </Row>
-      </Col>
-    </Card.Body>
-    <br></br>
-  </Card>
-);
-
-const Appointment = () => (
+          <Col xs={3} className="d-flex align-items-center">
+            <Image
+              src={profileImage}
+              roundedCircle
+              style={{ width: "80px", height: "80px", marginRight: "10px" }}
+            /></Col>
+            <Col><Card.Text>{name}</Card.Text></Col>
+            <Col><Card.Text>{description}</Card.Text></Col>
+            <Col><Card.Text>{time}</Card.Text></Col>
+            <Col><Card.Text>{date}</Card.Text></Col>
+            <Col><Card.Text>{status}</Card.Text></Col>
+            <Col><Button variant="danger">Cancel</Button></Col>
+            </Row>
+      </Card.Body>
+    </Card>
+    <br />
+    </>
+  );
   
-  <div className="container">
-    <div className="row">
-    <Sidebar />
-    <div className="col-9">
-      {data.map((item, index) => (
-        <ListItem key={index} {...item   } />
-      ))
-      
-      }
+  const Appointment = () => (
+    <>
+    <div className="container mt-4">
+      <div className="row">
+      <Sidebar />
+      <div className="col-9">
+        {data.map((item, index) => (
+          <ListItem key={index} {...item} />
+        ))
+        }
+        </div>
       </div>
     </div>
-  </div>
-);
-export default Appointment;
+    </>
+)
+export default Appointment
+
+
+
+
