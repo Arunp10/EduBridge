@@ -1,5 +1,4 @@
 import React from "react";
-import Dashboard from "./Dashboard";
 import { Link } from "react-router-dom";
 const Sidebar = () => {
   return (
@@ -22,15 +21,10 @@ const Sidebar = () => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <a
-            class="nav-link text-secondary"
-            href="#submenu1"
-            data-toggle="collapse"
-            data-target="#submenu1"
-          >
-            <i class="fas fa-user font-weight-bold"></i>{" "}
-            <span className="ml-3">Profile</span>
-          </a>
+            <Link class="nav-link text-secondary" to="/EditProfile">
+              <i class="fas fa-user font-weight-bold"></i>
+              <span className="ml-3">Edit Profile</span>
+            </Link>
           <ul
             class="list-unstyled flex-column pl-3 collapse"
             id="submenu1"
