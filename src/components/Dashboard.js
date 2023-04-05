@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "./Card";
 import Sidebar from "./SideBar";
 import profileImage from "./Assets/teacher1.jpg";
@@ -7,6 +7,9 @@ import profileImage3 from "./Assets/teacher3.png";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
+  const [name, setName] = useState("Your Name");
+  const [domain, setDomain] = useState("Your Domain");
+
   return (
     <>
       <Sidebar />
@@ -42,9 +45,8 @@ export default function Dashboard() {
           </button>
           <strong>Data and Records</strong> Learn more about employee
         </div>
-
         <div class="d-flex justify-content-center">
-          <Link className="nav-link" to="/ProfileView">
+          <Link className="nav-link" to="/Portfolio">
             <Card
               image={profileImage}
               Name="Mr. Amir Ali"

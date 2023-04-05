@@ -3,12 +3,14 @@ import "./App.css";
 import Navbar from "./components/NavBar";
 import Sidebar from "./components/SideBar";
 import Dashboard from "./components/Dashboard";
-import ProfileView from "./components/ProfileView";
+// import ProfileView from "./components/ProfileView";
 import Appointment from "./components/Appointment";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
+// import ProfileView from "./components/ProfileViewContainer/ProfileView"
+import Portfolio from "./components/ProfileViewContainer/Portfolio";
 
 class App extends Component {
   render() {
@@ -24,7 +26,7 @@ class App extends Component {
                 <Route path="/Signup" element={<Signup />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Dashboard" element={<Dashboard />} />
-                <Route path="/ProfileView" element={<ProfileView />} />
+                <Route path="/Portfolio" element={<Portfolio/>} />
                 <Route path="/Appointment" element={<Appointment />} />
               </Routes>
             </div>
