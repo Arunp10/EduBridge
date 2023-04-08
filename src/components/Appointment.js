@@ -39,6 +39,7 @@ const data = [
 ];
 
 const ListItem = ({ avatar, time, date, name, description, status }) => (
+  <>
   <Card className="w-75">
     <Card.Body>
       <Row>
@@ -77,8 +78,10 @@ const ListItem = ({ avatar, time, date, name, description, status }) => (
         </Row>
       </Col>
     </Card.Body>
-    <br></br>
+    
   </Card>
+  <br></br>
+  </>
 );
 
 const Appointment = () => (

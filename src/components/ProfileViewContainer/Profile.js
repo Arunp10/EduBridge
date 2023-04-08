@@ -1,6 +1,5 @@
 import React from "react";
 import Typical from "react-typical";
-import Footer from "./Footer";
 export default function Profile(props) {
   return (
     <div className="profile-container">
@@ -36,7 +35,7 @@ export default function Profile(props) {
             </span>
           </div>
           <div className="profile-options">
-            <button className="primary-btn">Get An Appointment</button>
+            <button className="primary-btn">Hire Me</button>
             <a
               href="Laksh's Resume.pdf"
               download="EDUBRIDGE Laksh's Resume.pdf"

@@ -51,7 +51,7 @@ export default function AboutMe(props) {
               {renderHighlight()}
             </div>
             <div className="aboutme-options">
-              <button className="primary-btn">Get An Appointment</button>
+              <button className="primary-btn">Hire Me</button>
               <a
                 href="Laksh's Resume.pdf"
                 download="EDUBRIDGE Laksh's Resume.pdf">

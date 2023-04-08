@@ -18,8 +18,8 @@ class App extends Component {
       <div>
         <BrowserRouter>
           <Navbar />
-          <div class="container-fluid" id="main">
-            <div class="row row-offcanvas row-offcanvas-left">
+          <div className="container-fluid" id="main">
+            <div className="row row-offcanvas row-offcanvas-left">
               <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route path="/Home" element={<Home />} />

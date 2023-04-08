@@ -22,7 +22,7 @@ export default function Resume(props) {
             <span>{props.heading ? props.heading : ""}</span>
             {props.fromDate && props.toDate ? (
               <div className="heading-date">
-                {props.fromDate + "_" + props.toDate}
+                {props.fromDate + "-" + props.toDate}
               </div>
             ) : (
               <div></div>
@@ -57,6 +57,13 @@ export default function Resume(props) {
   ];
 
   const ProjectDetails = [
+    {
+      title: "Personal Portfolio Website",
+      duration: { fromDate: "2020", toDate: "2021" },
+      description:
+        "A personal portfolio website to show my all skills and work",
+      subHeading: "Technologies Used: React js, Bootstrap ",
+    },
     {
       title: "Personal Portfolio Website",
       duration: { fromDate: "2020", toDate: "2021" },
@@ -99,14 +106,14 @@ export default function Resume(props) {
         className="resume-screen-container programming-skills-container"
         key="programming-skills"
       >
-        {ProgrammingSkillsDetails.map((skill, index) => (
+        {ProgrammingSkillsDetails.map((skills, index) => (
           <div className="skill-parent" key={index}>
             <div className="heading-bullet"></div>
-            <span>{skill.skills}</span>
+            <span>{skills.skills}</span>
             <div className="skill-percentage">
               <div
+                style={{ width: skills.ratingPercentage + "%" }}
                 className="active-percentage"
-                style={{ width: skill.ratingPercentage + "%" }}
               ></div>
             </div>
           </div>
@@ -148,13 +155,15 @@ export default function Resume(props) {
     return ResumeBullets.map((bullet, index) => (
       <div
         onClick={() => handleCarousal(index)}
-        className={index === selectedBulletIndex ? "bullet selected-bullet" : "bullet"}
+        className={
+          index === selectedBulletIndex ? "bullet selected-bullet" : "bullet"
+        }
         key={index}
       >
         <img
           className="bullet-logo"
-          src={require (`../../../src/components/Assets/Resume/${bullet.logoSrc}`).default}
-          alt="B"
+          src={require(`../../../src/components/Assets/Resume/${bullet.logoSrc}`)}
+          alt="oops"
         />
         <span className="bullet-label">{bullet.label}</span>
       </div>
@@ -179,9 +188,8 @@ export default function Resume(props) {
         <div className="resume-card">
           <div className="resume-bullets">
             <div className="bullet-container">
-              <div className="bullet-icons">
-                <div className="bullets">{getBullets()}</div>
-              </div>
+              <div className="bullet-icons"></div>
+              <div className="bullets">{getBullets()}</div>
             </div>
           </div>
           <div className="resume-bullet-details">{getResumeScreen()}</div>

@@ -7,10 +7,9 @@ import Resume from './Resume'
 export default function ProfileView() {
   return (
     <div className='profileview-container'>
-      <Header/>
+      {/* <Header/> */}
       <Profile name = "Laksh choithani"/>
         {/* <Footer/> */}
-        {/* <Resume/> */}
     </div>
   )
 }

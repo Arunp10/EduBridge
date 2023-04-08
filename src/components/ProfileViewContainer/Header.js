@@ -8,7 +8,7 @@ import index from "react-typical";
 
 export default function Header() {
   const [SelectedScreen, setSelectedScreen] = useState(0);
-  const [showHeaderOptions, setshowHeaderOptions] = useState(0);
+  const [showHeaderOptions, setshowHeaderOptions] = useState({});
 
   const updateCurrentScreen = (currentScreen) => {
     if (!currentScreen || !currentScreen.screenInView)
@@ -42,7 +42,8 @@ export default function Header() {
 
     const switchScreen = (index , screen) =>{
       let screencomponent = document.getElementById(screen.screen_name);
-      if(!screencomponent) return;
+      if(!screencomponent) 
+      return;
 
       screencomponent.scrollIntoView({behavior: "smooth"});
       setSelectedScreen(index);
@@ -59,7 +60,7 @@ export default function Header() {
           <div className="header-logo">
             <span>Laksh</span>
           </div>
-          <div className={(showHeaderOptions? "header-options show-hamburger-options": "header-options")}>
+          <div className={(showHeaderOptions)? "header-options show-hamburger-options": "header-options"}>
             {getHeaderOptions()}
           </div>
         </div>
