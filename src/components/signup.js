@@ -1,30 +1,61 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 // import Link from '@mui/material/Link';
+import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Login from "./Login"
 import { Link } from 'react-router-dom';
-
+import { useState } from 'react';
 const theme = createTheme();
 
 export default function Signup() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const [data, setdata] = useState({
+    firstName : "",
+    lastName : "",
+    email : "",
+    password : "",
+  })
+  const [error, seterror] = useState("")
+  const handleChange = ({currentTarget :input})=>{
+    setdata({...data,[input.name]:input.value});
+  };
+
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    // event.preventDefault();
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+    e.preventDefault();
+    try {
+      const url = "http://localhost:8080/api/users";
+      const {data : res} = await axios.post(url,data);
+      navigate("/Login")
+      console.log(res.message)
+    } catch (error) {
+      if(
+        error.response && 
+        error.response.status >= 400 &&
+        error.response.status <= 500
+        ){
+           seterror(error.response.data.message)
+        }
+    }
+
   };
 
   return (
@@ -51,10 +82,12 @@ export default function Signup() {
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
+                  onChange={handleChange}
                   required
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  value={data.firstName}
                   autoFocus
                 />
               </Grid>
@@ -63,8 +96,10 @@ export default function Signup() {
                   required
                   fullWidth
                   id="lastName"
+                  onChange={handleChange}
                   label="Last Name"
                   name="lastName"
+                  value={data.lastName}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -73,9 +108,12 @@ export default function Signup() {
                   required
                   fullWidth
                   id="email"
+                  value={data.email}
                   label="Email Address"
+                  onChange={handleChange}
                   name="email"
                   autoComplete="email"
+                  type='email'
                 />
               </Grid>
               <Grid item xs={12}>
@@ -83,43 +121,19 @@ export default function Signup() {
                   required
                   fullWidth
                   name="password"
+                  value={data.password}
+                  onChange={handleChange}
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                required
-                fullWidth
-                name="work"
-                label="Work"
-                type="work"
-                id="work"
-                />
-                </Grid>
-                <Grid item xs={12}>
-                <TextField
-                    required
-                    fullWidth
-                    name="domain"
-                    label="Domain"
-                    type="domain"
-                    id="domain"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                <TextField
-                    required
-                    fullWidth
-                    name="experience"
-                    label="Experience"
-                    type="experience"
-                    id="experience"
-                    />
-                </Grid>
             </Grid>
+            <br />
+            <Grid>
+            {error && <Alert severity="error">{error}</Alert>}
+            </Grid>            
             <Button
               type="submit"
               fullWidth
