@@ -17,6 +17,9 @@ function EditProfile() {
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
+  function handleProfilePictureChange(event) {
+    setProfilePicture(event.target.files[0]);
+  }
   return (
     <>
       <Sidebar />
