@@ -8,12 +8,15 @@ import TextField from '@mui/material/TextField';
 // import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import Login from "./Login"
 import { Link } from 'react-router-dom';
+// import { InputRoundedIcon } from '@mui/icons-material';
+
+import { MenuItem } from '@mui/material';
 
 const theme = createTheme();
 const occupations = [
@@ -50,7 +53,7 @@ export default function Signup() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "#47a4f2" }}>
-            <InputRoundedIcon />
+            
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up

@@ -9,7 +9,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
-import Sidebar from "./components/SideBar";
+// import Sidebar from "./components/SideBar";
 import EditProfile from "./components/EditProfile";
 
 class App extends Component {
