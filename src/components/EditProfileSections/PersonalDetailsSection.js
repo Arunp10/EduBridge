@@ -1,4 +1,4 @@
-import { Grid, TextField } from "@mui/material";
+import {Box, Typography, Grid, TextField } from "@mui/material";
 import React from "react";
 export default function PersonalDetailsSection() {
   return (
