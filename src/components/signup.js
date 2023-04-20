@@ -31,7 +31,6 @@ const occupations = [
     label: "Professional",
   }
 ];
-
 export default function Signup() {
   const [data, setdata] = useState({
     firstName : "",
@@ -43,7 +42,6 @@ export default function Signup() {
   const handleChange = ({currentTarget :input})=>{
     setdata({...data,[input.name]:input.value});
   };
-
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     // event.preventDefault();
@@ -67,8 +65,6 @@ export default function Signup() {
            seterror(error.response.data.message)
         }
     }
-
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -76,9 +72,7 @@ export default function Signup() {
       email: data.get("email"),
       password: data.get("password"),
     });
-
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -155,36 +149,6 @@ export default function Signup() {
                   autoComplete="new-password"
                 />
               </Grid>
-//               <Grid item xs={12}>
-//                 <TextField
-//                   required
-//                   fullWidth
-//                   name="work"
-//                   label="Work"
-//                   type="work"
-//                   id="work"
-//                 />
-//               </Grid>
-//               <Grid item xs={12}>
-//                 <TextField
-//                   required
-//                   fullWidth
-//                   name="domain"
-//                   label="Domain"
-//                   type="domain"
-//                   id="domain"
-//                 />
-//               </Grid>
-//               <Grid item xs={12}>
-//                 <TextField
-//                   required
-//                   fullWidth
-//                   name="experience"
-//                   label="Experience"
-//                   type="experience"
-//                   id="experience"
-//                 />
-//               </Grid>
               <Grid item xs={12}>
                 <TextField
                   id="occupation"
