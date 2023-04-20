@@ -6,6 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import Alert from '@mui/material/Alert'
 // import Link from '@mui/material/Link';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -115,8 +116,10 @@ export default function Login() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            {/* <Link className="nav-link" to="/Dashboard" variant="body2"> */}
-            {error && <div>{error}</div>}
+            <br />
+            <Grid>
+            {error && <Alert severity="error">{error}</Alert>}
+            </Grid>      
               <Button
                 type="submit"
                 fullWidth

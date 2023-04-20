@@ -23,10 +23,10 @@ class App extends Component {
           <div class="container-fluid" id="main">
             <div class="row row-offcanvas row-offcanvas-left">
               <Routes>
-                <Route exact path="/" element={<Home />} />
+                <Route exact path="/" element={<Home></Home>} />
                 <Route path="/Home" element={<Home />} />
                 {/* {user && <Route path="/" element={<Main></Main>}></Route>} */}
-                <Route path="/Signup" element={<Signup />} />
+                <Route path="/signup" element={<Signup />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Dashboard" element={<Dashboard />} />
                 <Route path="/ProfileView" element={<ProfileView />} />
