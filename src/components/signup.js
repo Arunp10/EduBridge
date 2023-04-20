@@ -155,36 +155,36 @@ export default function Signup() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="work"
-                  label="Work"
-                  type="work"
-                  id="work"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="domain"
-                  label="Domain"
-                  type="domain"
-                  id="domain"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="experience"
-                  label="Experience"
-                  type="experience"
-                  id="experience"
-                />
-              </Grid>
+//               <Grid item xs={12}>
+//                 <TextField
+//                   required
+//                   fullWidth
+//                   name="work"
+//                   label="Work"
+//                   type="work"
+//                   id="work"
+//                 />
+//               </Grid>
+//               <Grid item xs={12}>
+//                 <TextField
+//                   required
+//                   fullWidth
+//                   name="domain"
+//                   label="Domain"
+//                   type="domain"
+//                   id="domain"
+//                 />
+//               </Grid>
+//               <Grid item xs={12}>
+//                 <TextField
+//                   required
+//                   fullWidth
+//                   name="experience"
+//                   label="Experience"
+//                   type="experience"
+//                   id="experience"
+//                 />
+//               </Grid>
               <Grid item xs={12}>
                 <TextField
                   id="occupation"
