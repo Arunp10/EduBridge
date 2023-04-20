@@ -4,21 +4,33 @@ import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
 // import Link from '@mui/material/Link';
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Login from "./Login"
+// import Login from "./Login"
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+// import { InputRoundedIcon } from '@mui/icons-material';
+import { MenuItem } from '@mui/material';
 const theme = createTheme();
+const occupations = [
+  {
+    value: "Student",
+    label: "Student",
+  },
+  {
+    value: "Professional",
+    label: "Professional",
+  }
+];
 
 export default function Signup() {
   const [data, setdata] = useState({
@@ -56,6 +68,15 @@ export default function Signup() {
         }
     }
 
+=======
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+
   };
 
   return (
@@ -65,18 +86,23 @@ export default function Signup() {
         <Box
           sx={{
             marginTop: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: '#47a4f2' }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: "#47a4f2" }}>
+            
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={1}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -128,6 +154,51 @@ export default function Signup() {
                   id="password"
                   autoComplete="new-password"
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="work"
+                  label="Work"
+                  type="work"
+                  id="work"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="domain"
+                  label="Domain"
+                  type="domain"
+                  id="domain"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="experience"
+                  label="Experience"
+                  type="experience"
+                  id="experience"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="occupation"
+                  select
+                  label="Select Occupation"
+                  defaultValue="Student"
+                  fullWidth
+                >
+                  {occupations.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </Grid>
             </Grid>
             <br />
