@@ -19,7 +19,7 @@ export default function EducationSection() {
     }
   };
   const isDeleteDisabled = inputList.length === 1;
-  const isAddDisabled = inputList.length >= 3;
+  const isAddDisabled = inputList.length === 3;
   return (
     <Box
       sx={{
@@ -47,7 +47,6 @@ export default function EducationSection() {
                     required
                     id="insitute"
                     label="Insitute Name"
-                    value={input.value}
                     fullWidth
                     margin="normal"
                     variant="outlined"
@@ -58,7 +57,6 @@ export default function EducationSection() {
                     required
                     id="degree"
                     label="Degree"
-                    value={input.value}
                     fullWidth
                     margin="normal"
                     variant="outlined"
@@ -69,7 +67,6 @@ export default function EducationSection() {
                     required
                     id="from"
                     label="From"
-                    value={input.value}
                     fullWidth
                     margin="normal"
                     variant="outlined"
@@ -80,7 +77,6 @@ export default function EducationSection() {
                     id="to"
                     label="To"
                     type="number"
-                    value={input.value}
                     fullWidth
                     margin="normal"
                     variant="outlined"
