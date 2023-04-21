@@ -1,6 +1,16 @@
-import {Box, Typography, Grid, TextField } from "@mui/material";
-import React from "react";
+import {Box, Typography, Grid, TextField, Fab } from "@mui/material";
+import React, { useState } from "react";
+
+import AddIcon from '@mui/icons-material/Add';
 export default function PersonalDetailsSection() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileSelect = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  const handleUpload = () => {
+    // upload logic goes here
+    console.log(selectedFile);
+  };
   return (
     <Box
       sx={{
@@ -54,6 +64,28 @@ export default function PersonalDetailsSection() {
               margin="normal"
               variant="outlined"
             />
+          </Grid>
+          <Grid item xs={12}>
+            <label htmlFor="upload-photo">
+              <input
+                style={{ display: "none" }}
+                id="upload-photo"
+                name="upload-photo"
+                type="file"
+                onChange={handleFileSelect}
+              />
+
+              <Fab
+                color="primary"
+                size="small"
+                component="span"
+                aria-label="add"
+                variant="extended"
+                onClick={handleUpload}
+              >
+                <AddIcon /> Upload photo
+              </Fab>
+            </label>
           </Grid>
         </Grid>
       </Box>
