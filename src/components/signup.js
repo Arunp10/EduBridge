@@ -1,25 +1,25 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import axios from 'axios';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
+import Link from "@mui/material/Link";
+import axios from "axios";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
 // import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import Login from "./Login";
 // import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState } from "react";
 // import { InputRoundedIcon } from '@mui/icons-material';
-import { MenuItem } from '@mui/material';
+import { MenuItem } from "@mui/material";
 const theme = createTheme();
 const occupations = [
   {
@@ -29,18 +29,18 @@ const occupations = [
   {
     value: "Professional",
     label: "Professional",
-  }
+  },
 ];
 export default function Signup() {
   const [data, setdata] = useState({
-    firstName : "",
-    lastName : "",
-    email : "",
-    password : "",
-  })
-  const [error, seterror] = useState("")
-  const handleChange = ({currentTarget :input})=>{
-    setdata({...data,[input.name]:input.value});
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  const [error, seterror] = useState("");
+  const handleChange = ({ currentTarget: input }) => {
+    setdata({ ...data, [input.name]: input.value });
   };
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
@@ -53,25 +53,26 @@ export default function Signup() {
     e.preventDefault();
     try {
       const url = "http://localhost:8080/api/users";
-      const {data : res} = await axios.post(url,data);
-      navigate("/Login")
-      console.log(res.message)
+      const { data: res } = await axios.post(url, data);
+      navigate("/Login");
+      console.log(res.message);
     } catch (error) {
-      if(
-        error.response && 
+      if (
+        error.response &&
         error.response.status >= 400 &&
         error.response.status <= 500
-        ){
-           seterror(error.response.data.message)
-        }
+      ) {
+        seterror(error.response.data.message);
+      }
     }
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      console.log({
+        email: data.get("email"),
+        password: data.get("password"),
+      });
+    };
   };
   return (
     <ThemeProvider theme={theme}>
@@ -85,9 +86,7 @@ export default function Signup() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "#47a4f2" }}>
-            
-          </Avatar>
+          <Avatar sx={{ m: 1, bgcolor: "#47a4f2" }}></Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
@@ -133,7 +132,7 @@ export default function Signup() {
                   onChange={handleChange}
                   name="email"
                   autoComplete="email"
-                  type='email'
+                  type="email"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -157,18 +156,16 @@ export default function Signup() {
                   defaultValue="Student"
                   fullWidth
                 >
-                  {occupations.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
+                  {/* {occupations.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))} */}
                 </TextField>
               </Grid>
             </Grid>
             <br />
-            <Grid>
-            {error && <Alert severity="error">{error}</Alert>}
-            </Grid>            
+            <Grid>{error && <Alert severity="error">{error}</Alert>}</Grid>
             <Button
               type="submit"
               fullWidth
@@ -189,4 +186,4 @@ export default function Signup() {
       </Container>
     </ThemeProvider>
   );
-}}
+}
