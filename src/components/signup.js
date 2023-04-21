@@ -156,11 +156,11 @@ export default function Signup() {
                   defaultValue="Student"
                   fullWidth
                 >
-                  {/* {occupations.map((option) => (
+                  {occupations.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.label}
                       </MenuItem>
-                    ))} */}
+                    ))}
                 </TextField>
               </Grid>
             </Grid>
