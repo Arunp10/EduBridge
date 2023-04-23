@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import Navbar from "./components/NavBar";
-// import Sidebar from "./components/SideBar";
 import Dashboard from "./components/Dashboard";
 import ProfileView from "./components/ProfileView";
 import Appointment from "./components/Appointment";
@@ -9,10 +8,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
-import Sidebar from "./components/SideBar";
-import Main from './components/logout/main'
 import EditProfile from "./components/EditProfile";
-
+import SupervisorDashboard from "./components/Supervisor/SupervisorDashboard"
+import { Connections } from "./components/Connections";
 
 class App extends Component {
   render() {
@@ -30,8 +28,10 @@ class App extends Component {
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Dashboard" element={<Dashboard />} />
                 <Route path="/ProfileView" element={<ProfileView />} />
-                <Route path="/Appointment" element={<Appointment/>} />
+                <Route path="/Appointment" element={<Appointment />} />
                 <Route path="/EditProfile" element={<EditProfile />} />
+                <Route path="/SupervisorDashboard" element={<SupervisorDashboard />} />
+                <Route path="/Connections" element={<Connections />}/>
               </Routes>
             </div>
           </div>
