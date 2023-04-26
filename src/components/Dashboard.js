@@ -46,7 +46,7 @@ export default function Dashboard() {
           <strong>Data and Records</strong> Learn more about employee
         </div>
         <div class="d-flex justify-content-center">
-          <Link className="nav-link" to="/Portfolio">
+          <Link className="nav-link" to="/ProfileView">
             <Card
               image={profileImage}
               Name="Mr. Amir Ali"
