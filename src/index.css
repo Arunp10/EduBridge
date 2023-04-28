@@ -11,6 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.card{
+  width: 183em;
+}
 
 /* THIS CSS IS ONLY USED FOR PROFILE VIEW PAGE*/
 @font-face {

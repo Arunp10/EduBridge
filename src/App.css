@@ -132,7 +132,7 @@ App {
     transform: rotate(360deg);
   }
 }
-<<<<<<< HEAD
+HEAD
 a{
   padding: 2px 5px;
   text-decoration: none;
@@ -211,7 +211,6 @@ h4.typewriter{
   width: 20px;
   height: 30px;
 }
-
 :root{
   --light-blue : #04C3FF;
   --light-blue-shadow:  rgb(69 211 255 / 27%);
@@ -231,4 +230,7 @@ h4.typewriter{
   --toast-shadow:  #9c9c9ce3;
   --toast-success: #0CBFAE;
   --loader-color: #0CBFAE
+}
+.errorBox{
+  /* background-color: red; */
 }

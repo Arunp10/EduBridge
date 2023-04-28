@@ -1,8 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import imgSrc from "./Assets/student_1.jpg";
-import { Avatar } from "@mui/material";
-
 const Sidebar = () => {
   return (
     <div
@@ -14,7 +11,7 @@ const Sidebar = () => {
       <ul class="nav flex-column sticky-top pl-0 pt-5 p-3 mt-3 ">
         <li class="nav-item mb-2 mt-3">
           <a class="nav-link text-secondary" href="#">
-            <h5>Aroon Kumar</h5>
+            <h5>Dr Huma Jamshed</h5>
           </a>
         </li>
         <li class="nav-item mb-2 ">
@@ -24,10 +21,10 @@ const Sidebar = () => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <Link class="nav-link text-secondary" to="/EditProfile">
-            <i class="fas fa-user font-weight-bold"></i>
-            <span className="ml-3">Edit Profile</span>
-          </Link>
+            <Link class="nav-link text-secondary" to="/EditProfile">
+              <i class="fas fa-user font-weight-bold"></i>
+              <span className="ml-3">Edit Profile</span>
+            </Link>
           <ul
             class="list-unstyled flex-column pl-3 collapse"
             id="submenu1"
@@ -37,25 +34,32 @@ const Sidebar = () => {
         <li class="nav-item mb-2">
           <a class="nav-link text-secondary" href="#">
             <i class="far fa-chart-bar font-weight-bold"></i>{" "}
-            <span className="ml-3">Funding</span>
+            <span className="ml-3">Post Funding</span>
           </a>
         </li>
         <li class="nav-item mb-2">
-          <Link class="nav-link text-secondary" to="/Connections">
+          <a class="nav-link text-secondary" href="#">
             <i class="fas fa-users font-weight-bold"></i>
-            <span className="ml-3">Connections</span>
-          </Link>
+            <span className="ml-3">Connected Groups</span>
+          </a>
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/Appointment">
             <i class="far fa-calendar font-weight-bold"></i>
-            <span className="ml-3">Appointment</span>
+
+            <span className="ml-3">Your Appointments</span>
+          </Link>
+        </li>
+        <li class="nav-item mb-2">
+          <Link class="nav-link text-secondary" to="/">
+            <i class="far fa-calendar font-weight-bold"></i>
+            <span className="ml-3">Availablity</span>
           </Link>
         </li>
         <li class="nav-item mb-2">
           <a class="nav-link text-secondary" href="#">
-            {/* <i class="fas fa-atom font-weight-bold"></i>{" "}
-            <span className="ml-3">Settings</span> */}
+            <i class="fas fa-atom font-weight-bold"></i>{" "}
+            <span className="ml-3">Settings</span>
           </a>
         </li>
         <li class="nav-item mb-2">
