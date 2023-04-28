@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import Typical from "react-typical";
 import {
   Button,
   Dialog,
@@ -60,7 +59,7 @@ export default function Profile(props) {
     if (time === "") {
       setTimeError(true);
     } else {
-      console.log(`Book appointment for ${date} at ${time}`);
+      console.log(`Appointment Booked for ${date} at ${time}`);
       setOpen(false);
     }
   };

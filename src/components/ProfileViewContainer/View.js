@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { shadows } from "@mui/system";
 import {
   Paper,
   Typography,

@@ -9,7 +9,6 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
 import ProfileView from "./components/ProfileViewContainer/ProfileView";
-import AppointmentBooking from "./components/AppointmentBooking";
 
 class App extends Component {
   render() {
@@ -27,8 +26,6 @@ class App extends Component {
                 <Route path="/Dashboard" element={<Dashboard />} />
                 <Route path="/ProfileView" element={<ProfileView/>} />
                 <Route path="/Appointment" element={<Appointment />} />
-                <Route path="/AppointmentBooking" element={<AppointmentBooking />} />
-                
               </Routes>
             </div>
           </div>
