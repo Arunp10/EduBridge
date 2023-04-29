@@ -5,6 +5,8 @@ const cors = require("cors");
 const connection = require("./db");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
+const EducationRoute = require("./routes/EducationRoute");
+const WorkExperienceRoute = require("./routes/WorkExperienceRoute");
 
 // database connection
 connection();
@@ -16,6 +18,9 @@ app.use(cors());
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/EducationRoute", EducationRoute);
+app.use("/api/WorkExperienceRoute", WorkExperienceRoute);
+app.use("/api/ProjectRoute",require('./routes/ProjectRoute'))
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));

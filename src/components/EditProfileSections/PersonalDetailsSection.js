@@ -1,4 +1,4 @@
-import {Box, Typography, Grid, TextField } from "@mui/material";
+import {Box, Typography, Grid, TextField ,Button} from "@mui/material";
 import React from "react";
 export default function PersonalDetailsSection() {
   return (
@@ -54,6 +54,15 @@ export default function PersonalDetailsSection() {
               margin="normal"
               variant="outlined"
             />
+          </Grid>
+          <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            
+          >
+            Update Profile
+          </Button>
           </Grid>
         </Grid>
       </Box>

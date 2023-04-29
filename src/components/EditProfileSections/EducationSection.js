@@ -91,6 +91,15 @@ export default function EducationSection() {
               </Button>
             </div>
           ))}
+          
+          <Button
+            variant="contained"
+            color="primary"
+            // disabled={isAddDisabled}
+          >
+            Add Eduction
+          </Button>
+
           <Button
             variant="contained"
             color="primary"
