@@ -1,9 +1,31 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import TextField from "@mui/material/TextField";
 import { Grid } from "@material-ui/core";
 import { Box, Button, Typography } from "@mui/material";
+import EducationContext from "../context/Education/EducationContext";
+
+//React Function
 export default function EducationSection() {
+  //Calling Education Context API
+  const context  = useContext(EducationContext);
+  const {AddEducation} = context;
+
+  //State for Education Data
+  const [education, seteducation] = useState({
+    InstitueName : "",
+    degree : " ",
+    startDate  : " ",
+    endDate : " "
+});
+//Create onChange function for Required fields for Input Data:
+const onChange =()=>{
+  
+}
+
+
+
   const [inputList, setInputList] = useState([{ value: "" }]);
+
   const handleInputChange = (event, index) => {
     const newInputList = [...inputList];
     newInputList[index].value = event.target.value;
@@ -45,7 +67,8 @@ export default function EducationSection() {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    id="insitute"
+                    id="InsituteName"
+                    name="InsituteName"
                     label="Insitute Name"
                     fullWidth
                     margin="normal"
@@ -56,6 +79,7 @@ export default function EducationSection() {
                   <TextField
                     required
                     id="degree"
+                    name= "degree"
                     label="Degree"
                     fullWidth
                     margin="normal"
@@ -66,6 +90,7 @@ export default function EducationSection() {
                   <TextField
                     required
                     id="from"
+                    name="startDate"
                     label="From"
                     fullWidth
                     margin="normal"
@@ -76,6 +101,7 @@ export default function EducationSection() {
                   <TextField
                     id="to"
                     label="To"
+                    name="endDate"
                     type="number"
                     fullWidth
                     margin="normal"
