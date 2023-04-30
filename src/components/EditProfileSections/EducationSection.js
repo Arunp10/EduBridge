@@ -6,9 +6,12 @@ import EducationContext from "../context/Education/EducationContext";
 
 //React Function
 export default function EducationSection() {
+
   //Calling Education Context API
   const context  = useContext(EducationContext);
-  const {AddEducation} = context;
+  console.log("Context:")
+  console.log(context)
+  let {AddEducation} = context;
 
   //State for Education Data
   const [education, seteducation] = useState({
@@ -17,10 +20,18 @@ export default function EducationSection() {
     startDate  : " ",
     endDate : " "
 });
-//Create onChange function for Required fields for Input Data:
-const onChange =()=>{
-  
+
+// //function to submit data to AddEducation Function
+const handleSubmit = (e) =>{
+  e.preventDefault();
+  console.log(education);
+  AddEducation(education.InstitueName,education.degree,education.startDate,education.endDate);
 }
+//Create onChange function for Required fields for Input Data:
+const onChange =(e)=>{
+    seteducation({...education, [e.target.name] : e.target.value})
+}
+
 
 
 
@@ -67,12 +78,13 @@ const onChange =()=>{
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    id="InsituteName"
-                    name="InsituteName"
-                    label="Insitute Name"
+                    id="InstitueName"
+                    name="InstitueName"
+                    label="Institue Name"
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    onChange={onChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -84,28 +96,32 @@ const onChange =()=>{
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    onChange={onChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    id="from"
+                    id="startDate"
                     name="startDate"
+                    type="date"
                     label="From"
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    onChange={onChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="to"
+                    id="endDate"
                     label="To"
                     name="endDate"
-                    type="number"
+                    type="date"
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    onChange={onChange}
                   />
                 </Grid>
               </Grid>
@@ -121,19 +137,21 @@ const onChange =()=>{
           <Button
             variant="contained"
             color="primary"
+            type="submit"
             // disabled={isAddDisabled}
+            onClick={handleSubmit}
           >
             Add Eduction
           </Button>
 
-          <Button
+          {/* <Button
             variant="contained"
             color="primary"
             onClick={handleAddInput}
             disabled={isAddDisabled}
           >
-            More Education Section
-          </Button>
+            More  Section
+          </Button> */}
         </div>
       </Box>
     </Box>

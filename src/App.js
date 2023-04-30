@@ -12,12 +12,13 @@ import Signup from "./components/signup";
 import Sidebar from "./components/SideBar";
 import Main from './components/logout/main'
 import EditProfile from "./components/EditProfile";
-
+import EduationState from "./components/context/Education/EducationState";
 
 class App extends Component {
   render() {
     return (
       <div>
+        <EduationState>
         <BrowserRouter>
           <Navbar />
           <div class="container-fluid" id="main">
@@ -36,6 +37,7 @@ class App extends Component {
             </div>
           </div>
         </BrowserRouter>
+        </EduationState>
       </div>
     );
   }

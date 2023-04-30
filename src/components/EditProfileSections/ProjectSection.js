@@ -90,6 +90,12 @@ export default function ProjectSection() {
               </Button>
             </div>
           ))}
+           <Button
+            variant="contained"
+            color="primary"
+          >
+            Add Project
+          </Button>
           <Button
             variant="contained"
             color="primary"
