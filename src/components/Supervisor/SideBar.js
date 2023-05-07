@@ -51,7 +51,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <Link class="nav-link text-secondary" to="/">
+          <Link class="nav-link text-secondary" to="/Availability">
             <i class="far fa-calendar font-weight-bold"></i>
             <span className="ml-3">Availablity</span>
           </Link>
