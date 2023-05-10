@@ -9,7 +9,6 @@ export default function EducationSection() {
 
   //Calling Education Context API
   const context  = useContext(EducationContext);
-  console.log("Context:")
   console.log(context)
   let {AddEducation} = context;
 
@@ -21,7 +20,7 @@ export default function EducationSection() {
     endDate : " "
 });
 
-// //function to submit data to AddEducation Function
+ //function to submit data to AddEducation Function
 const handleSubmit = (e) =>{
   e.preventDefault();
   console.log(education);
@@ -31,9 +30,6 @@ const handleSubmit = (e) =>{
 const onChange =(e)=>{
     seteducation({...education, [e.target.name] : e.target.value})
 }
-
-
-
 
   const [inputList, setInputList] = useState([{ value: "" }]);
 
@@ -143,15 +139,16 @@ const onChange =(e)=>{
           >
             Add Eduction
           </Button>
-
-          {/* <Button
+          
+          <Button
             variant="contained"
             color="primary"
+            className="mx-3"
             onClick={handleAddInput}
             disabled={isAddDisabled}
           >
-            More  Section
-          </Button> */}
+            More Section
+          </Button>
         </div>
       </Box>
     </Box>

@@ -11,12 +11,12 @@ const WorkExperienceSchema = mongoose.Schema({
     employee: { type: String, required: true },
     startDate:{type: Date,required :true},
     endDate:{type: Date,required :true},
-    description:{type:String,required:true}
+    description:{type:String}
 },{
     timestamps: true
 })
 
-//Export the Module to The User:
+//Export the Module to Work Experience:
 const WorkExperience = mongoose.model("WorkExperience", WorkExperienceSchema);
 
 module.exports =  WorkExperience ;

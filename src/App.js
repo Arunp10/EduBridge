@@ -9,15 +9,21 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
-import Sidebar from "./components/SideBar";
-import Main from './components/logout/main'
+// import Sidebar from "./components/SideBar";
+// import Main from './components/logout/main';
 import EditProfile from "./components/EditProfile";
+//Import State in App.js
 import EduationState from "./components/context/Education/EducationState";
-
+import ProjectState from "./components/context/project/ProjectState";
+import WorkState from "./components/context/WorkExperience/WorkState";
+import SkillSatte from "./components/context/Skill/SkillState"
 class App extends Component {
   render() {
     return (
       <div>
+        <SkillSatte>
+        <WorkState>
+        <ProjectState>
         <EduationState>
         <BrowserRouter>
           <Navbar />
@@ -25,7 +31,6 @@ class App extends Component {
             <div class="row row-offcanvas row-offcanvas-left">
               <Routes>
                 <Route exact path="/" element={<Home></Home>} />
-                <Route path="/Home" element={<Home />} />
                 {/* {user && <Route path="/" element={<Main></Main>}></Route>} */}
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/Login" element={<Login />} />
@@ -38,6 +43,9 @@ class App extends Component {
           </div>
         </BrowserRouter>
         </EduationState>
+       </ProjectState>
+       </WorkState>
+       </SkillSatte>
       </div>
     );
   }
