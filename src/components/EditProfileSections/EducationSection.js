@@ -1,9 +1,38 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import TextField from "@mui/material/TextField";
 import { Grid } from "@material-ui/core";
 import { Box, Button, Typography } from "@mui/material";
+import EducationContext from "../context/Education/EducationContext";
+
+//React Function
 export default function EducationSection() {
+
+  //Calling Education Context API
+  const context  = useContext(EducationContext);
+  console.log(context)
+  let {AddEducation} = context;
+
+  //State for Education Data
+  const [education, seteducation] = useState({
+    InstitueName : "",
+    degree : " ",
+    startDate  : " ",
+    endDate : " "
+});
+
+ //function to submit data to AddEducation Function
+const handleSubmit = (e) =>{
+  e.preventDefault();
+  console.log(education);
+  AddEducation(education.InstitueName,education.degree,education.startDate,education.endDate);
+}
+//Create onChange function for Required fields for Input Data:
+const onChange =(e)=>{
+    seteducation({...education, [e.target.name] : e.target.value})
+}
+
   const [inputList, setInputList] = useState([{ value: "" }]);
+
   const handleInputChange = (event, index) => {
     const newInputList = [...inputList];
     newInputList[index].value = event.target.value;
@@ -45,41 +74,50 @@ export default function EducationSection() {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    id="insitute"
-                    label="Insitute Name"
+                    id="InstitueName"
+                    name="InstitueName"
+                    label="Institue Name"
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    onChange={onChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
                     id="degree"
+                    name= "degree"
                     label="Degree"
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    onChange={onChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    id="from"
+                    id="startDate"
+                    name="startDate"
+                    type="date"
                     label="From"
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    onChange={onChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="to"
+                    id="endDate"
                     label="To"
-                    type="number"
+                    name="endDate"
+                    type="date"
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    onChange={onChange}
                   />
                 </Grid>
               </Grid>
@@ -91,13 +129,25 @@ export default function EducationSection() {
               </Button>
             </div>
           ))}
+          
           <Button
             variant="contained"
             color="primary"
+            type="submit"
+            // disabled={isAddDisabled}
+            onClick={handleSubmit}
+          >
+            Add Eduction
+          </Button>
+          
+          <Button
+            variant="contained"
+            color="primary"
+            className="mx-3"
             onClick={handleAddInput}
             disabled={isAddDisabled}
           >
-            More Education Section
+            More Section
           </Button>
         </div>
       </Box>

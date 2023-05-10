@@ -32,12 +32,6 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
-    // event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
     e.preventDefault();
     try {
       const url = "http://localhost:8080/api/auth";

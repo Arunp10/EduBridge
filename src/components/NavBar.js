@@ -3,13 +3,14 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
 import elogo from "../images/elogo.png";
 import Sidebar from "./SideBar";
+
 const Navbar = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light py-3">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
           <img src={elogo} alt="elogo" />
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -24,7 +25,7 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/Home">
+              <Link className="nav-link" to="/">
                 Home <span className="sr-only"></span>
               </Link>
             </li>

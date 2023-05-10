@@ -9,15 +9,18 @@ const userSchema = new mongoose.Schema({
 	lastName: { type: String, required: true },
 	email: { type: String, required: true },
 	password: { type: String, required: true },
+},{
+	timestamps:true
 });
 
 //Generate token for a single user
-userSchema.methods.generateAuthToken = function () {
-	const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
-		expiresIn: "7d",
-	});
-	return token;
-};
+// userSchema.methods.generateAuthToken = function () {
+// 	const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
+// 		expiresIn: "7d",
+// 	});
+// 	return token;
+// };
+
 
 const User = mongoose.model("user", userSchema);
 
