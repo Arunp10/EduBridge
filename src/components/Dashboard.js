@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "./Card";
 import Sidebar from "./SideBar";
 import profileImage from "./Assets/teacher1.jpg";
@@ -7,25 +7,14 @@ import profileImage3 from "./Assets/teacher3.png";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
+  const [name, setName] = useState("Your Name");
+  const [domain, setDomain] = useState("Your Domain");
+
   return (
     <>
       <Sidebar />
       <div class="col main pt-5 mt-3">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="/#">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="/#">Dashboard</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-              Student
-            </li>
-          </ol>
-        </nav>
         <p class="lead d-none d-sm-block">Suggested Supervisor</p>
-
         <div
           class="alert alert-warning fade collapse"
           role="alert"
@@ -42,7 +31,6 @@ export default function Dashboard() {
           </button>
           <strong>Data and Records</strong> Learn more about employee
         </div>
-
         <div class="d-flex justify-content-center">
           <Link className="nav-link" to="/ProfileView">
             <Card
@@ -68,7 +56,6 @@ export default function Dashboard() {
             className="dashboardCard"
           ></Card>
         </div>
-        <hr />
       </div>
     </>
   );

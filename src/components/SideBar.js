@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import imgSrc from "./Assets/student_1.jpg";
+import { Avatar } from "@mui/material";
+
 const Sidebar = () => {
   return (
     <div
@@ -21,10 +24,10 @@ const Sidebar = () => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-            <Link class="nav-link text-secondary" to="/EditProfile">
-              <i class="fas fa-user font-weight-bold"></i>
-              <span className="ml-3">Edit Profile</span>
-            </Link>
+          <Link class="nav-link text-secondary" to="/EditProfile">
+            <i class="fas fa-user font-weight-bold"></i>
+            <span className="ml-3">Edit Profile</span>
+          </Link>
           <ul
             class="list-unstyled flex-column pl-3 collapse"
             id="submenu1"
@@ -38,28 +41,21 @@ const Sidebar = () => {
           </a>
         </li>
         <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#">
-            <i class="fas fa-file-export font-weight-bold"></i>
-            <span className="ml-3">My Idea</span>
-          </a>
-        </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#">
+          <Link class="nav-link text-secondary" to="/Connections">
             <i class="fas fa-users font-weight-bold"></i>
-            <span className="ml-3">Group</span>
-          </a>
+            <span className="ml-3">Connections</span>
+          </Link>
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/Appointment">
             <i class="far fa-calendar font-weight-bold"></i>
-
             <span className="ml-3">Appointment</span>
           </Link>
         </li>
         <li class="nav-item mb-2">
           <a class="nav-link text-secondary" href="#">
-            <i class="fas fa-atom font-weight-bold"></i>{" "}
-            <span className="ml-3">Settings</span>
+            {/* <i class="fas fa-atom font-weight-bold"></i>{" "}
+            <span className="ml-3">Settings</span> */}
           </a>
         </li>
         <li class="nav-item mb-2">

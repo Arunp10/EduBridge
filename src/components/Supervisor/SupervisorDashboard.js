@@ -7,7 +7,7 @@ import Sidebar from "./SideBar";
 import { Link } from "react-router-dom";
 import StudentCard from "./StudentConnectionCard";
 
-export default function Dashboard() {
+export default function SupervisorDashboard() {
   return (
     <>
       <Sidebar />
