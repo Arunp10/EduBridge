@@ -1,6 +1,18 @@
-import {Box, Typography, Grid, TextField ,Button} from "@mui/material";
-import React from "react";
+import { Box, Typography, Grid, TextField, Button } from "@mui/material";
+// import {Box, Typography, Grid, TextField, Fab } from "@mui/material";
+import React, { useState } from "react";
+
+import AddIcon from '@mui/icons-material/Add';
+
 export default function PersonalDetailsSection() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileSelect = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  const handleUpload = () => {
+    // upload logic goes here
+    console.log(selectedFile);
+  };
   return (
     <Box
       sx={{
@@ -56,13 +68,15 @@ export default function PersonalDetailsSection() {
             />
           </Grid>
           <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            
-          >
-            Update Profile
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+
+            >
+              Update Profile
+            </Button>
+
+
           </Grid>
         </Grid>
       </Box>
