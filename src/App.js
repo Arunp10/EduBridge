@@ -17,6 +17,8 @@ import SupervisorDashboard from "./components/Supervisor/SupervisorDashboard";
 import { Connections } from "./components/Connections";
 import Sidebar from "./components/SideBar";
 import UserState from "./components/context/User/UserState";
+import SupSidebar from "./components/Supervisor/SupSideBar";
+
 const App = () => {
   //Fetch API
   const host = 'http://localhost:8080'
@@ -65,8 +67,9 @@ const App = () => {
                 <Navbar />
                 <div className="container-fluid" id="main">
                   <div className="row row-offcanvas row-offcanvas-left">
-                    
-                    {isLoggedIn && <Sidebar firstName={user.firstName} lastName={user.lastName} />}
+                  {localStorage.getItem('occupation') === "Professional" &&  isLoggedIn && <SupSidebar  firstName={user.firstName} lastName={user.lastName} />}
+
+                    {localStorage.getItem('occupation') === "Student" &&  isLoggedIn && <Sidebar  />}
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/signup" element={<Signup />} />
