@@ -1,9 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import imgSrc from "./Assets/student_1.jpg";
 import { Avatar } from "@mui/material";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
+  let navigate = useNavigate();
+
+  const handlelogout = ()=>{
+    localStorage.removeItem('token');
+    navigate('/');
+  }
+
   return (
     <div
       class="col-md-2 col-lg-2 sidebar-offcanvas pl-0"
@@ -14,7 +21,7 @@ const Sidebar = () => {
       <ul class="nav flex-column sticky-top pl-0 pt-5 p-3 mt-3 ">
         <li class="nav-item mb-2 mt-3">
           <a class="nav-link text-secondary" href="#">
-            <h5>Aroon Kumar</h5>
+            <h5>{props.firstName}{" "}{props.lastName}</h5>
           </a>
         </li>
         <li class="nav-item mb-2 ">
@@ -73,25 +80,16 @@ const Sidebar = () => {
         <li class="nav-item mb-2">
           <a class="nav-link text-secondary" href="#"></a>
         </li>
-        {/* <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#"></a>
-        </li> */}
-        {/* <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#"></a>
-        </li>
         <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#"></a>
-        </li> */}
-        <li class="nav-item mb-2">
-          <Link class="nav-link text-secondary" to="/">
-            <button type="button" class="btn btn-danger">
+          {/* <Link class="nav-link text-secondary"> */}
+            <button type="button" class="btn btn-danger" onClick={handlelogout} >
               Logout
             </button>
-          </Link>
+          {/* </Link> */}
         </li>
-        <li class="nav-item mb-2">
+        {/* <li class="nav-item mb-2">
           <a class="nav-link text-secondary" href="#"></a>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

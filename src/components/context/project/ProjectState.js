@@ -16,7 +16,7 @@ import ProjectContext from "./ProjectContext";
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzYWQwZTcyZTFiMGU1MzMxNmUxNDIyIn0sImlhdCI6MTY4Mjc3NDIxNH0.7f6pttRqof4lnCHStZqmr5q9twXtNwQEoP2py6_tWd4"
+      "auth-token": localStorage.getItem('token')
     },
     //Sending Json in form of Data
     body: JSON.stringify({projectTitle, startDate,endDate,description})

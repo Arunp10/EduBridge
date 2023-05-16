@@ -6,7 +6,7 @@ const  SkillState = (props)=> {
     const initialSkill = []
     const [Skill, setSkill] = useState(initialSkill);
 
-     //Add Education
+  //Add Skill Function
   const AddSkill = async (skillName) => {
 
     // API Call 
@@ -14,7 +14,7 @@ const  SkillState = (props)=> {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzYWQwZTcyZTFiMGU1MzMxNmUxNDIyIn0sImlhdCI6MTY4Mjc3NDIxNH0.7f6pttRqof4lnCHStZqmr5q9twXtNwQEoP2py6_tWd4"
+        "auth-token": localStorage.getItem('token')
       },
       //Sending Json in form of Data in Body
       body: JSON.stringify({skillName})

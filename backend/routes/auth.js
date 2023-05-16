@@ -27,11 +27,12 @@ router.post("/", async (req, res) => {
 		const data = {
 			user: {
 			  id: user.id,
+			  
 			}
 		  }
 		  const authToken = jwt.sign(data, process.env.JWTPRIVATEKEY );
 		
-		res.status(200).send({ Token: authToken, message: "logged in successfully" });
+		res.status(200).send({occupation : user.occupation, Token: authToken, message: "logged in successfully" });
 	} catch (error) {
 		res.status(500).send({ message: "Internal Server Error" });
 	}

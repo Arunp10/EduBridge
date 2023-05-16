@@ -2,7 +2,6 @@
 import React from "react";
 import { Card, Row, Col, Image, Button } from "react-bootstrap";
 import profileImage from "./Assets/teacher1.jpg";
-import Sidebar from "./SideBar";
 import { Avatar, Box, Typography } from "@mui/material";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 const data = [
@@ -71,7 +70,6 @@ const ListItem = ({ avatar, time, date, name, description, status }) => (
 
 const Appointment = () => (
   <>
-    <Sidebar />
     <Box sx={{ width: "83%", pt: 2, pl: 12 }}>
       <Box sx={{ alignItems: "center", display: "flex" }}>
         <Avatar sx={{ m: 1, bgcolor: "#47a4f2" }}>
@@ -83,7 +81,7 @@ const Appointment = () => (
       </Box>
       <hr></hr>
       <Box sx={{ pt: 2, pl: 2 }}>
-        <div className="col-9">
+        <div className="col-12">
           {data.map((item, index) => (
             <ListItem key={index} {...item} />
           ))}

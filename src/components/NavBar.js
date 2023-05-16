@@ -25,19 +25,20 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+
+              {!localStorage.getItem('token')?<Link className="nav-link" to="/">
                 Home <span className="sr-only"></span>
-              </Link>
+              </Link> : " "}
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/Signup">
+            {!localStorage.getItem('token') ?<Link className="nav-link" to="/Signup">
                 Sign up
-              </Link>
+              </Link>: " "}
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/Login">
+            {!localStorage.getItem('token')?<Link className="nav-link" to="/Login">
                 Login
-              </Link>
+              </Link>: ""}
             </li>
           </ul>
         </div>

@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+
 const Sidebar = () => {
   return (
     <div
@@ -77,15 +79,6 @@ const Sidebar = () => {
         <li class="nav-item mb-2">
           <a class="nav-link text-secondary" href="#"></a>
         </li>
-        {/* <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#"></a>
-        </li> */}
-        {/* <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#"></a>
-        </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#"></a>
-        </li> */}
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/">
             <button type="button" class="btn btn-danger">
