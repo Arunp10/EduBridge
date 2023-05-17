@@ -1,4 +1,4 @@
-import React, { useContext, useState,useEffect } from "react";
+import React, {  useState,useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
@@ -49,11 +49,12 @@ const App = () => {
   };
 
   useEffect(() => {
-    // if(localStorage.getItem('token')){
+    if(localStorage.getItem('token')){
       getUser();
-    // }else{
-    //   window.BrowserRouter('/');
-    // }
+      setIsLoggedIn(true);
+    }else{
+      setIsLoggedIn(false)
+    }
   },)
 
   return (
