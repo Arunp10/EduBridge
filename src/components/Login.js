@@ -57,6 +57,7 @@ export default function Login({onLogin,occupation}) {
       }
       //Save token  particular user in Local Storage 
       localStorage.setItem('token',res.Token);
+      localStorage.setItem('occupation',occupation)
       onLogin();
 
     } catch (error) {
