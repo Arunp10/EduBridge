@@ -70,7 +70,7 @@ const App = () => {
                   <div className="row row-offcanvas row-offcanvas-left">
                   {localStorage.getItem('occupation') === "Professional" &&  isLoggedIn && <SupSidebar  firstName={user.firstName} lastName={user.lastName} />}
 
-                    {localStorage.getItem('occupation') === "Student" &&  isLoggedIn && <Sidebar  />}
+                    {localStorage.getItem('occupation') === "Student" &&  isLoggedIn && <Sidebar firstName={user.firstName} lastName={user.lastName} />}
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/signup" element={<Signup />} />
