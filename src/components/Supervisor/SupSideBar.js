@@ -24,7 +24,7 @@ const SupSidebar = (props) => {
           </a>
         </li>
         <li class="nav-item mb-2 ">
-          <Link class="nav-link text-secondary" to="/Dashboard">
+          <Link class="nav-link text-secondary" to="/SupervisorDashboard">
             <i class="fas fa-home font-weight-bold"></i>
             <span className="ml-3">Home</span>
           </Link>
