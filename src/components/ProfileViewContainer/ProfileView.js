@@ -70,7 +70,7 @@ export default function ProfileView() {
     <SideBar/>
     <Box sx={{ width: "83%", pt: 0, pl: 0 }}>
       <div className="profileview-container">
-        <Profile name="Laksh Choithani" />
+        <Profile name="Laksh Choithani"/>
         <View {...user}/>
       </div>
     </Box>

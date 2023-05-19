@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Grid, Button, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
+import Sidebar from "../SideBar";
 import {
   FormControl,
   InputLabel,

@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import Sidebar from "../Supervisor/SideBar";
 import {
   Button,
   Dialog,
@@ -53,27 +53,25 @@ const daysOfWeek = [
   { value: "Friday", label: "Friday" },
 ];
 
-const Profile = (props) => {
+
+const AvailabilityPopup = (props) => {
+  const classes = useStyles();
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [message, setMessage] = useState("");
   const [isDisabled, setDisabled] = useState(false);
-  const [dayError, setDayError] = useState('');
+  const [dayError, setDayError] = useState(false);
   const [timeError, setTimeError] = useState(false);
   const [availabilityOpen, setAvailabilityOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
 
   const handleAvailabilityOpen = () => {
     setAvailabilityOpen(true);
   };
 
   const handleAvailabilityClose = () => {
-    setSelectedDay("");
-    setSelectedTimeSlot("");
-    setMessage("");
-    setDayError(false);
-    setTimeError(false);
+    setSelectedDay("")
+    setSelectedTimeSlot("")
+    setMessage("")
     setAvailabilityOpen(false);
   };
 
@@ -86,9 +84,11 @@ const Profile = (props) => {
   const handleTimeSlotSelectChange = (event) => {
     setSelectedTimeSlot(event.target.value);
     setTimeError(false);
-    if (selectedTimeSlot === 'Not Available') {
-      setDisabled(true);
-    } else {
+    if(selectedTimeSlot === "Not Available")
+    {
+      setDisabled(true)
+    }
+    else{
       setDisabled(false);
     }
   };
@@ -97,61 +97,53 @@ const Profile = (props) => {
     setMessage(event.target.value);
   };
 
+
   const handleAvailabilityConfirm = () => {
-    if (selectedDay === "") {
+    if(selectedDay === "")
+    {
       setDayError(true);
-      setDisabled(true);
     }
-    if (selectedTimeSlot === "" || selectedTimeSlot === "Not Available") {
+    if(selectedTimeSlot === "")
+    {
       setTimeError(true);
-      setDisabled(true);
     }
-    else{
-      console.log({
-        day: selectedDay,
-        timeslot: selectedTimeSlot,
-        message: message,
-      });
-      setSelectedDay("");
-      setSelectedTimeSlot("");
-      setMessage("");
-      setDisabled(false);
-      setAvailabilityOpen(false);
-    }
+    console.log({
+      day: selectedDay,
+      timeslot: selectedTimeSlot,
+      message: message,
+    });
+    setSelectedDay("")
+    setSelectedTimeSlot("")
+    setMessage("")
+    setDisabled(false)
+    setAvailabilityOpen(false);
   };
+
+  // const handleConfirmClick = () => {
+  //   if(selectedDay === "")
+  //   {
+  //     setDayError(true);
+  //     setDisabled(true);
+  //   }
+  //   if(selectedTimeSlot === "")
+  //   {
+  //     setTimeError(true);
+  //     setDisabled(true);
+  //   }
+  //     props.onConfirm({
+  //       day: selectedDay,
+  //       timeSlot: selectedTimeSlot,
+  //       message: message,
+  //     });
+  //     setSelectedDay("")
+  //     setSelectedTimeSlot("")
+  //     setMessage("")
+  //     setDisabled(false)
+  // };
+
   return (
-    <div className="profile-container">
-      <div className="profile-parent">
-        <div className="profile-details">
-          <div className="profile-details-name">
-            <span className="primary-text">
-              <span className="highlighted-text">{props.name}</span>
-            </span>
-          </div>
-          <div className="profile-details-role">
-            <span>
-              {" "}
-              <span className="profile-role-tagline">Assistant Professor</span>
-            </span>
-          </div>
-          <div className="profile-options">
-            <button className="primary-btn" onClick={handleAvailabilityOpen}>
-              Book Appointment
-            </button>
-            <a
-              href="Laksh's Resume.pdf"
-              download="EDUBRIDGE Laksh's Resume.pdf"
-            >
-              <button className="highlighted-btn">Get Resume</button>
-            </a>
-          </div>
-        </div>
-        <div className="profile-picture">
-          <div className="profile-picture-background"></div>
-        </div>
-      </div>
       <Dialog
-        open={availabilityOpen}
+        open={handleAvailabilityOpen}
         onClose={handleAvailabilityClose}
         aria-labelledby="form-dialog-title"
       >
@@ -283,8 +275,7 @@ const Profile = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
   );
 };
 
-export default Profile;
+export default AvailabilityPopup;
