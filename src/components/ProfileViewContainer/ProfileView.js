@@ -67,7 +67,6 @@ import { Box } from "@mui/material";
 export default function ProfileView() {
   return (
     <>
-    <SideBar/>
     <Box sx={{ width: "83%", pt: 0, pl: 0 }}>
       <div className="profileview-container">
         <Profile name="Laksh Choithani" />

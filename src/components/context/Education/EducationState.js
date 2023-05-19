@@ -7,10 +7,11 @@ const EduationState = (props) => {
   const host = 'http://localhost:8080'
   const initialEducation = []
 
-  //API State for User:
+  //Education useState:
   const [Education, setEducation] = useState(initialEducation);
+  
 
-  //Add Education
+  //Function to Add Education
   const AddEducation = async (InstituteName, degree, startDate, endDate) => {
 
     // API Call 
@@ -18,7 +19,7 @@ const EduationState = (props) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzYWQwZTcyZTFiMGU1MzMxNmUxNDIyIn0sImlhdCI6MTY4Mjc3NDIxNH0.7f6pttRqof4lnCHStZqmr5q9twXtNwQEoP2py6_tWd4"
+        "auth-token": localStorage.getItem('token')
       },
       //Sending Json in form of Data in Body
       body: JSON.stringify({ InstituteName, degree, startDate, endDate })
@@ -29,8 +30,22 @@ const EduationState = (props) => {
     setEducation(Education.concat(education))
   }
 
+  //Function to get All Education
+  const getEducation = async () => {
+        //API Calling:
+        const response = await fetch(`${host}/api/EducationRoute/fetchEducation`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token" : localStorage.getItem('token')
+          }
+        });
+        const json = await response.json();
+        setEducation(json)
+  }
+
   return (
-    <EducationContext.Provider value={{Education, AddEducation}}>
+    <EducationContext.Provider value={{Education, AddEducation, getEducation}}>
       {props.children}
     </EducationContext.Provider>
   )
