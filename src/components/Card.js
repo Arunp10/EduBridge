@@ -1,6 +1,4 @@
 import React from 'react';
-import ProfileView from './ProfileView.js'
-import View from './ProfileView.js';
 import { Link } from "react-router-dom";
 
 

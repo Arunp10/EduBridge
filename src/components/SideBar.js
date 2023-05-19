@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import imgSrc from "./Assets/student_1.jpg";
 import { Avatar } from "@mui/material";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   return (
     <div
       class="col-md-2 col-lg-2 sidebar-offcanvas pl-0"
@@ -14,7 +14,7 @@ const Sidebar = () => {
       <ul class="nav flex-column sticky-top pl-0 pt-5 p-3 mt-3 ">
         <li class="nav-item mb-2 mt-3">
           <a class="nav-link text-secondary" href="#">
-            <h5>Aroon Kumar</h5>
+            <h5>{props.firtname + props.lastname}</h5>
           </a>
         </li>
         <li class="nav-item mb-2 ">

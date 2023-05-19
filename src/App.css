@@ -234,3 +234,22 @@ h4.typewriter{
 .errorBox{
   /* background-color: red; */
 }
+.dynamic-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dynamic-table th,
+.dynamic-table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.dynamic-table th {
+  background-color: #f2f2f2;
+}
+
+.dynamic-table td {
+  background-color: #fff;
+}

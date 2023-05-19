@@ -20,7 +20,7 @@ function EditProfile() {
   };
   return (
     <>
-      <Sidebar />
+      {/* <Sidebar /> */}
       <Box sx={{ width: "83%", pt: 1 }}>
         <Box sx={{ alignItems: "center", display: "flex" }}>
           <Avatar sx={{ m: 1, bgcolor: "#47a4f2" }}>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
@@ -7,52 +7,77 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
-// import Sidebar from "./components/SideBar";
-// import Main from './components/logout/main';
-import EditProfile from "./components/EditProfile";
-//Import State in App.js
 import EduationState from "./components/context/Education/EducationState";
 import ProjectState from "./components/context/project/ProjectState";
 import WorkState from "./components/context/WorkExperience/WorkState";
-import SkillSatte from "./components/context/Skill/SkillState"
+import SkillSatte from "./components/context/Skill/SkillState";
 import ProfileView from "./components/ProfileViewContainer/ProfileView";
 import EditProfile from "./components/EditProfile";
-import SupervisorDashboard from "./components/Supervisor/SupervisorDashboard"
+import SupervisorDashboard from "./components/Supervisor/SupervisorDashboard";
 import { Connections } from "./components/Connections";
+import Sidebar from "./components/SideBar";
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <SkillSatte>
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  return (
+    <div>
+      <SkillSatte>
         <WorkState>
-        <ProjectState>
-        <EduationState>
-        <BrowserRouter>
-          <Navbar />
-          <div className="container-fluid" id="main">
-            <div className="row row-offcanvas row-offcanvas-left">
-              <Routes>
-                <Route exact path="/" element={<Home></Home>} />
-                {/* {user && <Route path="/" element={<Main></Main>}></Route>} */}
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/Login" element={<Login />} />
-                <Route path="/Dashboard" element={<Dashboard />} />
-                <Route path="/ProfileView" element={<ProfileView/>} />
-                <Route path="/Appointment" element={<Appointment />} />
-                <Route path="/EditProfile" element={<EditProfile />} />
-                <Route path="/SupervisorDashboard" element={<SupervisorDashboard />} />
-                <Route path="/Connections" element={<Connections />}/>
-              </Routes>
-            </div>
-          </div>
-        </BrowserRouter>
-        </EduationState>
-       </ProjectState>
-       </WorkState>
-       </SkillSatte>
-      </div>
-    );
-  }
+          <ProjectState>
+            <EduationState>
+              <BrowserRouter>
+                <Navbar />
+                <div className="container-fluid" id="main">
+                  <div className="row row-offcanvas row-offcanvas-left">
+                    {isLoggedIn && <Sidebar />}
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/signup" element={<Signup />} />
+                      <Route
+                        path="/login"
+                        element={<Login onLogin={handleLogin} />}
+                      />
+                      {isLoggedIn && (
+                        <>
+                          <Route path="/dashboard" element={<Dashboard />} />
+                          <Route
+                            path="/profileview"
+                            element={<ProfileView />}
+                          />
+                          <Route
+                            path="/appointment"
+                            element={<Appointment />}
+                          />
+                          <Route
+                            path="/editprofile"
+                            element={<EditProfile />}
+                          />
+                          <Route
+                            path="/supervisordashboard"
+                            element={<SupervisorDashboard />}
+                          />
+                          <Route
+                            path="/connections"
+                            element={<Connections />}
+                          />
+                        </>
+                      )}
+                    </Routes>
+                  </div>
+                </div>
+              </BrowserRouter>
+            </EduationState>
+          </ProjectState>
+        </WorkState>
+      </SkillSatte>
+    </div>
+  );
+};
+
+export default function MainApp() {
+  return <App />;
 }
-export default App;

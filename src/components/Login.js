@@ -19,9 +19,12 @@ import { Link } from "react-router-dom";
 // import { Dashboard } from "@mui/icons-material";
 import { useState } from "react";
 import Dashboard from "./Dashboard";
+import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 
-export default function Login() {
+export default function Login({ onLogin }) {
+  const navigate = useNavigate();
+
   const [data, setdata] = useState({
     email : "",
     password : "",
@@ -37,7 +40,9 @@ export default function Login() {
       const url = "http://localhost:8080/api/auth";
       const {data : res} = await axios.post(url,data);
       localStorage.setItem("token",res.data);
-      window.location = "/dashboard"
+      onLogin();
+      /*window.location = "/Dashboard"*/
+      navigate("/Dashboard");
     } catch (error) {
       if(
         error.response && 
