@@ -1,9 +1,9 @@
-import React, {  useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
 import Appointment from "./components/Appointment";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
@@ -20,42 +20,49 @@ import UserState from "./components/context/User/UserState";
 import SupSidebar from "./components/Supervisor/SupSideBar";
 
 const App = () => {
+
   //Fetch API
-  const host = 'http://localhost:8080'
-    const initialUser = []
+  const host = "http://localhost:8080";
+  const initialUser = [];
 
-    const [user, setuser] = useState(initialUser)
+  const [user, setuser] = useState(initialUser);
 
-    //Function to get User Details: 
-    const getUser = async()=>{
-        //API Calling:
-        const response = await fetch(`${host}/api/auth/getUser`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token" : localStorage.getItem('token')
-            }
-          });
-          const json = await response.json();
-          setuser(json)
-    }
+  //Function to get User Details:
+  const getUser = async () => {
+    //API Calling:
+    const response = await fetch(`${host}/api/auth/getUser`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
+    const json = await response.json();
+    setuser(json);
+  };
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = () => {
-    if(localStorage.getItem('token')){
+    if (localStorage.getItem("token")) {
       setIsLoggedIn(true);
     }
   };
+  
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    window.location.href = '/'; // Redirect to the home page
+  };
 
   useEffect(() => {
-    if(localStorage.getItem('token')){
+    if (localStorage.getItem("token")) {
       getUser();
       setIsLoggedIn(true);
-    }else{
-      setIsLoggedIn(false)
+    } else {
+      setIsLoggedIn(false);
     }
-  },)
+  });
 
   return (
     <div>
@@ -63,51 +70,75 @@ const App = () => {
         <WorkState>
           <ProjectState>
             <EduationState>
-             <UserState> 
-              <BrowserRouter>
-                <Navbar />
-                <div className="container-fluid" id="main">
-                  <div className="row row-offcanvas row-offcanvas-left">
-                  {localStorage.getItem('occupation') === "Professional" &&  isLoggedIn && <SupSidebar  firstName={user.firstName} lastName={user.lastName} />}
+              <UserState>
+                <BrowserRouter>
+                  <Navbar />
+                  <div className="container-fluid" id="main">
+                    <div className="row row-offcanvas row-offcanvas-left">
+                      {localStorage.getItem("occupation") === "Professional" &&
+                        isLoggedIn && (
+                          <SupSidebar
+                            firstName={user.firstName}
+                            lastName={user.lastName}
+                          />
+                        )}
 
-                    {localStorage.getItem('occupation') === "Student" &&  isLoggedIn && <Sidebar firstName={user.firstName} lastName={user.lastName} />}
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/signup" element={<Signup />} />
-                      <Route
-                        path="/login"
-                        element={<Login onLogin={handleLogin} />}
-                      />
-                      {isLoggedIn && (
-                        <>
-                          <Route path="/dashboard" element={<Dashboard />} />
-                          <Route
-                            path="/profileview"
-                            element={<ProfileView />}
+                      {localStorage.getItem("occupation") === "Student" &&
+                        isLoggedIn && (
+                          <Sidebar
+                            handleLogout={handleLogout}
+                            isLoggedIn={isLoggedIn}
+                            firstName={user.firstName}
+                            lastName={user.lastName}
                           />
-                          <Route
-                            path="/appointment"
-                            element={<Appointment />}
-                          />
-                          <Route
-                            path="/editprofile"
-                            element={<EditProfile />}
-                          />
-                          <Route
-                            path="/supervisordashboard"
-                            element={<SupervisorDashboard />}
-                          />
-                          <Route
-                            path="/connections"
-                            element={<Connections />}
-                          />
-                        </>
-                      )}
-                    </Routes>
+                        )}
+                      <Routes>
+                        <Route
+                          path="/"
+                          element={
+                            isLoggedIn ? <Navigate to="/dashboard" /> : <Home />
+                          }
+                        />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route
+                          path="/login"
+                          element={
+                            isLoggedIn ? (
+                              <Navigate to="/dashboard" />
+                            ) : (
+                              <Login onLogin={handleLogin} />
+                            )
+                          }
+                        />
+                        {isLoggedIn && (
+                          <>
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route
+                              path="/profileview"
+                              element={<ProfileView />}
+                            />
+                            <Route
+                              path="/appointment"
+                              element={<Appointment />}
+                            />
+                            <Route
+                              path="/editprofile"
+                              element={<EditProfile />}
+                            />
+                            <Route
+                              path="/supervisordashboard"
+                              element={<SupervisorDashboard />}
+                            />
+                            <Route
+                              path="/connections"
+                              element={<Connections />}
+                            />
+                          </>
+                        )}
+                      </Routes>
+                    </div>
                   </div>
-                </div>
-              </BrowserRouter>
-
+                </BrowserRouter>
               </UserState>
             </EduationState>
           </ProjectState>

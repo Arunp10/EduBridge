@@ -4,12 +4,10 @@ import imgSrc from "./Assets/student_1.jpg";
 import { Avatar } from "@mui/material";
 
 const Sidebar = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   let navigate = useNavigate();
-
   const handlelogout = ()=>{
     localStorage.removeItem('token');
-    isLoggedIn(false);
+    props.handleLogout();
     navigate('/');
   }
 
