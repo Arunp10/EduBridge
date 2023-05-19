@@ -1,6 +1,5 @@
 import React from "react";
 // import Card from "./Card";
-import Sidebar from "./SideBar";
 // import profileImage from "./Assets/teacher1.jpg";
 // import profileImage2 from "./Assets/teacher2.png";
 // import profileImage3 from "./Assets/teacher3.png";
@@ -10,7 +9,6 @@ import StudentCard from "./StudentConnectionCard";
 export default function SupervisorDashboard() {
   return (
     <>
-      <Sidebar />
       <div class="col main pt-5 mt-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
