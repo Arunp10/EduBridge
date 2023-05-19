@@ -234,3 +234,6 @@ h4.typewriter{
 .errorBox{
   /* background-color: red; */
 }
+.logged-in-navbar {
+  min-height: 72px; /* Adjust the height as needed */
+}
