@@ -12,7 +12,7 @@ export default function Dashboard() {
 
   return (
     <>
-      {/* <Sidebar /> */}
+      <Sidebar />
       <div class="col main pt-5 mt-3">
         <p class="lead d-none d-sm-block">Suggested Supervisor</p>
         <div

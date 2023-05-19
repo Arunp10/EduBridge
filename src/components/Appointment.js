@@ -71,6 +71,7 @@ const ListItem = ({ avatar, time, date, name, description, status }) => (
 
 const Appointment = () => (
   <>
+    <Sidebar />
     <Box sx={{ width: "83%", pt: 2, pl: 12 }}>
       <Box sx={{ alignItems: "center", display: "flex" }}>
         <Avatar sx={{ m: 1, bgcolor: "#47a4f2" }}>

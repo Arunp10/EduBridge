@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileHeader from "./ProfileHeader";
+import Profile from "./Profile";
 import View from "./View";
 import SideBar from "../SideBar"
 import { Box } from "@mui/material";
@@ -67,10 +67,10 @@ import { Box } from "@mui/material";
 export default function ProfileView() {
   return (
     <>
-    {/* <SideBar/> */}
+    <SideBar/>
     <Box sx={{ width: "83%", pt: 0, pl: 0 }}>
       <div className="profileview-container">
-        <ProfileHeader name="Laksh Choithani" />
+        <Profile name="Laksh Choithani" />
         <View {...user}/>
       </div>
     </Box>
