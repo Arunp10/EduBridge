@@ -20,4 +20,10 @@ router.post('/AddProject',fetchUser, async(req,res)=>{
     }
 })
 
+//Route 2 :Get All the Project using:Get 'api/ProjectRoute/fetchProject'
+router.get('/fetchProject',fetchUser,async (req,res)=>{
+    const project = await Project.find({ user: req.user.id });
+    res.json(project)
+})
+
 module.exports = router;

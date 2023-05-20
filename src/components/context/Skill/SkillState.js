@@ -25,8 +25,23 @@ const  SkillState = (props)=> {
     setSkill(Skill.concat(skill))
   }
 
+   //Function to get All Skill
+ const getSkill = async () => {
+  //API Calling:
+  const response = await fetch(`${host}/api/SkillRoute/fetchSkill`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "auth-token" : localStorage.getItem('token')
+    }
+  });
+  const json = await response.json();
+  setSkill(json)
+}
+
+
   return (
-    <SkillContext.Provider value={{Skill, AddSkill}}>
+    <SkillContext.Provider value={{Skill, AddSkill,getSkill}}>
         {props.children}
     </SkillContext.Provider>
   )

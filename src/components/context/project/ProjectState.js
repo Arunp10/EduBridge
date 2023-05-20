@@ -26,8 +26,22 @@ import ProjectContext from "./ProjectContext";
   setProject(Project.concat(project))
 }
 
+ //Function to get All Project
+ const getProject = async () => {
+  //API Calling:
+  const response = await fetch(`${host}/api/ProjectRoute/fetchProject`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "auth-token" : localStorage.getItem('token')
+    }
+  });
+  const json = await response.json();
+  setProject(json)
+}
+
 return (
-  <ProjectContext.Provider value={{Project, AddProject}}>
+  <ProjectContext.Provider value={{Project, AddProject,getProject}}>
     {props.children}
   </ProjectContext.Provider>
 )

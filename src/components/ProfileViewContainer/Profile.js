@@ -79,7 +79,7 @@ export default function Profile(props) {
         <div className="profile-details">
           <div className="profile-details-name">
             <span className="primary-text">
-              <span className="highlighted-text">{props.name}</span>
+              <span className="highlighted-text">{props.firstName} {""} {props.lastName} </span>
             </span>
           </div>
           <div className="profile-details-role">
@@ -99,7 +99,7 @@ export default function Profile(props) {
                   ]}
                 />
               </h1> */}
-              <span className="profile-role-tagline">Assistant Professor</span>
+              <span className="profile-role-tagline">{props.occupation}</span>
             </span>
           </div>
           <div className="profile-options">

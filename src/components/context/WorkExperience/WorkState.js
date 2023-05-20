@@ -26,9 +26,22 @@ const  WorkState = (props) =>{
   setWork(Work.concat(work))
 }
 
+const getWork = async()=>{
+
+  const response = await fetch(`${host}/api/WorkExperienceRoute/fetchWorkExperience`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      "auth-token": localStorage.getItem('token')
+    },
+  });
+  const json = await response.json();
+  setWork(json);
+}
+
 
 return(
-<WorkContext.Provider value={{Work, AddWork}}>
+<WorkContext.Provider value={{Work, AddWork, getWork}}>
     {props.children}
 </WorkContext.Provider>
 )

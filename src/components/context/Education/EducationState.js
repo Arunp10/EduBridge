@@ -26,7 +26,6 @@ const EduationState = (props) => {
     });
 
     const education = await response.json();
-    console.log(education);
     setEducation(Education.concat(education))
   }
 

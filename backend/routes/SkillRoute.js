@@ -19,4 +19,11 @@ router.post('/AddSkill',fetchUser, async(req,res)=>{
     }
 })
 
+//Route 2 :Get All the Skill using:Get 'api/SkillRoute/fetchSkill'
+router.get('/fetchSkill',fetchUser,async (req,res)=>{
+    const skill = await Skill.find({ user: req.user.id });
+    res.json(skill)
+})
+
+
 module.exports = router;
