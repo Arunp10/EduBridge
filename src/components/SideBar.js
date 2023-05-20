@@ -6,6 +6,7 @@ import { Avatar } from "@mui/material";
 const Sidebar = (props) => {
   let navigate = useNavigate();
   const handlelogout = ()=>{
+    localStorage.removeItem('occupation');
     localStorage.removeItem('token');
     props.handleLogout();
     navigate('/');

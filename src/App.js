@@ -3,7 +3,13 @@ import "./App.css";
 import Navbar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
 import Appointment from "./components/Appointment";
-import { BrowserRouter, Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
@@ -20,7 +26,6 @@ import UserState from "./components/context/User/UserState";
 import SupSidebar from "./components/Supervisor/SupSideBar";
 
 const App = () => {
-
   //Fetch API
   const host = "http://localhost:8080";
   const initialUser = [];
@@ -48,12 +53,13 @@ const App = () => {
       setIsLoggedIn(true);
     }
   };
-  
+
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
-    window.location.href = '/'; // Redirect to the home page
+    window.location.href = "/"; // Redirect to the home page
   };
+  console.log(localStorage);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -78,6 +84,8 @@ const App = () => {
                       {localStorage.getItem("occupation") === "Professional" &&
                         isLoggedIn && (
                           <SupSidebar
+                            handleLogout={handleLogout}
+                            isLoggedIn={isLoggedIn}
                             firstName={user.firstName}
                             lastName={user.lastName}
                           />
@@ -96,15 +104,27 @@ const App = () => {
                         <Route
                           path="/"
                           element={
-                            isLoggedIn ? <Navigate to="/dashboard" /> : <Home />
+                            localStorage.getItem("occupation") === "Student" &&
+                            isLoggedIn ? (
+                              <Navigate to="/dashboard" />
+                            ) : localStorage.getItem("occupation") ===
+                                "Professional" && isLoggedIn ? (
+                              <Navigate to="/supervisordashboard" />
+                            ) : (
+                              <Home />
+                            )
                           }
                         />
                         <Route path="/signup" element={<Signup />} />
                         <Route
                           path="/login"
                           element={
+                            localStorage.getItem("occupation") === "Student" &&
                             isLoggedIn ? (
                               <Navigate to="/dashboard" />
+                            ) : localStorage.getItem("occupation") ===
+                                "Professional" && isLoggedIn ? (
+                              <Navigate to="/supervisordashboard" />
                             ) : (
                               <Login onLogin={handleLogin} />
                             )

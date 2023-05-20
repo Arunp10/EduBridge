@@ -4,11 +4,11 @@ import { Link,useNavigate } from "react-router-dom";
 
 const SupSidebar = (props) => {
   let navigate = useNavigate();
-
   const handlelogout = ()=>{
     localStorage.removeItem('occupation');
     localStorage.removeItem('token');
-    navigate("/");
+    props.handleLogout();
+    navigate('/');
   }
   return (
     <div
