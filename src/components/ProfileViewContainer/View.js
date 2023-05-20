@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
@@ -15,6 +15,7 @@ import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
+import EducationContext from "../context/Education/EducationContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,51 +80,8 @@ function ScreenHeading() {
   );
 }
 
-function Education({ education }) {
-  const classes = useStyles();
-  return (
-    <Paper className={classes.root}>
-      <Typography variant="h5" className={classes.title}>
-        Education
-      </Typography>
-      <Divider className={classes.divider} />
-      <List>
-        {education.map((education, index) => (
-          <ListItem key={index}>
-            <ListItemText
-              primary={education.domain}
-              secondary={`${education.institution}  (${education.startDate}) - (${education.endDate})`}
-              classes={{ primary: classes.listItemText }}
-            />
-          </ListItem>
-        ))}
-      </List>
-    </Paper>
-  );
-}
 
-function WorkHistory({ workHistory }) {
-  const classes = useStyles();
-  return (
-    <Paper className={classes.root}>
-      <Typography variant="h5" className={classes.title}>
-        Work History
-      </Typography>
-      <Divider className={classes.divider} />
-      <List>
-        {workHistory.map((job, index) => (
-          <ListItem key={index}>
-            <ListItemText
-              primary={job.position}
-              secondary={`${job.company}  (${job.startDate}) - (${job.endDate})`}
-              classes={{ primary: classes.listItemText }}
-            />
-          </ListItem>
-        ))}
-      </List>
-    </Paper>
-  );
-}
+
 
 function Projects({ projects }) {
   const classes = useStyles();
@@ -184,14 +142,73 @@ function ProgrammingSkills({ programmingSkills }) {
 }
 
 function View(props) {
-  const { education, workHistory, projects, programmingSkills } = props;
+
+  const educontext = useContext(EducationContext);
+  const {Education , getEducation } = educontext;
+
+ 
+function UserEducation() {
+    useEffect(() => {
+    getEducation();
+  })
+
+  const classes = useStyles();
+  return (
+    <Paper className={classes.root}>
+      <Typography variant="h5" className={classes.title}>
+        Education
+      </Typography>
+      <Divider className={classes.divider} />
+      <List>
+        {Education.map((Education, index) => (
+          <ListItem key={index}>
+            <ListItemText
+              primary={Education.degree}
+              secondary={`${Education.InstituteName}  (${Education.startDate}) - (${Education.endDate})`}
+              classes={{ primary: classes.listItemText }}
+            />
+          </ListItem>
+        ))}
+      </List>
+    </Paper>
+  );
+}
+// function WorkHistory() {
+
+//   useEffect(() => {
+//     getEducation();
+//   })
+
+//   const classes = useStyles();
+//   return (
+//     <Paper className={classes.root}>
+//       <Typography variant="h5" className={classes.title}>
+//         Education
+//       </Typography>
+//       <Divider className={classes.divider} />
+//             <List>
+//         {Education.map((Education, index) => (
+//           <ListItem key={index}>
+//             <ListItemText
+//               primary={Education.degree}
+//               secondary={`${Education.InstituteName}  (${Education.startDate}) - (${Education.endDate})`}
+//              classes={{ primary: classes.listItemText }}
+//             />
+//          </ListItem>
+//          ))}
+//      </List>
+//     </Paper>
+//   );
+// }
+
+
   return (
     <div>
       <ScreenHeading />
-      <Education education={education} />
-      <WorkHistory workHistory={workHistory} />
-      <Projects projects={projects} />
-      <ProgrammingSkills programmingSkills={programmingSkills} />
+      <UserEducation />
+       {/* <WorkHistory /> */}
+      {/* <Projects projects={projects} /> */} 
+      {/* <ProgrammingSkills programmingSkills={programmingSkills} /> */}
     </div>
   );
 }
