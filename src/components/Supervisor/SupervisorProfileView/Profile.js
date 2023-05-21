@@ -79,13 +79,27 @@ export default function Profile(props) {
         <div className="profile-details">
           <div className="profile-details-name">
             <span className="primary-text">
-              <span className="highlighted-text">{props.name}</span>
+              <span className="highlighted-text">{props.firstName} {""} {props.lastName} </span>
             </span>
           </div>
           <div className="profile-details-role">
             <span>
               {" "}
-              <span className="profile-role-tagline">Assistant Professor</span>
+              {/* <h1>
+                {" "}
+                <Typical
+                  loop={Infinity}
+                  steps={[
+                    "Ethusiastic Dev 🔴",
+                    3000,
+                    "Full Stack Developer 💻",
+                    3000,
+                    "Mern Stack Developer 😎",
+                    3000,
+                  ]}
+                />
+              </h1> */}
+              <span className="profile-role-tagline">{props.occupation}</span>
             </span>
           </div>
           <div className="profile-options">

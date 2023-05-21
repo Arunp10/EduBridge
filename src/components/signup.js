@@ -6,7 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import Checkbox from '@mui/material/Checkbox';
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -16,7 +16,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import Login from "./Login";
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 // import { InputRoundedIcon } from '@mui/icons-material';
 import { MenuItem } from "@mui/material";
@@ -37,19 +37,18 @@ export default function Signup() {
     lastName: "",
     email: "",
     password: "",
+    occupation: ""
   });
   const [error, seterror] = useState("");
-  const handleChange = ({ currentTarget: input }) => {
-    setdata({ ...data, [input.name]: input.value });
+
+  // const handleChange = ({ currentTarget: input }) => {
+  //   setdata({ ...data, [input.name]: input.value });
+  // };
+  const handleChange = (e) => {
+    setdata({ ...data, [e.target.name]: e.target.value });
   };
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
-    // event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
     e.preventDefault();
     try {
       const url = "http://localhost:8080/api/users";
@@ -153,11 +152,13 @@ export default function Signup() {
                   id="occupation"
                   select
                   label="Select Occupation"
-                  defaultValue="Student"
+                  defaultValue=""
                   fullWidth
+                  name="occupation" 
+                  onChange={handleChange} 
                 >
                   {occupations.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
+                      <MenuItem key={option.value} value={option.value} onChange={handleChange}>
                         {option.label}
                       </MenuItem>
                     ))}

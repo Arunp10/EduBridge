@@ -15,13 +15,25 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Signup from "./signup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { Dashboard } from "@mui/icons-material";
-import { useState } from "react";
+import { useState,useContext,useEffect } from "react";
 import Dashboard from "./Dashboard";
+import UserContext from "./context/User/UserContext";
 const theme = createTheme();
 
-export default function Login() {
+export default function Login({onLogin,occupation}) {
+
+  const context = useContext(UserContext);
+  const {getUser} = context;
+
+  useEffect(() => {
+    getUser();
+  }, )
+  
+
+  let navigate = useNavigate();
+  
   const [data, setdata] = useState({
     email : "",
     password : "",
@@ -32,18 +44,22 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
-    // event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
     e.preventDefault();
     try {
       const url = "http://localhost:8080/api/auth";
       const {data : res} = await axios.post(url,data);
-      localStorage.setItem("token",res.data);
-      window.location = "/dashboard"
+      //Redirect user to Different Screen 
+      const occupation = res.occupation;
+      if(occupation ===  "Professional"){
+        navigate("/SupervisorDashboard");
+      }else{
+        navigate('/Dashboard')
+      }
+      //Save token  particular user in Local Storage 
+      localStorage.setItem('token',res.Token);
+      localStorage.setItem('occupation',occupation)
+      onLogin();
+
     } catch (error) {
       if(
         error.response && 
@@ -55,15 +71,6 @@ export default function Login() {
     }
 
   };
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   var email = data.get("email");
-  //   var password = data.get("password");
-  //   if (email == "arunperchani@gmail.com" && password == "12345678") {
-  //     console.log("success");
-  //   }
-  // };
 
   return (
     <ThemeProvider theme={theme}>

@@ -7,12 +7,12 @@ import profileImage3 from "./Assets/teacher3.png";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
+
   const [name, setName] = useState("Your Name");
   const [domain, setDomain] = useState("Your Domain");
 
   return (
     <>
-      <Sidebar />
       <div class="col main pt-5 mt-3">
         <p class="lead d-none d-sm-block">Suggested Supervisor</p>
         <div
@@ -32,7 +32,7 @@ export default function Dashboard() {
           <strong>Data and Records</strong> Learn more about employee
         </div>
         <div class="d-flex justify-content-center">
-          <Link className="nav-link" to="/ProfileView">
+          <Link className="nav-link" to="">
             <Card
               image={profileImage}
               Name="Mr. Amir Ali"

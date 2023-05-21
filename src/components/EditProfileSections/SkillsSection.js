@@ -1,8 +1,34 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import TextField from "@mui/material/TextField";
 import { Grid } from "@material-ui/core";
 import { Button, Typography } from "@mui/material";
+import SkillContext from "../context/Skill/SkillContext";
+
 export default function SkillsSection() {
+
+  //Calling Education Context API
+  const context  = useContext(SkillContext);
+  let {AddSkill} = context;
+
+//State for Education Data
+const [skill, setskill] = useState({
+  skillName : "",
+});
+// //function to submit data to AddEducation Function
+const handleSubmit = (e) =>{
+e.preventDefault();
+  AddSkill(skill.skillName)
+  setskill({
+    skillName:""
+  });
+   // Show success message
+   alert("Skills added successfully!");
+}
+//Create onChange function for Required fields for Input Data:
+const onChange =(e)=>{
+  setskill({...skill, [e.target.name] : e.target.value})
+}
+
   const [inputList, setInputList] = useState([{ value: "" }]);
   const handleInputChange = (event, index) => {
     const newInputList = [...inputList];
@@ -36,9 +62,12 @@ export default function SkillsSection() {
             >
               <TextField
                 id="skill"
+                name="skillName"
+                onChange={onChange}
                 label={`Skill ${index + 1}`}
                 margin="normal"
                 variant="outlined"
+                value={skill.skillName}
               />
             </Grid>
             <Button
@@ -49,6 +78,14 @@ export default function SkillsSection() {
             </Button>
           </div>
         ))}
+         <Button
+          variant="contained"
+          color="primary"
+          className="mx-3"
+          onClick={handleSubmit}
+        >
+          Add Skill
+        </Button>
         <Button
           variant="contained"
           color="primary"
