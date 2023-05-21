@@ -2,12 +2,12 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
 import elogo from "../images/elogo.png";
-import Sidebar from "./SideBar";
 
 const Navbar = () => {
+  const isLoggedIn = localStorage.getItem('token');
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light py-3">
+         <nav className={`navbar navbar-expand-lg navbar-light bg-light ${isLoggedIn ? 'logged-in-navbar' : ''}`}>
         <Link className="navbar-brand" to="/">
           <img src={elogo} alt="elogo" />
         </Link>

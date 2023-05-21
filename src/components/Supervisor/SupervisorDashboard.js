@@ -10,19 +10,6 @@ export default function SupervisorDashboard() {
   return (
     <>
       <div class="col main pt-5 mt-3">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="/#">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="/#">Dashboard</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-              Supervisor
-            </li>
-          </ol>
-        </nav>
         <p class="lead d-none d-sm-block">Students Connection</p>
         <hr />
         <StudentCard />

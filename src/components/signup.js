@@ -152,7 +152,7 @@ export default function Signup() {
                   id="occupation"
                   select
                   label="Select Occupation"
-                  defaultValue="Student"
+                  defaultValue=""
                   fullWidth
                   name="occupation" 
                   onChange={handleChange} 

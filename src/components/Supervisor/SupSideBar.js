@@ -4,11 +4,11 @@ import { Link,useNavigate } from "react-router-dom";
 
 const SupSidebar = (props) => {
   let navigate = useNavigate();
-
   const handlelogout = ()=>{
     localStorage.removeItem('occupation');
     localStorage.removeItem('token');
-    navigate("/");
+    props.handleLogout();
+    navigate('/');
   }
   return (
     <div
@@ -34,11 +34,12 @@ const SupSidebar = (props) => {
               <i class="fas fa-user font-weight-bold"></i>
               <span className="ml-3">Edit Profile</span>
             </Link>
-          <ul
-            class="list-unstyled flex-column pl-3 collapse"
-            id="submenu1"
-            aria-expanded="false"
-          ></ul>
+        </li>
+        <li class="nav-item mb-2">
+          <Link class="nav-link text-secondary" to="/ProfileView">
+            <i class="fas fa-user font-weight-bold"></i>
+            <span className="ml-3">View Profile</span>
+          </Link>
         </li>
         <li class="nav-item mb-2">
           <a class="nav-link text-secondary" href="#">
@@ -55,7 +56,6 @@ const SupSidebar = (props) => {
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/Appointment">
             <i class="far fa-calendar font-weight-bold"></i>
-
             <span className="ml-3">Your Appointments</span>
           </Link>
         </li>
@@ -64,12 +64,6 @@ const SupSidebar = (props) => {
             <i class="far fa-calendar font-weight-bold"></i>
             <span className="ml-3">Availablity</span>
           </Link>
-        </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#">
-            <i class="fas fa-atom font-weight-bold"></i>{" "}
-            <span className="ml-3">Settings</span>
-          </a>
         </li>
         <li class="nav-item mb-2">
           <a class="nav-link text-secondary" href="#"></a>
