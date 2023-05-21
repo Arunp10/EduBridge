@@ -15,6 +15,7 @@ import ProfileView from "./components/UserProfileView/ProfileView";
 import EditProfile from "./components/EditProfile";
 import SupervisorDashboard from "./components/Supervisor/SupervisorDashboard";
 import { Connections } from "./components/Connections";
+import Availability from './components/Supervisor/Availability'
 import Sidebar from "./components/SideBar";
 import UserState from "./components/context/User/UserState";
 import SupSidebar from "./components/Supervisor/SupSideBar";
@@ -150,6 +151,10 @@ const App = () => {
                             <Route
                               path="/ProfileView"
                               element={<ProfileView />}
+                            />
+                            <Route
+                              path="/Availability"
+                              element={<Availability />}
                             />
                           </>
                         )}
