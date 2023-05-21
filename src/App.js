@@ -152,6 +152,10 @@ const App = () => {
                               path="/ProfileView"
                               element={<ProfileView />}
                             />
+                            <Route
+                              path="/Availability"
+                              element={<Availability />}
+                            />
                           </>
                         )}
                       </Routes>
