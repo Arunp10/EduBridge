@@ -32,7 +32,7 @@ export default function Dashboard() {
           <strong>Data and Records</strong> Learn more about employee
         </div>
         <div class="d-flex justify-content-center">
-          <Link className="nav-link" to="/ProfileView">
+          <Link className="nav-link" to="">
             <Card
               image={profileImage}
               Name="Mr. Amir Ali"

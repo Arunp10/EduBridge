@@ -3,13 +3,7 @@ import "./App.css";
 import Navbar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
 import Appointment from "./components/Appointment";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
@@ -17,7 +11,7 @@ import EduationState from "./components/context/Education/EducationState";
 import ProjectState from "./components/context/project/ProjectState";
 import WorkState from "./components/context/WorkExperience/WorkState";
 import SkillState from "./components/context/Skill/SkillState";
-import ProfileView from "./components/ProfileViewContainer/ProfileView";
+import ProfileView from "./components/UserProfileView/ProfileView";
 import EditProfile from "./components/EditProfile";
 import SupervisorDashboard from "./components/Supervisor/SupervisorDashboard";
 import { Connections } from "./components/Connections";
@@ -152,6 +146,10 @@ const App = () => {
                             <Route
                               path="/connections"
                               element={<Connections />}
+                            />
+                            <Route
+                              path="/ProfileView"
+                              element={<ProfileView />}
                             />
                           </>
                         )}
