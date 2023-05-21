@@ -15,10 +15,11 @@ import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
-import EducationContext from "../context/Education/EducationContext";
-import WorkContext from "../context/WorkExperience/WorkContext";
-import ProjectContext from "../context/project/ProjectContext";
-import SkillContext from "../context/Skill/SkillContext";
+import EducationContext from "../../context/Education/EducationContext";
+import WorkContext from "../../context/WorkExperience/WorkContext";
+import ProjectContext from "../../context/project/ProjectContext";
+import SkillContext from "../../context/Skill/SkillContext";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
