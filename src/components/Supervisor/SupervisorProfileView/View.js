@@ -224,7 +224,7 @@ function ProgrammingSkills() {
     <div>
       <ScreenHeading />
       <UserEducation />
-       <WorkHistory />
+      <WorkHistory />
       <Projects /> 
       <ProgrammingSkills />
     </div>
