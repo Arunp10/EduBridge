@@ -18,13 +18,20 @@ export default function ProjectSection() {
   // //function to submit data to AddEducation Function
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(project);
     AddProject(
       project.projectTitle,
       project.startDate,
       project.endDate,
       project.description
     );
+    setproject({
+      projectTitle: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+    });
+    // Show success message
+    alert("Project details added successfully!");
   };
   //Create onChange function for Required fields for Input Data:
   const onChange = (e) => {
@@ -54,6 +61,7 @@ export default function ProjectSection() {
               fullWidth
               margin="normal"
               variant="outlined"
+              value={project.projectTitle}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -70,6 +78,7 @@ export default function ProjectSection() {
               type="date"
               margin="normal"
               variant="outlined"
+              value={project.startDate}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -85,6 +94,7 @@ export default function ProjectSection() {
                 shrink: true,
               }}
               variant="outlined"
+              value={project.endDate}
             />
           </Grid>
           <Grid item xs={12}>

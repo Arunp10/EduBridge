@@ -18,6 +18,11 @@ const [skill, setskill] = useState({
 const handleSubmit = (e) =>{
 e.preventDefault();
   AddSkill(skill.skillName)
+  setskill({
+    skillName:""
+  });
+   // Show success message
+   alert("Skills added successfully!");
 }
 //Create onChange function for Required fields for Input Data:
 const onChange =(e)=>{
@@ -62,6 +67,7 @@ const onChange =(e)=>{
                 label={`Skill ${index + 1}`}
                 margin="normal"
                 variant="outlined"
+                value={skill.skillName}
               />
             </Grid>
             <Button

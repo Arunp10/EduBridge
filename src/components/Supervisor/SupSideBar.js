@@ -1,7 +1,6 @@
 import React from "react";
 import { Link,useNavigate } from "react-router-dom";
 
-
 const SupSidebar = (props) => {
   let navigate = useNavigate();
   const handlelogout = ()=>{
@@ -60,7 +59,7 @@ const SupSidebar = (props) => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <Link class="nav-link text-secondary" to="#">
+          <Link class="nav-link text-secondary" to="/Availability">
             <i class="far fa-calendar font-weight-bold"></i>
             <span className="ml-3">Availablity</span>
           </Link>
