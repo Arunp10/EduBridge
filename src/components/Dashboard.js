@@ -6,6 +6,8 @@ import profileImage2 from "./Assets/teacher2.png";
 import profileImage3 from "./Assets/teacher3.png";
 import { Link } from "react-router-dom";
 
+
+
 export default function Dashboard() {
 
   const [name, setName] = useState("Your Name");
@@ -32,7 +34,7 @@ export default function Dashboard() {
           <strong>Data and Records</strong> Learn more about employee
         </div>
         <div class="d-flex justify-content-center">
-          <Link className="nav-link" to="">
+          <Link className="nav-link" to="/SupervisorProfileView">
             <Card
               image={profileImage}
               Name="Mr. Amir Ali"

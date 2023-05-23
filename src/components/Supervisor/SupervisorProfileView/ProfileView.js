@@ -2,7 +2,7 @@ import React,{useContext,useEffect} from "react";
 import Profile from "./Profile";
 import View from "./View";
 import { Box } from "@mui/material";
-import UserContext from "../context/User/UserContext";
+import UserContext from "../../context/User/UserContext";
 
 export default function ProfileView() {
   const usercontext = useContext(UserContext);
@@ -14,7 +14,7 @@ export default function ProfileView() {
     <>
     <Box sx={{ width: "83%", pt: 0, pl: 0 }}>
       <div className="profileview-container">
-        <Profile firstName={user.firstName} lastName={user.lastName} occupation={user.occupation} />
+        <Profile firstName="Amir" lastName="Ali" occupation="Professional" />
         <View/>
       </div>
     </Box>

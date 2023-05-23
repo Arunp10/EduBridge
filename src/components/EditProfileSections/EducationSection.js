@@ -29,6 +29,14 @@ export default function EducationSection() {
       education.startDate,
       education.endDate
     );
+    seteducation({
+      InstitueName: "",
+      degree: "",
+      startDate: "",
+      endDate: "",
+    });
+    // Show success message
+    alert("Education details added successfully!");
   };
   //Create onChange function for Required fields for Input Data:
   const onChange = (e) => {
@@ -58,6 +66,7 @@ export default function EducationSection() {
               margin="normal"
               variant="outlined"
               onChange={onChange}
+              value={education.InstitueName}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -70,6 +79,7 @@ export default function EducationSection() {
               margin="normal"
               variant="outlined"
               onChange={onChange}
+              value={education.degree}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -86,6 +96,7 @@ export default function EducationSection() {
                 shrink: true,
               }}
               onChange={onChange}
+              value={education.startDate}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -101,6 +112,7 @@ export default function EducationSection() {
                 shrink: true,
               }}
               onChange={onChange}
+              value={education.endDate}
             />
           </Grid>
         </Grid>
