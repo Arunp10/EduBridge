@@ -28,6 +28,12 @@ router.get('/fetchEducation',fetchUser,async (req,res)=>{
     const education = await Education.find({ user: req.user.id });
     res.json(education)
 })
+//Route 3 :Fetch Education on UserId using: Get 'api/EducationRoute/fetchEducation/:userId'
+router.get('/fetchEducation/:userId',async (req,res)=>{
+    const userId = req.params.userId;
+    const education = await Education.find({user : userId});
+    res.json(education)
+})
 
 
 module.exports = router

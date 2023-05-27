@@ -4,6 +4,11 @@ const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const fetchUser = require('../MiddleWare/fetchUser');
 var jwt = require('jsonwebtoken');
+const { json } = require("express");
+const Education = require('../models/Education');
+const Project = require("../models/project");
+const WorkExperience = require("../models/WorkExperience");
+const Skill = require("../models/skill");
 
 router.post("/", async (req, res) => {
 	try {
@@ -30,7 +35,7 @@ router.post("/", async (req, res) => {
 			  
 			}
 		  }
-		  const authToken = jwt.sign(data, process.env.JWTPRIVATEKEY );
+		  const authToken = jwt.sign(data, process.env.JWTPRIVATEKEY);
 		
 		res.status(200).send({occupation : user.occupation, Token: authToken, message: "logged in successfully" });
 	} catch (error) {
@@ -56,4 +61,46 @@ router.get('/getUser', fetchUser, async (req, res) => {
 	  res.status(500).send("Internal Some Error");
 	}
   });
+//Route 3 : It Fetch All Professionals
+router.get('/getAllUsers',async(req,res)=>{
+	try{
+		const occupation = "Professional";
+		
+		const user = await User.find({occupation});
+		res.send(user);
+	}catch(error){
+		console.error(error.message);
+		res.status(500).json({Error : "Internal Server Error"})
+	}
+})
+
+//Route 4: Fetch all Data of User on Request of User_id
+router.get('/fetchUser/:userId',async(req,res)=>{
+	const userId = req.params.userId;
+	try{
+		const user = await User.findById(userId);
+		if(!user){
+			return res.status(404).json({ error: 'User not found' });
+		}
+		//using the user Id to fetch data from other collections
+		// const education = await Education.find({user : userId});
+		// const project = await Project.find({user : userId});
+		// const work = await WorkExperience.find({user : userId});
+		// const skill =await Skill.find({user: userId});
+
+		// Combine the user data with the fetched data from other collections
+		// const UserData = {
+		// 	user,
+		// 	education,
+		// 	work,
+		// 	project,
+		// 	skill
+		// }
+		res.json(user);
+	}catch(error){
+		console.error(error.message);
+		res.status(500).json({Error: "Internal Server Error"})
+		
+	}
+})
 module.exports = router;

@@ -1,4 +1,4 @@
-import React,{useContext,useEffect} from "react";
+import React,{useEffect,useState,useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
@@ -15,10 +15,11 @@ import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
-import EducationContext from "../../context/Education/EducationContext";
+import { ConstructionOutlined } from "@mui/icons-material";
 import WorkContext from "../../context/WorkExperience/WorkContext";
 import ProjectContext from "../../context/project/ProjectContext";
-import SkillContext from "../../context/Skill/SkillContext";
+import SkillContext from "../../context/Skill/SkillContext"
+import EducationContext from "../../context/Education/EducationContext";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -88,23 +89,24 @@ function View(props) {
 
   //Calling Education Context
   const educontext = useContext(EducationContext);
-  const {Education , getEducation } = educontext;
+  const {Education , fetchEducation } = educontext;
 
   //Calling Work Context
   const workcontext = useContext(WorkContext);
-  const {Work,getWork} = workcontext;
+  const {Work,fetchWork} = workcontext;
 
   //Calling Project Context
   const projectcontext = useContext(ProjectContext)
-  const {Project,getProject} = projectcontext;
+  const {Project,fetchProject} = projectcontext;
 
    //Calling Skill Context
    const skillcontext = useContext(SkillContext)
-   const {Skill,getSkill} = skillcontext;
+   const {Skill,fetchSkill} = skillcontext;
+  const id = '645f9f6157131c95c4413fa6';
 
 function UserEducation() {
     useEffect(() => {
-    getEducation();
+    fetchEducation(id);
   })
 
   const classes = useStyles();
@@ -131,7 +133,7 @@ function UserEducation() {
 function WorkHistory() {
 
   useEffect(() => {
-    getWork();
+    fetchWork();
   })
 
   const classes = useStyles();
@@ -157,7 +159,7 @@ function WorkHistory() {
 }
 function Projects() {
   useEffect(() => {
-    getProject();
+    fetchProject(id);
   })
 
   const classes = useStyles();
@@ -197,7 +199,7 @@ function Projects() {
 function ProgrammingSkills() {
 
   useEffect(() => {
-    getSkill();
+    fetchSkill(id);
   })
   const classes = useStyles();
   return (
@@ -225,7 +227,7 @@ function ProgrammingSkills() {
     <div>
       <ScreenHeading />
       <UserEducation />
-      <WorkHistory />
+       <WorkHistory />
       <Projects /> 
       <ProgrammingSkills />
     </div>
@@ -233,3 +235,4 @@ function ProgrammingSkills() {
 }
 
 export default View;
+

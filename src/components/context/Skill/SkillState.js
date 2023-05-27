@@ -38,10 +38,17 @@ const  SkillState = (props)=> {
   const json = await response.json();
   setSkill(json)
 }
-
+const fetchSkill = async (userId) => {
+  //API Calling:
+  const response = await fetch(`${host}/api/SkillRoute/fetchSkill/${userId}`, {
+    method: "GET",
+  });
+  const json = await response.json();
+  setSkill(json)
+}
 
   return (
-    <SkillContext.Provider value={{Skill, AddSkill,getSkill}}>
+    <SkillContext.Provider value={{Skill, AddSkill,getSkill,fetchSkill}}>
         {props.children}
     </SkillContext.Provider>
   )

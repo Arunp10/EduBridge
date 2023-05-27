@@ -9,7 +9,7 @@ const Card = (props) => {
           <img src={props.image} alt="profile" className="circle-img" />
         </div>
         <div className="card-content">
-          <h2>{props.Name}</h2>
+          <h2>{props.firstName} {""} {props.lastName}</h2>
           <p>{props.Domin}</p>
         </div>
         <div className="card-action">

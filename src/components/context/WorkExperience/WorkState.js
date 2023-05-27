@@ -39,9 +39,17 @@ const getWork = async()=>{
   setWork(json);
 }
 
+const fetchWork = async(userId)=>{
+
+  const response = await fetch(`${host}/api/WorkExperienceRoute/fetchWork/${userId}`, {
+    method: 'GET',
+  });
+  const json = await response.json();
+  setWork(json);
+}
 
 return(
-<WorkContext.Provider value={{Work, AddWork, getWork}}>
+<WorkContext.Provider value={{Work, AddWork, getWork,fetchWork}}>
     {props.children}
 </WorkContext.Provider>
 )

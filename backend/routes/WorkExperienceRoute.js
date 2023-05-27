@@ -25,6 +25,9 @@ router.get('/fetchWorkExperience',fetchUser,async (req,res)=>{
     const workexperience = await WorkExperience.find({ user: req.user.id });
     res.json(workexperience)
 })
-
-
+// router.get('/fetchWork/:userId',async (req,res)=>{
+//     const userId = req.params.userId;
+//     const workexperience = await WorkExperience.find({user : userId});
+//     res.json(workexperience)
+// })
 module.exports = router;
