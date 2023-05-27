@@ -43,8 +43,16 @@ const EduationState = (props) => {
         setEducation(json)
   }
 
+const fetchEducation = async (userId) => {
+  //API Calling:
+  const response = await fetch(`http://localhost:8080/api/EducationRoute/fetchEducation/${userId}`, {
+    method: "GET",
+  });
+  const json = await response.json();
+  setEducation(json)
+}
   return (
-    <EducationContext.Provider value={{Education, AddEducation, getEducation}}>
+    <EducationContext.Provider value={{Education, AddEducation, getEducation,fetchEducation}}>
       {props.children}
     </EducationContext.Provider>
   )

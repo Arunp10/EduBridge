@@ -40,8 +40,16 @@ import ProjectContext from "./ProjectContext";
   setProject(json)
 }
 
+const fetchProject = async (userId) => {
+  //API Calling:
+  const response = await fetch(`${host}/api/ProjectRoute/fetchProject/${userId}`, {
+    method: "GET",
+  });
+  const json = await response.json();
+  setProject(json)
+}
 return (
-  <ProjectContext.Provider value={{Project, AddProject,getProject}}>
+  <ProjectContext.Provider value={{Project, AddProject,getProject,fetchProject}}>
     {props.children}
   </ProjectContext.Provider>
 )
