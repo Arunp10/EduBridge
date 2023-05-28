@@ -20,6 +20,7 @@ import WorkContext from "../../context/WorkExperience/WorkContext";
 import ProjectContext from "../../context/project/ProjectContext";
 import SkillContext from "../../context/Skill/SkillContext"
 import EducationContext from "../../context/Education/EducationContext";
+import { useRadioGroup } from "@mui/material";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -85,28 +86,28 @@ function ScreenHeading() {
   );
 }
 
-function View(props) {
+function View({userId}) {
 
   //Calling Education Context
   const educontext = useContext(EducationContext);
-  const {Education , fetchEducation } = educontext;
+  const {EducationData , fetchEducation } = educontext;
 
   //Calling Work Context
   const workcontext = useContext(WorkContext);
-  const {Work,fetchWork} = workcontext;
+  const {WorkData,fetchWork} = workcontext;
 
   //Calling Project Context
   const projectcontext = useContext(ProjectContext)
-  const {Project,fetchProject} = projectcontext;
+  const {ProjectData,fetchProject} = projectcontext;
 
    //Calling Skill Context
    const skillcontext = useContext(SkillContext)
-   const {Skill,fetchSkill} = skillcontext;
-  const id = '645f9f6157131c95c4413fa6';
+   const {SkillData,fetchSkill} = skillcontext;
 
 function UserEducation() {
+
     useEffect(() => {
-    fetchEducation(id);
+    fetchEducation(userId);
   })
 
   const classes = useStyles();
@@ -117,7 +118,7 @@ function UserEducation() {
       </Typography>
       <Divider className={classes.divider} />
       <List>
-        {Education.map((Education, index) => (
+        {EducationData.map((Education, index) => (
           <ListItem key={index}>
             <ListItemText
               primary={Education.degree}
@@ -133,7 +134,7 @@ function UserEducation() {
 function WorkHistory() {
 
   useEffect(() => {
-    fetchWork();
+    fetchWork(userId);
   })
 
   const classes = useStyles();
@@ -144,7 +145,7 @@ function WorkHistory() {
       </Typography>
       <Divider className={classes.divider} />
             <List>
-        {Work.map((Work, index) => (
+        {WorkData.map((Work, index) => (
           <ListItem key={index}>
             <ListItemText
               primary={Work.title}
@@ -157,9 +158,10 @@ function WorkHistory() {
     </Paper>
   );
 }
+
 function Projects() {
   useEffect(() => {
-    fetchProject(id);
+    fetchProject(userId);
   })
 
   const classes = useStyles();
@@ -170,7 +172,7 @@ function Projects() {
       </Typography>
       <Divider className={classes.divider} />
       <Timeline className={classes.timeline}>
-        {Project.map((Project, index) => (
+        {ProjectData.map((Project, index) => (
           <TimelineItem key={index} className={classes.timelineItem}>
             <TimelineSeparator>
               <TimelineDot color="inherit" variant="outlined" />
@@ -199,7 +201,7 @@ function Projects() {
 function ProgrammingSkills() {
 
   useEffect(() => {
-    fetchSkill(id);
+    fetchSkill(userId);
   })
   const classes = useStyles();
   return (
@@ -209,7 +211,7 @@ function ProgrammingSkills() {
       </Typography>
       <Divider className={classes.divider} />
       <List>
-        {Skill.map((Skill, index) => (
+        {SkillData.map((Skill, index) => (
           <ListItem key={index}>
             <Typography className={classes.dots}>{"\u2023"}</Typography>
             <ListItemText

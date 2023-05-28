@@ -2,23 +2,30 @@ import React,{useEffect,useState,useContext} from "react";
 import Profile from "./Profile";
 import View from "./View";
 import { Box } from "@mui/material";
-import UserContext from "../../context/User/UserContext";
+import { useParams } from 'react-router-dom';
 
 export default function ProfileView() {
-  const context = useContext(UserContext);
-  const {userData,fetchSupervisor} = context;
+  const [userData, setuserData] = useState([]);
+
+  const fetchSupervisor = async(userId)=>{
+    const response = await fetch(`http://localhost:8080/api/auth/fetchUser/${userId}`, {
+      method: "GET",
+    });
+    const json = await response.json();
+    setuserData(json);
+  }
+  const { id } = useParams();
 
   useEffect(() => {
-    fetchSupervisor();
-    console.log(userData)
+    fetchSupervisor(id);
   })
   
   return (
     <>
     <Box sx={{ width: "83%", pt: 0, pl: 0 }}>
       <div className="profileview-container">
-        <Profile firstName={userData.firstName} lastName={userData.lastName} occupation="" />
-        <View/>
+        <Profile firstName={userData.firstName} lastName={userData.lastName} occupation={userData.occupation} />
+        <View userId={id} />
       </div>
     </Box>
     </>

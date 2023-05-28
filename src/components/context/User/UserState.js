@@ -21,22 +21,9 @@ const UserState = (props)=>{
           const json = await response.json();
           setuser(json)
     }
-
-    const getAllUsers = async(webToken)=>{
-      //API Calling:
-      const response = await fetch(`${host}/api/auth/getUser`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token" : webToken
-          }
-        });
-        const json = await response.json();
-        setuser(json)
-  }
-
-  const fetchSupervisor = async()=>{
-    const response = await fetch("http://localhost:8080/api/auth/fetchUser/645f9f6157131c95c4413fa6", {
+  
+  const fetchSupervisor = async(userId)=>{
+    const response = await fetch(`http://localhost:8080/api/auth/${userId}`, {
       method: "GET",
     });
     const json = await response.json();

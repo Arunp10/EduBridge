@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const fetchUser = require('../MiddleWare/fetchUser');
 const Education = require('../models/Education');
-const { async } = require('rxjs');
-
 
 
 //Route 1: Insert Data for Education a User Can ADD Education:
@@ -28,12 +26,14 @@ router.get('/fetchEducation',fetchUser,async (req,res)=>{
     const education = await Education.find({ user: req.user.id });
     res.json(education)
 })
-//Route 3 :Fetch Education on UserId using: Get 'api/EducationRoute/fetchEducation/:userId'
-router.get('/fetchEducation/:userId',async (req,res)=>{
+
+router.get('/fetchEducation/:userId',async(req,res)=>{
     const userId = req.params.userId;
     const education = await Education.find({user : userId});
-    res.json(education)
+    res.json(education);
 })
+
+
 
 
 module.exports = router

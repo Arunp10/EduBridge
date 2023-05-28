@@ -5,6 +5,7 @@ const  SkillState = (props)=> {
     const host = 'http://localhost:8080'
     const initialSkill = []
     const [Skill, setSkill] = useState(initialSkill);
+    const [SkillData, setSkillData] = useState(initialSkill)
 
   //Add Skill Function
   const AddSkill = async (skillName) => {
@@ -44,11 +45,11 @@ const fetchSkill = async (userId) => {
     method: "GET",
   });
   const json = await response.json();
-  setSkill(json)
+  setSkillData(json)
 }
 
   return (
-    <SkillContext.Provider value={{Skill, AddSkill,getSkill,fetchSkill}}>
+    <SkillContext.Provider value={{Skill, AddSkill,getSkill,fetchSkill,SkillData}}>
         {props.children}
     </SkillContext.Provider>
   )

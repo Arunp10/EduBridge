@@ -75,6 +75,7 @@ router.get('/getAllUsers',async(req,res)=>{
 })
 
 //Route 4: Fetch all Data of User on Request of User_id
+
 router.get('/fetchUser/:userId',async(req,res)=>{
 	const userId = req.params.userId;
 	try{
@@ -82,20 +83,6 @@ router.get('/fetchUser/:userId',async(req,res)=>{
 		if(!user){
 			return res.status(404).json({ error: 'User not found' });
 		}
-		//using the user Id to fetch data from other collections
-		// const education = await Education.find({user : userId});
-		// const project = await Project.find({user : userId});
-		// const work = await WorkExperience.find({user : userId});
-		// const skill =await Skill.find({user: userId});
-
-		// Combine the user data with the fetched data from other collections
-		// const UserData = {
-		// 	user,
-		// 	education,
-		// 	work,
-		// 	project,
-		// 	skill
-		// }
 		res.json(user);
 	}catch(error){
 		console.error(error.message);
@@ -103,4 +90,6 @@ router.get('/fetchUser/:userId',async(req,res)=>{
 		
 	}
 })
+
+
 module.exports = router;

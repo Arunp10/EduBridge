@@ -7,6 +7,7 @@ import ProjectContext from "./ProjectContext";
     const initialProject = []
 
     const [Project, setProject] = useState(initialProject);
+    const [ProjectData, setProjectData] = useState(initialProject)
 
     //Add Education
   const AddProject = async (projectTitle, startDate, endDate,description) => {
@@ -46,10 +47,10 @@ const fetchProject = async (userId) => {
     method: "GET",
   });
   const json = await response.json();
-  setProject(json)
+  setProjectData(json)
 }
 return (
-  <ProjectContext.Provider value={{Project, AddProject,getProject,fetchProject}}>
+  <ProjectContext.Provider value={{Project, AddProject,getProject,fetchProject,ProjectData}}>
     {props.children}
   </ProjectContext.Provider>
 )

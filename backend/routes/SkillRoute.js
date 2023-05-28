@@ -24,6 +24,7 @@ router.get('/fetchSkill',fetchUser,async (req,res)=>{
     const skill = await Skill.find({ user: req.user.id });
     res.json(skill)
 })
+
 router.get('/fetchSKill/:userId',async (req,res)=>{
     const userId = req.params.userId;
     const skill = await Skill.find({user : userId});

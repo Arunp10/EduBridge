@@ -9,7 +9,7 @@ const EduationState = (props) => {
 
   //Education useState:
   const [Education, setEducation] = useState(initialEducation);
-  
+  const [EducationData, setEducationData] = useState([])
 
   //Function to Add Education
   const AddEducation = async (InstituteName, degree, startDate, endDate) => {
@@ -49,10 +49,10 @@ const fetchEducation = async (userId) => {
     method: "GET",
   });
   const json = await response.json();
-  setEducation(json)
+  setEducationData(json)
 }
   return (
-    <EducationContext.Provider value={{Education, AddEducation, getEducation,fetchEducation}}>
+    <EducationContext.Provider value={{Education, AddEducation, getEducation,fetchEducation,EducationData}}>
       {props.children}
     </EducationContext.Provider>
   )
