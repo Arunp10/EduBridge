@@ -55,7 +55,6 @@ const App = () => {
     setIsLoggedIn(false);
     window.location.href = "/"; // Redirect to the home page
   };
-  console.log(localStorage);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -154,7 +153,7 @@ const App = () => {
                               element={<ProfileView />}
                             />
                             <Route
-                              path="/SupervisorProfileView"
+                              path="/SupervisorProfileView/:id"
                               element={<SupervisorProfileView />}
                             />
                             <Route

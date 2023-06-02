@@ -9,7 +9,7 @@ const EduationState = (props) => {
 
   //Education useState:
   const [Education, setEducation] = useState(initialEducation);
-  
+  const [EducationData, setEducationData] = useState([])
 
   //Function to Add Education
   const AddEducation = async (InstituteName, degree, startDate, endDate) => {
@@ -43,8 +43,16 @@ const EduationState = (props) => {
         setEducation(json)
   }
 
+const fetchEducation = async (userId) => {
+  //API Calling:
+  const response = await fetch(`http://localhost:8080/api/EducationRoute/fetchEducation/${userId}`, {
+    method: "GET",
+  });
+  const json = await response.json();
+  setEducationData(json)
+}
   return (
-    <EducationContext.Provider value={{Education, AddEducation, getEducation}}>
+    <EducationContext.Provider value={{Education, AddEducation, getEducation,fetchEducation,EducationData}}>
       {props.children}
     </EducationContext.Provider>
   )

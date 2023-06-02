@@ -1,4 +1,4 @@
-import React,{useContext,useEffect} from "react";
+import React,{useEffect,useState,useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
@@ -15,10 +15,12 @@ import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
-import EducationContext from "../../context/Education/EducationContext";
+import { ConstructionOutlined } from "@mui/icons-material";
 import WorkContext from "../../context/WorkExperience/WorkContext";
 import ProjectContext from "../../context/project/ProjectContext";
-import SkillContext from "../../context/Skill/SkillContext";
+import SkillContext from "../../context/Skill/SkillContext"
+import EducationContext from "../../context/Education/EducationContext";
+import { useRadioGroup } from "@mui/material";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -84,27 +86,28 @@ function ScreenHeading() {
   );
 }
 
-function View(props) {
+function View({userId}) {
 
   //Calling Education Context
   const educontext = useContext(EducationContext);
-  const {Education , getEducation } = educontext;
+  const {EducationData , fetchEducation } = educontext;
 
   //Calling Work Context
   const workcontext = useContext(WorkContext);
-  const {Work,getWork} = workcontext;
+  const {WorkData,fetchWork} = workcontext;
 
   //Calling Project Context
   const projectcontext = useContext(ProjectContext)
-  const {Project,getProject} = projectcontext;
+  const {ProjectData,fetchProject} = projectcontext;
 
    //Calling Skill Context
    const skillcontext = useContext(SkillContext)
-   const {Skill,getSkill} = skillcontext;
+   const {SkillData,fetchSkill} = skillcontext;
 
 function UserEducation() {
+
     useEffect(() => {
-    getEducation();
+    fetchEducation(userId);
   })
 
   const classes = useStyles();
@@ -115,7 +118,7 @@ function UserEducation() {
       </Typography>
       <Divider className={classes.divider} />
       <List>
-        {Education.map((Education, index) => (
+        {EducationData.map((Education, index) => (
           <ListItem key={index}>
             <ListItemText
               primary={Education.degree}
@@ -131,7 +134,7 @@ function UserEducation() {
 function WorkHistory() {
 
   useEffect(() => {
-    getWork();
+    fetchWork(userId);
   })
 
   const classes = useStyles();
@@ -142,7 +145,7 @@ function WorkHistory() {
       </Typography>
       <Divider className={classes.divider} />
             <List>
-        {Work.map((Work, index) => (
+        {WorkData.map((Work, index) => (
           <ListItem key={index}>
             <ListItemText
               primary={Work.title}
@@ -155,9 +158,10 @@ function WorkHistory() {
     </Paper>
   );
 }
+
 function Projects() {
   useEffect(() => {
-    getProject();
+    fetchProject(userId);
   })
 
   const classes = useStyles();
@@ -168,7 +172,7 @@ function Projects() {
       </Typography>
       <Divider className={classes.divider} />
       <Timeline className={classes.timeline}>
-        {Project.map((Project, index) => (
+        {ProjectData.map((Project, index) => (
           <TimelineItem key={index} className={classes.timelineItem}>
             <TimelineSeparator>
               <TimelineDot color="inherit" variant="outlined" />
@@ -197,7 +201,7 @@ function Projects() {
 function ProgrammingSkills() {
 
   useEffect(() => {
-    getSkill();
+    fetchSkill(userId);
   })
   const classes = useStyles();
   return (
@@ -207,7 +211,7 @@ function ProgrammingSkills() {
       </Typography>
       <Divider className={classes.divider} />
       <List>
-        {Skill.map((Skill, index) => (
+        {SkillData.map((Skill, index) => (
           <ListItem key={index}>
             <Typography className={classes.dots}>{"\u2023"}</Typography>
             <ListItemText
@@ -233,3 +237,4 @@ function ProgrammingSkills() {
 }
 
 export default View;
+
