@@ -7,6 +7,7 @@ import ProjectContext from "./ProjectContext";
     const initialProject = []
 
     const [Project, setProject] = useState(initialProject);
+    const [ProjectData, setProjectData] = useState(initialProject)
 
     //Add Education
   const AddProject = async (projectTitle, startDate, endDate,description) => {
@@ -40,8 +41,16 @@ import ProjectContext from "./ProjectContext";
   setProject(json)
 }
 
+const fetchProject = async (userId) => {
+  //API Calling:
+  const response = await fetch(`${host}/api/ProjectRoute/fetchProject/${userId}`, {
+    method: "GET",
+  });
+  const json = await response.json();
+  setProjectData(json)
+}
 return (
-  <ProjectContext.Provider value={{Project, AddProject,getProject}}>
+  <ProjectContext.Provider value={{Project, AddProject,getProject,fetchProject,ProjectData}}>
     {props.children}
   </ProjectContext.Provider>
 )

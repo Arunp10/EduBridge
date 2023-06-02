@@ -8,6 +8,7 @@ const  WorkState = (props) =>{
     const initialWork = []
 
     const [Work, setWork] = useState(initialWork);
+    const [WorkData, setWorkData] = useState(initialWork);
 
     //Add Addwork
     const AddWork = async(title,employee,startDate,endDate,description)=>{
@@ -39,9 +40,17 @@ const getWork = async()=>{
   setWork(json);
 }
 
+const fetchWork = async(userId)=>{
+
+  const response = await fetch(`http://localhost:8080/api/WorkExperienceRoute/fetchWork/${userId}`, {
+    method: 'GET',
+  });
+  const json = await response.json();
+  setWorkData(json);
+}
 
 return(
-<WorkContext.Provider value={{Work, AddWork, getWork}}>
+<WorkContext.Provider value={{Work, AddWork, getWork,fetchWork,WorkData}}>
     {props.children}
 </WorkContext.Provider>
 )

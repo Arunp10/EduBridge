@@ -26,4 +26,10 @@ router.get('/fetchProject',fetchUser,async (req,res)=>{
     res.json(project)
 })
 
+router.get('/fetchProject/:userId',async (req,res)=>{
+    const userId = req.params.userId;
+    const project = await Project.find({user : userId});
+    res.json(project)
+})
+
 module.exports = router;

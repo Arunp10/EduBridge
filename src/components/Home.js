@@ -1,7 +1,10 @@
 import React from 'react'
 import webimg from '../images/webpage.jpg'
-const home = () => {
+
+const Home = () => {
+
   return (
+
     <div className='grid-container'>
       <div className={'grid-child-1'}>
         <h1 className={'typewriter'}> Welcome to EduBridge</h1>
@@ -22,4 +25,4 @@ const home = () => {
   )
 }
 
-export default home
+export default Home
