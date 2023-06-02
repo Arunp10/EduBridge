@@ -12,6 +12,7 @@ import ProjectState from "./components/context/project/ProjectState";
 import WorkState from "./components/context/WorkExperience/WorkState";
 import SkillState from "./components/context/Skill/SkillState";
 import ProfileView from "./components/UserProfileView/ProfileView";
+import SupervisorProfileView from "./components/Supervisor/SupervisorProfileView/ProfileView";
 import EditProfile from "./components/EditProfile";
 import SupervisorDashboard from "./components/Supervisor/SupervisorDashboard";
 import { Connections } from "./components/Connections";
@@ -151,6 +152,10 @@ const App = () => {
                             <Route
                               path="/ProfileView"
                               element={<ProfileView />}
+                            />
+                            <Route
+                              path="/SupervisorProfileView"
+                              element={<SupervisorProfileView />}
                             />
                             <Route
                               path="/Availability"

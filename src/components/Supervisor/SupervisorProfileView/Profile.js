@@ -61,13 +61,26 @@ const Profile = (props) => {
   const [dayError, setDayError] = useState('');
   const [timeError, setTimeError] = useState(false);
   const [availabilityOpen, setAvailabilityOpen] = useState(false);
+  const [connectOpen, setConnectOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleAvailabilityOpen = () => {
     setAvailabilityOpen(true);
   };
-
+  const handleConnectOpen= () => {
+    setConnectOpen(true);
+  };
+  const handleConnect = () => {
+    // Handle the connect action here
+    console.log('Connect');
+    setIsOpen(false);
+  };
+  const handleCancel = () => {
+    // Handle the cancel action here
+    console.log('Cancel');
+    setIsOpen(false);
+  };
   const handleAvailabilityClose = () => {
     setSelectedDay("");
     setSelectedTimeSlot("");
@@ -138,12 +151,7 @@ const Profile = (props) => {
             <button className="primary-btn" onClick={handleAvailabilityOpen}>
               Book Appointment
             </button>
-            <a
-              href="Laksh's Resume.pdf"
-              download="EDUBRIDGE Laksh's Resume.pdf"
-            >
-              <button className="highlighted-btn">Get Resume</button>
-            </a>
+              <button className="highlighted-btn" onClick={() => setIsOpen(true)}>Connect</button>
           </div>
         </div>
         <div className="profile-picture">
@@ -281,6 +289,23 @@ const Profile = (props) => {
           >
             Confirm
           </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={isOpen} onClose={() => setIsOpen(false)} maxWidth="md" fullWidth>
+        <DialogTitle>Send Connection</DialogTitle>
+        <DialogContent>
+          <TextField
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            label="Message"
+            fullWidth
+            multiline
+            placeholder="Enter a message"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConnect} color="primary">Connect</Button>
+          <Button onClick={handleCancel} color="primary">Cancel</Button>
         </DialogActions>
       </Dialog>
     </div>

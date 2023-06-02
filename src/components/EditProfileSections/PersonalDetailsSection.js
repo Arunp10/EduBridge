@@ -2,7 +2,7 @@ import { Box, Typography, Grid, TextField, Button } from "@mui/material";
 // import {Box, Typography, Grid, TextField, Fab } from "@mui/material";
 import React, { useState } from "react";
 
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 
 export default function PersonalDetailsSection() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -67,16 +67,18 @@ export default function PersonalDetailsSection() {
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-
-            >
+          <Grid item xs={12} md={12} pl={15}>
+            <Button variant="contained" color="primary">
               Update Profile
             </Button>
-
-
+            <Grid item xs={4} md={12} pt={2}>
+            <input accept="image/*" type="file" id="select-image"/>
+            <label htmlFor="select-image">
+              <Button variant="contained" color="primary">
+                Upload Picture
+              </Button>
+            </label>
+          </Grid>
           </Grid>
         </Grid>
       </Box>
