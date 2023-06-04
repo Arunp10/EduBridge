@@ -169,10 +169,7 @@ const Profile = (props) => {
           <div className="profile-details-role">
             <span>
               {" "}
-<<<<<<< HEAD
-=======
   
->>>>>>> origin/main
               <span className="profile-role-tagline">{props.occupation}</span>
             </span>
           </div>
