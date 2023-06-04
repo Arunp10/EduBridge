@@ -22,7 +22,6 @@ export default function EducationSection() {
   //function to submit data to AddEducation Function
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(education);
     AddEducation(
       education.InstitueName,
       education.degree,

@@ -24,7 +24,7 @@ export default function ProfileView() {
     <>
     <Box sx={{ width: "83%", pt: 0, pl: 0 }}>
       <div className="profileview-container">
-        <Profile firstName={userData.firstName} lastName={userData.lastName} occupation={userData.occupation} />
+        <Profile  id={id} firstName={userData.firstName} lastName={userData.lastName} occupation={userData.occupation} />
         <View userId={id} />
       </div>
     </Box>
