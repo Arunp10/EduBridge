@@ -20,6 +20,7 @@ import Availability from './components/Supervisor/Availability'
 import Sidebar from "./components/SideBar";
 import UserState from "./components/context/User/UserState";
 import SupSidebar from "./components/Supervisor/SupSideBar";
+import { SupConnection } from "./components/Supervisor/SupConnection";
 
 const App = () => {
   //Fetch API
@@ -143,6 +144,10 @@ const App = () => {
                             <Route
                               path="/supervisordashboard"
                               element={<SupervisorDashboard />}
+                            />
+                            <Route
+                              path="/SupConnection"
+                              element={<SupConnection />}
                             />
                             <Route
                               path="/connections"

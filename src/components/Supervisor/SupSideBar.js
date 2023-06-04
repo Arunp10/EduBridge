@@ -47,10 +47,10 @@ const SupSidebar = (props) => {
           </a>
         </li>
         <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#">
+          <Link class="nav-link text-secondary" to="/SupConnection">
             <i class="fas fa-users font-weight-bold"></i>
-            <span className="ml-3">Connected Groups</span>
-          </a>
+            <span className="ml-3">Connections</span>
+          </Link>
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/Appointment">
