@@ -9,12 +9,13 @@ export default function ProfileView() {
   const {user,getUser} = usercontext;
   useEffect(() => {
     getUser();
+    console.log(user.image)
   })
   return (
     <>
     <Box sx={{ width: "83%", pt: 0, pl: 0 }}>
       <div className="profileview-container">
-        <Profile firstName={user.firstName} lastName={user.lastName} occupation={user.occupation} />
+        <Profile img={`../uploads/${user.image}`} firstName={user.firstName} lastName={user.lastName} occupation={user.occupation} />
         <View/>
       </div>
     </Box>
