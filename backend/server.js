@@ -23,6 +23,7 @@ app.use("/api/EducationRoute", EducationRoute);
 app.use("/api/WorkExperienceRoute", WorkExperienceRoute);
 app.use("/api/ProjectRoute",require('./routes/ProjectRoute'));
 app.use("/api/SkillRoute",SkillRoute);
+app.use("/api/connection",require('./routes/connection'));
 
 
 const port = process.env.PORT || 8080;

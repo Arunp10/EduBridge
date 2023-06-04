@@ -45,8 +45,11 @@ const Card = ({id,firstName,lastName,Domin,image,onClick}) => {
   );
 }
 const handleCardClick = (id,navigate)=>{
-  navigate(`/SupervisorProfileView/${id}`);
+  navigateToProfile(id, navigate);
 }
+const navigateToProfile = (id, navigate) => {
+  navigate(`/SupervisorProfileView/${id}`);
+};
   return (
     <>
       <div className="col main pt-5 mt-3">
