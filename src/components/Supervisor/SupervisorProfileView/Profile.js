@@ -64,17 +64,42 @@ const Profile = (props) => {
   const [connectOpen, setConnectOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [Connection, setConnection] = useState([]);
+
+    //Function to Add Connection
+    const AddConnection = async (supervisor, interest, comment) => {
+
+      // API Call 
+      const response = await fetch(`http://localhost:8080/api/connection/AddConnection`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          "auth-token": localStorage.getItem('token')
+        },
+        //Sending Json in form of Data in Body
+        body: JSON.stringify({ supervisor, interest, comment})
+      });
+  
+      const connection = await response.json();
+      setConnection(Connection.concat(connection))
+    }
+  const onchangehandle = (e)=>{
+    setConnection({ ...Connection, [e.target.name]: e.target.value });
+  }
 
   const handleAvailabilityOpen = () => {
     setAvailabilityOpen(true);
   };
   const handleConnectOpen= () => {
+    
     setConnectOpen(true);
   };
   const handleConnect = () => {
     // Handle the connect action here
-    console.log('Connect');
+    AddConnection(props.id,Connection.comment,Connection.interest);
+    console.log("Connection Request Send Successfully")
     setIsOpen(false);
+
   };
   const handleCancel = () => {
     // Handle the cancel action here
@@ -144,20 +169,7 @@ const Profile = (props) => {
           <div className="profile-details-role">
             <span>
               {" "}
-              {/* <h1>
-                {" "}
-                <Typical
-                  loop={Infinity}
-                  steps={[
-                    "Ethusiastic Dev 🔴",
-                    3000,
-                    "Full Stack Developer 💻",
-                    3000,
-                    "Mern Stack Developer 😎",
-                    3000,
-                  ]}
-                />
-              </h1> */}
+  
               <span className="profile-role-tagline">{props.occupation}</span>
             </span>
           </div>
@@ -309,12 +321,22 @@ const Profile = (props) => {
         <DialogTitle>Send Connection</DialogTitle>
         <DialogContent>
           <TextField
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            name="comment"
+            id="comment"
+            onChange={onchangehandle}
             label="Message"
             fullWidth
             multiline
             placeholder="Enter a message"
+          />
+          <TextField
+            name="interest"
+            id="interest"
+            onChange={onchangehandle}
+            label="Interest"
+            fullWidth
+            multiline
+            placeholder="Enter a your Interest"
           />
         </DialogContent>
         <DialogActions>

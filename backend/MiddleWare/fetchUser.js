@@ -8,7 +8,8 @@ const fetchUser = (req,res,next)=>{
     }
     try {
         const data = jwt.verify(token, process.env.JWTPRIVATEKEY)
-        req.user = data.user;
+         const user = data.user; // Retrieve the entire user object from data.user
+        req.user = user;
         next();    
     } catch (error) {
         res.status(401).send({error:"Please Authenticate using a Valid Token"})

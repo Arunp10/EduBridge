@@ -16,7 +16,7 @@ export default function Profile(props) {
           </div>
         </div>
         <div className="profile-picture">
-          <div className="profile-picture-background"></div>
+          <img className="profile-picture-background" src={`${props.img}`}  />
         </div>
       </div>
     </div>

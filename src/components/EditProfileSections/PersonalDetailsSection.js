@@ -1,17 +1,34 @@
 import { Box, Typography, Grid, TextField, Button } from "@mui/material";
 // import {Box, Typography, Grid, TextField, Fab } from "@mui/material";
 import React, { useState } from "react";
+import axios from 'axios';
 
-import AddIcon from "@mui/icons-material/Add";
 
 export default function PersonalDetailsSection() {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileSelect = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const [selectedFile, setselectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setselectedFile(event.target.files[0]);
   };
-  const handleUpload = () => {
-    // upload logic goes here
-    console.log(selectedFile);
+
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', selectedFile);
+
+    try {
+      await axios.put(`http://localhost:8080/api/users/uploadImg`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          "auth-token": localStorage.getItem('token')
+        },
+      });
+      alert('rofile image updated successfully');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Box
@@ -57,24 +74,14 @@ export default function PersonalDetailsSection() {
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="phone"
-              label="Phone No"
-              type="number"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-            />
-          </Grid>
           <Grid item xs={12} md={12} pl={15}>
             <Button variant="contained" color="primary">
               Update Profile
             </Button>
             <Grid item xs={4} md={12} pt={2}>
-            <input accept="image/*" type="file" id="select-image"/>
+            <input accept="image/*" type="file" id="select-image" onChange={handleFileChange}/>
             <label htmlFor="select-image">
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" onClick={handleUpload}>
                 Upload Picture
               </Button>
             </label>
