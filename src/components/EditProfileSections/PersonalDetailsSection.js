@@ -25,7 +25,7 @@ export default function PersonalDetailsSection() {
           "auth-token": localStorage.getItem('token')
         },
       });
-      alert('rofile image updated successfully');
+      alert('Profile Image updated successfully');
     } catch (error) {
       console.log(error);
     }

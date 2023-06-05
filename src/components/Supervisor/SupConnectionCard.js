@@ -3,7 +3,6 @@ import { Avatar, Box } from '@mui/material';
 import {Cancel } from '@mui/icons-material';
 import { Chat as ChatIcon } from '@mui/icons-material';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import { useState } from 'react';
 
 export default function ConnectionCard(props) {
   const { recipientName, avatarSrc} = props;

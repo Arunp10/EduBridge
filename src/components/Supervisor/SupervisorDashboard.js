@@ -28,22 +28,22 @@ useEffect(() => {
 
   return (
     <>
-      <div class="col main pt-5 mt-3">
+      <div class="col main pt-5 mt-2">
         <p class="lead d-none d-sm-block">Students Connection</p>
         <hr />
         {/* <StudentCard /> */}
-        <div className="container mt-4">
+        <div className="container mt-6">
         <div className="row">
-        <div className="col-9">
+        <div className="col-9 pt-9">
           {ConnectionData.map((connections,index)=>(
+            <div className="mt-3">
               <StudentConnectionCard key={index} FirstName={connections.userFirstName} 
               LastName={connections.userLastName} interest={connections.interest} comment={connections.comment}/> 
+              </div>
           ))}
-         <div className="col-9"></div>
         </div>
       </div>
     </div>
-
     </div>
     </>
   );

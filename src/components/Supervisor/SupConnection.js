@@ -32,6 +32,7 @@ const connections = [
     avatarSrc: img3,
   },
 ];
+
 export function SupConnection() {
   return (
     <>
