@@ -132,7 +132,6 @@ function UserEducation() {
   );
 }
 function WorkHistory() {
-
   useEffect(() => {
     fetchWork(userId);
   })
