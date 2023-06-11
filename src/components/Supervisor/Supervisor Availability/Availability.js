@@ -19,8 +19,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 50,
   },
   button: {
-    margin: theme.spacing(1),
-    marginTop: 30,
+    margin: theme.spacing(5),
   },
 }));
 
@@ -162,26 +161,6 @@ const ShowAvailability = () => {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <Typography
-        align="center"
-        variant="h6"
-        gutterBottom
-        style={{ marginTop: 30, fontWeight: "bold" }}
-      >
-        Show Your Availability
-      </Typography>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={isNotAvailable}
-            onClick={handleNotAvailableClick}
-            onChange={(e) => setIsNotAvailable(e.target.checked)}
-            color="primary"
-          />
-        }
-        label="Not Available"
-        style={{ marginLeft: "898px" }}
-      />
       <FormControl className={classes.formControl}>
         <InputLabel id="date-label">Day</InputLabel>
         <Select
@@ -237,24 +216,37 @@ const ShowAvailability = () => {
           ))}
         </Box>
       </Grid>
-      <Grid item xs={12}>
-        <Button
-          style={{
-            maxWidth: "500px",
-            maxHeight: "50px",
-            minWidth: "200px",
-            minHeight: "30px",
-            marginLeft: "450px",
-            marginTop: "100px",
-          }}
-          className={classes.button}
-          type="submit"
-          variant="contained"
-          color="primary"
-        >
-          Show Availability
-        </Button>
-      </Grid>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isNotAvailable}
+                onClick={handleNotAvailableClick}
+                onChange={(e) => setIsNotAvailable(e.target.checked)}
+                color="primary"
+              />
+            }
+            label="Not Available"
+          />
+        </div>
+        <div >
+          <Button
+            style={{
+              maxWidth: "500px",
+              maxHeight: "50px",
+              minWidth: "200px",
+              minHeight: "30px",
+            }}
+            className={classes.button}
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            Confirm Availability
+          </Button>
+        </div>
+      </div>
     </form>
   );
 };
