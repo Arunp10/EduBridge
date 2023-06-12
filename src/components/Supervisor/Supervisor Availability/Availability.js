@@ -62,6 +62,7 @@ const ShowAvailability = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(selectedTimeslots);
+    alert("Thankyou for showing Availability")
   };
 
   const handleDayChange = (event) => {
@@ -168,7 +169,7 @@ const ShowAvailability = () => {
         gutterBottom
         style={{ marginTop: 30, fontWeight: "bold" }}
       >
-        Show Your Availability
+        Select Your Availability
       </Typography>
       <FormControlLabel
         control={
