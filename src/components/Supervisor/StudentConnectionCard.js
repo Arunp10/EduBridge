@@ -25,7 +25,7 @@ const StudentConnectionCard = (props) => {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Grid container spacing={3} alignItems="center">
+        <Grid container spacing={6} alignItems="center">
           <Grid item>
             <Avatar
               alt="Aroon"

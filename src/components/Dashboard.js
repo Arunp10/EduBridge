@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import profileImage from "./Assets/teacher1.jpg";
 import {useNavigate } from "react-router-dom";
 
-
 export default function Dashboard() {
-
   //user State to fetch Data
   const [Users, setUsers] = useState([])
-
   //Function to fetch All Supervisors
   const getAllPro = async()=>{
     //API Calling:
@@ -16,7 +13,6 @@ export default function Dashboard() {
       });
       const json = await response.json();
       setUsers(json)
-
 }
   useEffect(() => {
    getAllPro();
