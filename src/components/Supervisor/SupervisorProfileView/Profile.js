@@ -83,8 +83,9 @@ const Profile = (props) => {
       const connection = await response.json();
       setConnection(Connection.concat(connection))
     }
+
   const onchangehandle = (e)=>{
-    setConnection({ ...Connection, [e.target.name]: e.target.value });
+    setConnection({ ...Connection, [e.target.name] : e.target.value});
   }
 
   const handleAvailabilityOpen = () => {
@@ -96,10 +97,9 @@ const Profile = (props) => {
   };
   const handleConnect = () => {
     // Handle the connect action here
-    AddConnection(props.id,Connection.comment,Connection.interest);
-    console.log("Connection Request Send Successfully")
+    AddConnection(props.id,Connection.interest,Connection.comment);
+    console.log(Connection.interest);
     setIsOpen(false);
-
   };
   const handleCancel = () => {
     // Handle the cancel action here
@@ -320,6 +320,15 @@ const Profile = (props) => {
       <Dialog open={isOpen} onClose={() => setIsOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>Send Connection</DialogTitle>
         <DialogContent>
+        <TextField
+            name="interest"
+            id="interest"
+            onChange={onchangehandle}
+            label="Interest"
+            fullWidth
+            multiline
+            placeholder="Enter a your Interest"
+          />
           <TextField
             name="comment"
             id="comment"
@@ -329,15 +338,7 @@ const Profile = (props) => {
             multiline
             placeholder="Enter a message"
           />
-          <TextField
-            name="interest"
-            id="interest"
-            onChange={onchangehandle}
-            label="Interest"
-            fullWidth
-            multiline
-            placeholder="Enter a your Interest"
-          />
+          
         </DialogContent>
         <DialogActions>
           <Button onClick={handleConnect} color="primary">Connect</Button>
