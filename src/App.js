@@ -16,7 +16,7 @@ import SupervisorProfileView from "./components/Supervisor/SupervisorProfileView
 import EditProfile from "./components/EditProfile";
 import SupervisorDashboard from "./components/Supervisor/SupervisorDashboard";
 import { Connections } from "./components/Connections";
-import Availability from './components/Supervisor/Availability'
+import ShowAvailability from "./components/Supervisor/Supervisor Availability/ShowAvailability"
 import Sidebar from "./components/SideBar";
 import UserState from "./components/context/User/UserState";
 import SupSidebar from "./components/Supervisor/SupSideBar";
@@ -162,8 +162,8 @@ const App = () => {
                               element={<SupervisorProfileView />}
                             />
                             <Route
-                              path="/Availability"
-                              element={<Availability />}
+                              path="/ShowAvailability"
+                              element={<ShowAvailability />}
                             />
                           </>
                         )}

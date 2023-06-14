@@ -36,8 +36,12 @@ useEffect(() => {
         <div className="col-9 pt-9">
           {ConnectionData.map((connections,index)=>(
             <div className="mt-3">
+
               <StudentConnectionCard key={index} FirstName={connections.user.firstName} 
               LastName={connections.user.lastName} interest={connections.interest} comment={connections.comment}/> 
+
+              <StudentConnectionCard key={index} FirstName={connections.userFirstName} 
+              LastName={connections.userLastName} interest={connections.interest} comment={connections.comment}/> 
               </div>
           ))}
         </div>

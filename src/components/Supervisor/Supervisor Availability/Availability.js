@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Grid, Button, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
-import Sidebar from "../SideBar";
+
 import {
   FormControl,
   InputLabel,
@@ -13,13 +13,13 @@ import {
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 1400,
+    minWidth: 1100,
     marginTop: 30,
-    marginBottom: 30,
+    marginLeft: 30,
+    marginBottom: 50,
   },
   button: {
-    margin: theme.spacing(1),
-    marginTop: 30,
+    margin: theme.spacing(5),
   },
 }));
 
@@ -160,15 +160,64 @@ const ShowAvailability = () => {
     ],
   };
   return (
-        <form onSubmit={handleSubmit}>
-          <Typography
-            align="center"
-            variant="h6"
-            gutterBottom
-            style={{ marginTop: 30, fontWeight: "bold" }}
-          >
-            Show Your Availability
-          </Typography>
+    <form onSubmit={handleSubmit}>
+      <FormControl className={classes.formControl}>
+        <InputLabel id="date-label">Day</InputLabel>
+        <Select
+          labelId="day-label"
+          id="day-select"
+          value={day}
+          onChange={handleDayChange}
+          onClick={() => {
+            setIsNotAvailable(false);
+          }}
+        >
+          <MenuItem value={"Monday"}>Monday</MenuItem>
+          <MenuItem value={"Tuesday"}>Tuesday</MenuItem>
+          <MenuItem value={"Wednesday"}>Wednesday</MenuItem>
+          <MenuItem value={"Thursday"}>Thursday</MenuItem>
+          <MenuItem value={"Friday"}>Friday</MenuItem>
+        </Select>
+      </FormControl>
+      <Grid>
+        <Box mb={2}>
+          {timeslots[day].map((timeslot) => (
+            <Button
+              key={timeslot}
+              variant={
+                selectedTimeslots.some(
+                  (selectedTimeslot) =>
+                    selectedTimeslot.day === day &&
+                    selectedTimeslot.time === timeslot
+                )
+                  ? "contained"
+                  : "outlined"
+              }
+              color={
+                selectedTimeslots.some(
+                  (selectedTimeslot) =>
+                    selectedTimeslot.day === day &&
+                    selectedTimeslot.time === timeslot
+                )
+                  ? "primary"
+                  : "default"
+              }
+              onClick={() => handleTimeslotClick(timeslot)}
+              disabled={isNotAvailable}
+              style={{
+                marginTop: "10px",
+                marginBottom: "15px",
+                marginRight: "10px",
+                marginLeft: "85px",
+              }}
+            >
+              {timeslot}
+            </Button>
+          ))}
+        </Box>
+      </Grid>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div>
           <FormControlLabel
             control={
               <Checkbox
@@ -179,72 +228,26 @@ const ShowAvailability = () => {
               />
             }
             label="Not Available"
-            style={{ marginLeft: "1250px" }}
           />
-          <FormControl className={classes.formControl}>
-            <InputLabel id="date-label">Day</InputLabel>
-            <Select
-              labelId="day-label"
-              id="day-select"
-              value={day}
-              onChange={handleDayChange}
-              onClick={() => {
-                setIsNotAvailable(false);
-              }}
-            >
-              <MenuItem value={"Monday"}>Monday</MenuItem>
-              <MenuItem value={"Tuesday"}>Tuesday</MenuItem>
-              <MenuItem value={"Wednesday"}>Wednesday</MenuItem>
-              <MenuItem value={"Thursday"}>Thursday</MenuItem>
-              <MenuItem value={"Friday"}>Friday</MenuItem>
-            </Select>
-          </FormControl>
-          <Grid>
-            <Box mb={2}>
-              {timeslots[day].map((timeslot) => (
-                <Button
-                  key={timeslot}
-                  variant={
-                    selectedTimeslots.some(
-                      (selectedTimeslot) =>
-                        selectedTimeslot.day === day &&
-                        selectedTimeslot.time === timeslot
-                    )
-                      ? "contained"
-                      : "outlined"
-                  }
-                  onClick={() => handleTimeslotClick(timeslot)}
-                  disabled={isNotAvailable}
-                  style={{
-                    marginBottom: "15px",
-                    marginRight: "10px",
-                    marginLeft: "10px",
-                  }}
-                >
-                  {timeslot}
-                </Button>
-              ))}
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              style={{
-                maxWidth: "500px",
-                maxHeight: "50px",
-                minWidth: "1000px",
-                minHeight: "30px",
-                marginLeft: "200px",
-                marginTop: "100px",
-              }}
-              className={classes.button}
-              type="submit"
-              variant="contained"
-              color="primary"
-            >
-              Submit Availability
-            </Button>
-          </Grid>
-        </form>
+        </div>
+        <div >
+          <Button
+            style={{
+              maxWidth: "500px",
+              maxHeight: "50px",
+              minWidth: "200px",
+              minHeight: "30px",
+            }}
+            className={classes.button}
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            Confirm Availability
+          </Button>
+        </div>
+      </div>
+    </form>
   );
 };
 
