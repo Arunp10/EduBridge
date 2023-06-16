@@ -5,12 +5,13 @@ import { Chat as ChatIcon } from '@mui/icons-material';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 export default function ConnectionCard(props) {
-  const { recipientName, avatarSrc} = props;
+  
+  const { recipientFirstName,recipientLastName, avatarSrc} = props;
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardHeader
         avatar={<Avatar src={avatarSrc} />}
-        title={recipientName}
+        title={`${recipientFirstName} ${recipientLastName}`}
         subheader={"Student"}
         action={
           <IconButton aria-label="Cancel">

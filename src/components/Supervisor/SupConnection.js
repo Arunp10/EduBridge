@@ -5,35 +5,32 @@ import img2 from "../Assets/teacher2.png";
 import img3 from "../Assets/teacher3.png";
 import img4 from "../Assets/teacher1.jpg";
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import { useState } from "react";
+import { useEffect } from "react";
 
-const connections = [
-  {
-    recipientName: "Laksh Kumar",
-    avatarSrc: img1,
-  },
-  {
-    recipientName: "Sana",
-    avatarSrc: img2,
-  },
-  {
-    recipientName: "Hinesh Kumar",
-    avatarSrc: img3,
-  },
-  {
-    recipientName: "Aroon Kumar",
-    avatarSrc: img4,
-  },
-  {
-    recipientName: "Neeraj Kumar",
-    avatarSrc: img1,
-  },
-  {
-    recipientName: "Shubash Kumar",
-    avatarSrc: img3,
-  },
-];
+
+
 
 export function SupConnection() {
+  const [Connections, setConnections] = useState([]);
+
+  const fetchApprovedConnection = async()=>{
+    const response = await fetch(`http://localhost:8080/api/connection/fetchConnection`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "auth-token" : localStorage.getItem('token')
+    }
+  });
+  const json = await response.json();
+  const ApprovedConnection = json.filter(connection => connection.status === 'approved');
+  setConnections(ApprovedConnection)
+  }
+  useEffect(() => {
+    fetchApprovedConnection();
+  
+  },[])
+  
   return (
     <>
       <Box sx={{ width: "83%", pt: 2, pl: 12 }}>
@@ -48,11 +45,12 @@ export function SupConnection() {
         <hr></hr>
         <Box sx={{ pt: 2, pl: 1}}>
           <Grid container spacing={2} direction="row">
-            {connections.map((request, index) => (
-              <Grid item key={index} xs={4}>
+            {Connections.map((connection) => (
+              <Grid item key={connection._id} xs={4}>
                 <ConnectionCard
-                  recipientName={request.recipientName}
-                  avatarSrc={request.avatarSrc}
+                  recipientFirstName={connection.user.firstName}
+                  recipientLastName={connection.user.lastName}
+                  avatarSrc={img1}
                 />
               </Grid>
             ))}
