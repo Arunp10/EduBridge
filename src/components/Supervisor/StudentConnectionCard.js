@@ -19,9 +19,17 @@ const useStyles = makeStyles({
   },
 });
 
-const StudentConnectionCard = (props) => {
+const StudentConnectionCard = ({FirstName,LastName,interest,comment,connection,onApprove,onReject}) => {
+
   const classes = useStyles();
- 
+
+  const handleApprovedClick = ()=>{
+    onApprove(connection._id);
+
+  }
+  const handleRejectClick = () => {
+    onReject(connection._id);
+  };
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -34,23 +42,23 @@ const StudentConnectionCard = (props) => {
             />
           </Grid>
           <Grid item spacing={2}>
-            <Typography variant="h6">{props.FirstName}{' '}{props.LastName}</Typography>
-            <Typography variant="h7">Interest : {props.interest}</Typography>
+            <Typography variant="h6">{FirstName}{' '}{LastName}</Typography>
+            <Typography variant="h7">Interest : {interest}</Typography>
             <Grid item>
               <Typography variant="body2" align="justify" color="textSecondary">
-                {props.comment}
+                {comment}
               </Typography>
             </Grid>
           </Grid>
         </Grid>
         <Grid container justify="flex-end">
           <Grid item>
-            <Button variant="outlined" color="primary" onClick={props.onAccept}>
+            <Button variant="outlined" color="primary" onClick={handleApprovedClick}>
               Accept
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="outlined" color="secondary" onClick={props.onDecline}>
+            <Button variant="outlined" color="secondary" onClick={handleRejectClick}>
               Decline
             </Button>
           </Grid>
@@ -60,19 +68,5 @@ const StudentConnectionCard = (props) => {
   );
   
 };
-// const StudentCard = () => (
-//   <>
-//     <div className="container mt-4">
-//       <div className="row">
-//         <div className="col-9">
-//           {/* {data.map((item, index) => (
-//             <StudentConnectionCard key={index} {...item} />
-//           ))} */}
-
-// </div>
-//       </div>
-//     </div>
-//   </>
-// );
 
 export default StudentConnectionCard ;

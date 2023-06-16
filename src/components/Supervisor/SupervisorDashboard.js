@@ -4,12 +4,14 @@ import React,{useState,useEffect} from "react";
 // import profileImage2 from "./Assets/teacher2.png";
 // import profileImage3 from "./Assets/teacher3.png";
 import StudentConnectionCard from "./StudentConnectionCard";
+import axios from "axios";
 
 export default function SupervisorDashboard() {
   const [ConnectionData, setConnectionData] = useState([]);
 
+//Function to Fetch Connection
 const fetchConnection = async () => {
-  //API Calling:
+  //API Calling Link:
   const response = await fetch(`http://localhost:8080/api/connection/fetchConnection`, {
     method: "GET",
     headers: {
@@ -18,11 +20,37 @@ const fetchConnection = async () => {
     }
   });
   const json = await response.json();
-  setConnectionData(json)
+  const pendingConnection = json.filter(connection => connection.status === 'pending');
+  setConnectionData(pendingConnection)
+}
+const handleApproved = async(connectionId)=>{
+  try {
+    await axios.put(`http://localhost:8080/api/connection/${connectionId}/approved`).
+    then((response)=>{
+      alert(response.data.message)
+    });
+    fetchConnection();
+    
+  } catch (error) {
+      console.error(error);
+      alert("Failed to Approve connection request")
+  }
+}
+const handleReject = async(connectionId)=>{
+  try {
+    await axios.put(`http://localhost:8080/api/connection/${connectionId}/rejected`).
+    then((response)=>{
+      alert(response.data.message);
+    });
+    fetchConnection();
+    
+  } catch (error) {
+      console.error(error);
+      alert("Failed to Approve connection request")
+  }
 }
 useEffect(() => {
   fetchConnection();
-  console.log(ConnectionData)
 })
 
   return (
@@ -34,14 +62,18 @@ useEffect(() => {
         <div className="container mt-6">
         <div className="row">
         <div className="col-9 pt-9">
-          {ConnectionData.map((connections,index)=>(
+          {ConnectionData.map((connection)=>(
             <div className="mt-3">
 
-              <StudentConnectionCard key={index} FirstName={connections.user.firstName} 
-              LastName={connections.user.lastName} interest={connections.interest} comment={connections.comment}/> 
-
-              <StudentConnectionCard key={index} FirstName={connections.userFirstName} 
-              LastName={connections.userLastName} interest={connections.interest} comment={connections.comment}/> 
+              <StudentConnectionCard key={connection._id} 
+              FirstName={connection.user.firstName} 
+              LastName={connection.user.lastName} 
+              interest={connection.interest} 
+              comment={connection.comment}
+              connection={connection}
+              onApprove={handleApproved}
+              onReject={handleReject}
+              /> 
               </div>
           ))}
         </div>

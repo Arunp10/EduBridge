@@ -3,6 +3,8 @@ const  router = express.Router();
 const fetchUser = require('../MiddleWare/fetchUser');
 const {Connections, validate} = require('../models/Connections');
 const { User } = require("../models/user");
+const { async } = require('rxjs');
+const { Connection } = require('mongoose');
 
 router.post('/AddConnection',fetchUser, async(req,res)=>{
     try{
@@ -50,4 +52,44 @@ router.get('/fetchConnection',fetchUser,async(req,res)=>{
         res.status(500).json({error : "Inernal Server error"})
     }
 })
+//Router 3 : API to update the status if user approved the connection request
+router.put('/:connectionId/approved',async(req,res)=>{
+    try{
+        const {connectionId} = req.params;
+        const connection = await Connections.findByIdAndUpdate(
+            connectionId,
+            {status : 'approved'},
+            {new : true}
+        );
+        if(!connection){
+            res.status(401).json({ error: 'Connection request not found' })
+        }
+    
+        res.json({message : "Connection Requestion Approved Successful"})
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update connection request status' });
+    }    
+})
+
+//Router 4 : API to update the status if user reject the connection request
+router.put('/:connectionId/rejected',async(req,res)=>{
+    try{
+        const {connectionId} = req.params;
+        const connection = await Connections.findByIdAndUpdate(
+            connectionId,
+            {status : 'rejected'},
+            {new : true}
+        );
+        if(!connection){
+            res.status(401).json({ error: 'Connection request not found' })
+        }
+    
+        res.json({message : "Connection Requestion rejected Successful"})
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update connection request status' });
+    }    
+})
+
 module.exports = router;

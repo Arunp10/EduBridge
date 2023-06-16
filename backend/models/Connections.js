@@ -12,7 +12,11 @@ const ConnectionSchema = new mongoose.Schema({
     },
     interest:{type: String},
     comment: {type:String},
-    status:{type:String}
+    status:{
+        type:String,
+        enum: ['pending','approved','rejected'],
+        default : 'pending'
+    }
 })
 
 const validate = (data)=>{
