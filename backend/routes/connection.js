@@ -4,7 +4,6 @@ const fetchUser = require('../MiddleWare/fetchUser');
 const {Connections, validate} = require('../models/Connections');
 const { User } = require("../models/user");
 const { async } = require('rxjs');
-const { Connection } = require('mongoose');
 
 router.post('/AddConnection',fetchUser, async(req,res)=>{
     try{
@@ -25,13 +24,13 @@ router.post('/AddConnection',fetchUser, async(req,res)=>{
         res.status(500).send("Internal Server Error")
     }
 })
-//Route 2 : To Fetch All Connection on Behalf of Supervisor ID:
+//Route 2 : To Fetch All Connection on Behalf of Supervisor ID with userData
 router.get('/fetchConnection',fetchUser,async(req,res)=>{
     try{
         const supervisorId = req.user.id;
 
         const connections = await Connections.find({ supervisor: supervisorId })
-        .populate('user') //Appent ths user field to the particular supervisor Id 
+        .populate('user') //Appent ths user field to the particular user Id 
         .exec();
   
       if (!connections || connections.length === 0) {
@@ -90,6 +89,22 @@ router.put('/:connectionId/rejected',async(req,res)=>{
         console.error(error);
         res.status(500).json({ error: 'Failed to update connection request status' });
     }    
+})
+//Router 5: API to fetch the Supervisor who Accepted the request
+router.get('/fetchApprovSupervisor',fetchUser,async(req,res)=>{
+
+    try{
+        const userId = req.user.id;
+
+        const connections = await Connections.find({ user: userId }).populate('supervisor');
+       
+        res.json(connections)
+        
+        
+  } catch (error) {
+    console.error('Error retrieving connection:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 })
 
 module.exports = router;

@@ -6,35 +6,25 @@ import img2 from "./Assets/teacher2.png";
 import img3 from "./Assets/teacher3.png";
 import img4 from "./Assets/teacher1.jpg";
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
-
-const sentRequests = [
-  {
-    recipientName: "John Doe",
-    sentDate: "2022-03-15",
-    status: "Pending",
-    avatarSrc: img1,
-  },
-  {
-    recipientName: "Ms Sana",
-    sentDate: "2022-02-28",
-    status: "Accepted",
-    avatarSrc: img2,
-  },
-  {
-    recipientName: "Mr. Ahmed Ayub",
-    sentDate: "2022-01-10",
-    status: "Declined",
-    avatarSrc: img3,
-  },
-  {
-    recipientName: "Mr Amir Ali",
-    sentDate: "2022-01-10",
-    status: "Accepted",
-    avatarSrc: img4,
-  },
-];
+import { useEffect, useState } from 'react';
 
 export function Connections() {
+  const [Connections, setConnections] = useState([])
+  const fetchConnection = async()=>{
+      const response = await fetch('http://localhost:8080/api/connection/fetchApprovSupervisor',{
+        method : 'GET',
+        headers: {
+          "Content-Type": "application/json",
+      "auth-token" : localStorage.getItem('token')
+        }
+      })
+      const json = await response.json();
+      setConnections(json)
+  }
+   useEffect(() => {
+    fetchConnection();
+   })
+   
   return (
     <>
       <Box sx={{ width: "83%", pt: 2, pl: 12 }}>
@@ -50,14 +40,15 @@ export function Connections() {
         <Box sx={{ pt: 2, pl: 2 }}>
           <Grid item xs={4}>
             <Grid container spacing={2}>
-              {sentRequests.map((request, index) => (
-                <Grid item key={index} xs={6}>
+              {Connections.map((request, index) => (
+                <Grid item key={request._id} xs={6}>
                   <Grid item xs={12}>
                     <ConnectionCard
-                      recipientName={request.recipientName}
-                      sentDate={request.sentDate}
+                      firstName={request.supervisor.firstName}
+                      lastName={request.supervisor.lastName}
+                      sentDate={request.sendDate}
                       status={request.status}
-                      avatarSrc={request.avatarSrc}
+                      avatarSrc={img1}
                     />
                   </Grid>
                 </Grid>

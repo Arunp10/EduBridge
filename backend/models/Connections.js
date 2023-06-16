@@ -12,6 +12,7 @@ const ConnectionSchema = new mongoose.Schema({
     },
     interest:{type: String},
     comment: {type:String},
+    sendDate:{type: Date, default: Date.now},
     status:{
         type:String,
         enum: ['pending','approved','rejected'],
