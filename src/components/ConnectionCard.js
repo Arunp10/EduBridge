@@ -1,12 +1,12 @@
 import { Button, Card, CardContent, CardHeader, Divider, IconButton, Typography } from '@mui/material';
 import { Avatar, Box } from '@mui/material';
-import {Cancel } from '@mui/icons-material';
+import {Cancel, LanTwoTone } from '@mui/icons-material';
 import { Chat as ChatIcon } from '@mui/icons-material';
 import { useState } from 'react';
 
 export default function ConnectionCard(props) {
   const { firstName,lastName, sentDate, status, avatarSrc} = props;
-  const isAccepted = status === 'Accepted';
+  const isAccepted = status === 'approved';
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardHeader

@@ -12,13 +12,27 @@ const ConnectionSchema = new mongoose.Schema({
     },
     interest:{type: String},
     comment: {type:String},
-    sendDate:{type: Date, default: Date.now},
+    sendDate:{
+        type: Date, 
+        default: Date.now,
+    },
     status:{
         type:String,
         enum: ['pending','approved','rejected'],
         default : 'pending'
     }
 })
+ConnectionSchema.set('toJSON', {
+    transform: function (doc, ret) {
+      ret.sendDate = formatDate(ret.sendDate);
+      return ret;
+    },
+  });
+  //func to format Date with no timing 
+  function formatDate(date) {
+    const isoDate = new Date(date).toISOString();
+    return isoDate.split('T')[0];
+  }
 
 const validate = (data)=>{
     const schema = Joi.object({
