@@ -21,6 +21,7 @@ import Sidebar from "./components/SideBar";
 import UserState from "./components/context/User/UserState";
 import SupSidebar from "./components/Supervisor/SupSideBar";
 import { SupConnection } from "./components/Supervisor/SupConnection";
+import ShowFunding from "./components/Supervisor/SupervisorFunding/ShowFunding"
 
 const App = () => {
   //Fetch API
@@ -164,6 +165,10 @@ const App = () => {
                             <Route
                               path="/ShowAvailability"
                               element={<ShowAvailability />}
+                            />
+                            <Route
+                              path="/ShowFunding"
+                              element={<ShowFunding />}
                             />
                           </>
                         )}
