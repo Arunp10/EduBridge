@@ -13,7 +13,7 @@ import {
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 1100,
+    minWidth: 1050,
     marginTop: 30,
     marginLeft: 30,
     marginBottom: 50,
@@ -217,7 +217,7 @@ const ShowAvailability = () => {
           ))}
         </Box>
       </Grid>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ margin: "50px 50px 50px 50px ", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
           <FormControlLabel
             control={
