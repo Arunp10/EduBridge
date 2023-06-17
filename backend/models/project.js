@@ -15,7 +15,6 @@ const ProjectSchema = new mongoose.Schema({
 },{
     timestamps : true
 })
-
 ProjectSchema.set('toJSON', {
     transform: function (doc, ret) {
       ret.startDate = formatDate(ret.startDate);

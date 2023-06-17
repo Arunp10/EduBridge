@@ -5,12 +5,23 @@ const {Connections, validate} = require('../models/Connections');
 const { User } = require("../models/user");
 const { async } = require('rxjs');
 
+//Route 1 : API to add connection with user to send Request
 router.post('/AddConnection',fetchUser, async(req,res)=>{
     try{
         const {error} = validate(req.body);
         const {supervisor} = req.body;
+
+        const existingRequest = await Connections.findOne({
+            user :  req.user.id,
+            supervisor : supervisor
+        })
+
+        if (existingRequest) {
+            return res.status(400).json({ error: 'Request already sent'});
+        }
+        //Validation Condition for empty interest & Commant
         if(error)
-            return res.status(400).send({ message: error.details[0].message });
+            return res.status(404).send({ error: error.details[0].message });
 
         const connection = await Connections({
             user: req.user.id,
