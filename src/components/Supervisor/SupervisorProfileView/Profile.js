@@ -91,7 +91,6 @@ const Profile = (props) => {
     setAvailabilityOpen(true);
   };
   const handleConnectOpen= () => {
-    
     setConnectOpen(true);
   };
   const handleConnect = () => {
@@ -133,6 +132,11 @@ const Profile = (props) => {
 
   const handleInputChange = (event) => {
     setMessage(event.target.value);
+    if(message === ""){
+      setDisabled(true)
+    } else{
+      setDisabled(false)
+    }
   };
 
   const handleAvailabilityConfirm = () => {
@@ -140,9 +144,12 @@ const Profile = (props) => {
       setDayError(true);
       setDisabled(true);
     }
-    if (selectedTimeSlot === "" || selectedTimeSlot === "Not Available") {
+    else if (selectedTimeSlot === "" || selectedTimeSlot === "Not Available") {
       setTimeError(true);
       setDisabled(true);
+    }
+    else if(message === ""){
+      alert("Please write the purpose of Appointment")
     }
     else{
       console.log({
@@ -295,7 +302,7 @@ const Profile = (props) => {
             <TextField
               margin="dense"
               id="message"
-              label="Message"
+              label="Purpose"
               fullWidth
               value={message}
               onChange={handleInputChange}
