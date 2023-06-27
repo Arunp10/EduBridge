@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Alert from "@mui/material/Alert";
 import {
   Button,
   Dialog,
@@ -64,27 +65,16 @@ const Profile = (props) => {
   const [connectOpen, setConnectOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [Connection, setConnection] = useState([]);
+  const [Connection, setConnection] = useState({
+    supervisor: '',
+    interest: '',
+    comment: '',
+  });
+  const [Error, setError] = useState("");
+  const [requestSent, setRequestSent] = useState(false);
 
-    //Function to Add Connection
-    const AddConnection = async (supervisor, interest, comment) => {
-
-      // API Call 
-      const response = await fetch(`http://localhost:8080/api/connection/AddConnection`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          "auth-token": localStorage.getItem('token')
-        },
-        //Sending Json in form of Data in Body
-        body: JSON.stringify({ supervisor, interest, comment})
-      });
-  
-      const connection = await response.json();
-      setConnection(Connection.concat(connection))
-    }
   const onchangehandle = (e)=>{
-    setConnection({ ...Connection, [e.target.name]: e.target.value });
+    setConnection({ ...Connection, [e.target.name] : e.target.value});
   }
 
   const handleAvailabilityOpen = () => {
@@ -93,12 +83,37 @@ const Profile = (props) => {
   const handleConnectOpen= () => {
     setConnectOpen(true);
   };
-  const handleConnect = () => {
-    // Handle the connect action here
-    AddConnection(props.id,Connection.comment,Connection.interest);
-    console.log("Connection Request Send Successfully")
-    setIsOpen(false);
+  const handleConnect = async() => {
+    try {
+      Connection.supervisor = props.id;
+      if (Connection.interest === '' || Connection.comment === '') {
+        setError('Please fill in all the required fields');
+        return;
+      }
 
+       // API Call 
+       const response = await fetch(`http://localhost:8080/api/connection/AddConnection`, {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+           "auth-token": localStorage.getItem('token')
+         },
+         //Sending Json in form of Data in Body
+         body: JSON.stringify(Connection)
+       });
+   
+       const data = await response.json();
+      //  if (!response.ok) {
+      //   throw new setError(data.error || 'An error occurred');
+      // }
+      // Request sent successfully
+      setError('');
+      setRequestSent(true);
+      
+   } catch (error) {
+    setError(error.message);
+   }
+    setIsOpen(false);
   };
   const handleCancel = () => {
     // Handle the cancel action here
@@ -322,9 +337,19 @@ const Profile = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* Dialong Box for Connection request */}
       <Dialog open={isOpen} onClose={() => setIsOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>Send Connection</DialogTitle>
         <DialogContent>
+        <TextField
+            name="interest"
+            id="interest"
+            onChange={onchangehandle}
+            label="Interest"
+            fullWidth
+            multiline
+            placeholder="Enter a your Interest"
+          />
           <TextField
             name="comment"
             id="comment"
@@ -334,18 +359,11 @@ const Profile = (props) => {
             multiline
             placeholder="Enter a message"
           />
-          <TextField
-            name="interest"
-            id="interest"
-            onChange={onchangehandle}
-            label="Interest"
-            fullWidth
-            multiline
-            placeholder="Enter a your Interest"
-          />
+          <br></br>
+          {Error && <Alert severity="warning">Alert : {Error}</Alert>}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConnect} color="primary">Connect</Button>
+          <Button onClick={handleConnect} color="primary" disabled={requestSent}>Connect</Button>
           <Button onClick={handleCancel} color="primary">Cancel</Button>
         </DialogActions>
       </Dialog>

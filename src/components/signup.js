@@ -54,7 +54,6 @@ export default function Signup() {
       const url = "http://localhost:8080/api/users";
       const { data: res } = await axios.post(url, data);
       navigate("/Login");
-      console.log(res.message);
     } catch (error) {
       if (
         error.response &&
@@ -64,14 +63,6 @@ export default function Signup() {
         seterror(error.response.data.message);
       }
     }
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
-    };
   };
   return (
     <ThemeProvider theme={theme}>
