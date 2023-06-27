@@ -17,6 +17,19 @@ const EducationSchema = new mongoose.Schema({
     timestamps: true
 })
 
+EducationSchema.set('toJSON', {
+    transform: function (doc, ret) {
+      ret.startDate = formatDate(ret.startDate);
+      ret.endDate = formatDate(ret.endDate);
+      return ret;
+    },
+  });
+
+  //func to format Date with no time Stamp
+  function formatDate(date) {
+    const isoDate = new Date(date).toISOString();
+    return isoDate.split('T')[0];
+  }
 const Education = mongoose.model("education", EducationSchema);
 
 module.exports =  Education ;

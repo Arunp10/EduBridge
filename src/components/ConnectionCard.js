@@ -1,17 +1,17 @@
 import { Button, Card, CardContent, CardHeader, Divider, IconButton, Typography } from '@mui/material';
 import { Avatar, Box } from '@mui/material';
-import {Cancel } from '@mui/icons-material';
+import {Cancel, LanTwoTone } from '@mui/icons-material';
 import { Chat as ChatIcon } from '@mui/icons-material';
 import { useState } from 'react';
 
 export default function ConnectionCard(props) {
-  const { recipientName, sentDate, status, avatarSrc} = props;
-  const isAccepted = status === 'Accepted';
+  const { firstName,lastName, sentDate, status, avatarSrc} = props;
+  const isAccepted = status === 'approved';
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardHeader
         avatar={<Avatar src={avatarSrc} />}
-        title={recipientName}
+        title={`${firstName} ${lastName}`}
         subheader={`Sent on ${sentDate}`}
         action={
           <IconButton aria-label="Cancel">
