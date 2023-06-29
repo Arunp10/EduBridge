@@ -104,15 +104,13 @@ const Profile = (props) => {
        });
    
        const data = await response.json();
-      //  if (!response.ok) {
-      //   throw new setError(data.error || 'An error occurred');
-      // }
+
       // Request sent successfully
-      setError('');
+      // setError('');
       setRequestSent(true);
       
    } catch (error) {
-    setError(error.message);
+      setError(error.message);
    }
     setIsOpen(false);
   };
