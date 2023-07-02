@@ -16,7 +16,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const AppointmentPopup = () => {
   const [open, setOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState('');
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
   const [purpose, setPurpose] = useState('');
@@ -27,7 +27,7 @@ const AppointmentPopup = () => {
   };
 
   const handleClose = () => {
-    setSelectedDate('');
+    setSelectedDate(new Date());
     setSelectedDay("");
     setSelectedTimeSlot("");
     setPurpose("");
@@ -63,7 +63,7 @@ const AppointmentPopup = () => {
         purpose: purpose,
       };
       console.log(appointmentDetails);
-      setSelectedDate('');
+      setSelectedDate(new Date());
       setSelectedDay("");
       setSelectedTimeSlot("");
       setPurpose("");
