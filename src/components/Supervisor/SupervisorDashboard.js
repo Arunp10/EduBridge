@@ -23,6 +23,7 @@ const fetchConnection = async () => {
   const pendingConnection = json.filter(connection => connection.status === 'pending');
   setConnectionData(pendingConnection)
 }
+//Funtion: To Accept the the Connection on Supervisor End
 const handleApproved = async(connectionId)=>{
   try {
     await axios.put(`http://localhost:8080/api/connection/${connectionId}/approved`).
@@ -36,6 +37,7 @@ const handleApproved = async(connectionId)=>{
       alert("Failed to Approve connection request")
   }
 }
+//Funtion: To reject the the Connection on Supervisor End
 const handleReject = async(connectionId)=>{
   try {
     await axios.put(`http://localhost:8080/api/connection/${connectionId}/rejected`).
@@ -51,7 +53,6 @@ const handleReject = async(connectionId)=>{
 useEffect(() => {
   fetchConnection();
 })
-
   return (
     <>
       <div class="col main pt-5 mt-2">
