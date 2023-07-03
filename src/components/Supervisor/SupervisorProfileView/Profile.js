@@ -43,31 +43,26 @@ const Profile = (props) => {
         setError("Please fill in all the required fields");
         return;
       }
+       // API Call 
+       const response = await fetch(`http://localhost:8080/api/connection/AddConnection`, {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+           "auth-token": localStorage.getItem('token')
+         },
+         //Sending Json in form of Data in Body
+         body: JSON.stringify(Connection)
+       });
+   
+       const data = await response.json();
 
-      // API Call
-      const response = await fetch(
-        `http://localhost:8080/api/connection/AddConnection`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": localStorage.getItem("token"),
-          },
-          //Sending Json in form of Data in Body
-          body: JSON.stringify(Connection),
-        }
-      );
-
-      const data = await response.json();
-      //  if (!response.ok) {
-      //   throw new setError(data.error || 'An error occurred');
-      // }
       // Request sent successfully
-      setError("");
+      // setError('');
       setRequestSent(true);
-    } catch (error) {
+      
+   } catch (error) {
       setError(error.message);
-    }
+   }
     setIsOpen(false);
   };
   const handleCancel = () => {
