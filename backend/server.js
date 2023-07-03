@@ -24,7 +24,7 @@ app.use("/api/WorkExperienceRoute", WorkExperienceRoute);
 app.use("/api/ProjectRoute",require('./routes/ProjectRoute'));
 app.use("/api/SkillRoute",SkillRoute);
 app.use("/api/connection",require('./routes/connection'));
-
+app.use("/api/Appointment",require('./routes/Appointment'));
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
