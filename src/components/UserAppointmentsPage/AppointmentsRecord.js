@@ -40,13 +40,6 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(15),
     marginRight: theme.spacing(2),
   },
-  cancelBtn: {
-    margin: theme.spacing(2),
-    backgroundColor: theme.palette.error.dark,
-    "&:hover": {
-      backgroundColor: theme.palette.error.dark,
-    },
-  },
   studentName: {
     fontWeight: "bold",
   },
@@ -58,13 +51,6 @@ const useStyles = makeStyles((theme) => ({
   status: {
     textTransform: "uppercase",
     fontWeight: "bold",
-  },
-  deleteIcon: {
-    backgroundColor: theme.palette.error.dark,
-    color: theme.palette.common.white,
-    "&:hover": {
-      backgroundColor: theme.palette.error.dark,
-    },
   },
   heading: {
     textTransform: "uppercase",
@@ -79,17 +65,12 @@ const useStyles = makeStyles((theme) => ({
   acceptBtn: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
-    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(50),
+    paddingRight: theme.spacing(10),
+    paddingLeft: theme.spacing(10),
+    marginTop: theme.spacing(3),
     "&:hover": {
-      backgroundColor: theme.palette.success.dark,
-    },
-  },
-  rejectBtn: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-    marginRight: theme.spacing(2),
-    "&:hover": {
-      backgroundColor: theme.palette.error.dark,
+      backgroundColor: theme.palette.error.dark
     },
   },
 }));
@@ -152,7 +133,7 @@ const appointmentsData = [
   },
 ];
 
-const Appointment = () => {
+const AppointmentRecord = () => {
   const classes = useStyles();
   const [appointments, setAppointments] = useState(appointmentsData);
 
@@ -160,26 +141,6 @@ const Appointment = () => {
     const updatedAppointments = appointments.filter(
       (appointment) => appointment.id !== appointmentId
     );
-    setAppointments(updatedAppointments);
-  };
-
-  const handleAcceptAppointment = (appointmentId) => {
-    const updatedAppointments = appointments.map((appointment) => {
-      if (appointment.id === appointmentId) {
-        return { ...appointment, appointmentStatus: "Accepted" };
-      }
-      return appointment;
-    });
-    setAppointments(updatedAppointments);
-  };
-
-  const handleRejectAppointment = (appointmentId) => {
-    const updatedAppointments = appointments.map((appointment) => {
-      if (appointment.id === appointmentId) {
-        return { ...appointment, appointmentStatus: "Rejected" };
-      }
-      return appointment;
-    });
     setAppointments(updatedAppointments);
   };
 
@@ -258,30 +219,14 @@ const Appointment = () => {
                 </Grid>
               </Grid>
             </CardContent>
-            <CardActions style={{ justifyContent: "space-between" }}>
-              <Button
-                variant="contained"
-                className={classes.cancelBtn}
-                onClick={() => handleCancelAppointment(appointment.id)}
-              >
-                <DeleteIcon className={classes.deleteIcon} />
-              </Button>
+            <CardActions>
               <div>
                 <Button
                   variant="contained"
                   className={`${classes.acceptBtn}`}
-                  onClick={() => handleAcceptAppointment(appointment.id)}
-                  startIcon={<CheckIcon />}
+                  onClick={() => handleCancelAppointment(appointment.id)}
                 >
-                  Accept
-                </Button>
-                <Button
-                  variant="contained"
-                  className={`${classes.rejectBtn}`}
-                  onClick={() => handleRejectAppointment(appointment.id)}
-                  startIcon={<CloseIcon />}
-                >
-                  Reject
+                  Cancel
                 </Button>
               </div>
             </CardActions>
@@ -292,4 +237,4 @@ const Appointment = () => {
   );
 };
 
-export default Appointment;
+export default AppointmentRecord;
