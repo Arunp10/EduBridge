@@ -51,7 +51,7 @@ const Sidebar = (props) => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#">
+          <a class="nav-link text-secondary" href="/UserFundingDetails">
             <i class="far fa-chart-bar font-weight-bold"></i>{" "}
             <span className="ml-3">Funding</span>
           </a>
@@ -63,7 +63,7 @@ const Sidebar = (props) => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <Link class="nav-link text-secondary" to="/Appointment">
+          <Link class="nav-link text-secondary" to="/ShowAppointments">
             <i class="far fa-calendar font-weight-bold"></i>
             <span className="ml-3">Appointment</span>
           </Link>
