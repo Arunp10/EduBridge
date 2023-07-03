@@ -23,6 +23,7 @@ import { SupConnection } from "./components/Supervisor/SupConnection";
 import ShowFunding from "./components/Supervisor/SupervisorFunding/ShowFunding"
 import ViewAppointment from "./components/Supervisor/SupervisorAppointments/ViewAppointments"
 import ShowAppointments from "./components/UserAppointmentsPage/ShowAppointments"
+import UserFundingDetails from "./components/UserFunding/UserFundingDetails"
 
 const App = () => {
   //Fetch API
@@ -174,6 +175,10 @@ const App = () => {
                             <Route
                               path="/ShowAppointments"
                               element={<ShowAppointments />}
+                            />
+                            <Route
+                              path="/UserFundingDetails"
+                              element={<UserFundingDetails  />}
                             />
                           </>
                         )}
