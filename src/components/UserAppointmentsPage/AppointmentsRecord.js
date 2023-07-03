@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   acceptBtn: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
-    marginLeft: theme.spacing(50),
+    marginLeft: theme.spacing(55),
     paddingRight: theme.spacing(10),
     paddingLeft: theme.spacing(10),
     marginTop: theme.spacing(3),
