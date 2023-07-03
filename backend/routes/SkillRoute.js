@@ -3,6 +3,7 @@ const Skill  = require('../models/skill');
 const router = express.Router();
 const fetchUser  = require('../MiddleWare/fetchUser');
 
+//Route 1: Add Skill of particular User
 router.post('/AddSkill',fetchUser, async(req,res)=>{
     try {
 
