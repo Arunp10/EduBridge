@@ -22,6 +22,7 @@ import SupSidebar from "./components/Supervisor/SupSideBar";
 import { SupConnection } from "./components/Supervisor/SupConnection";
 import ShowFunding from "./components/Supervisor/SupervisorFunding/ShowFunding"
 import ViewAppointment from "./components/Supervisor/SupervisorAppointments/ViewAppointments"
+import Testappointment from "./components/Testappointment"
 
 const App = () => {
   //Fetch API
@@ -181,6 +182,7 @@ const App = () => {
           </ProjectState>
         </WorkState>
       </SkillState>
+      {/* <Testappointment/> */}
     </div>
   );
 };

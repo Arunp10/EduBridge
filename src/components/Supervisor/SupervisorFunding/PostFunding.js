@@ -83,6 +83,7 @@
 //             fullWidth
 //             variant="outlined"
 //             margin="normal"
+//             required
 //             InputLabelProps={{
 //               shrink: true,
 //             }}
@@ -95,7 +96,9 @@
 //             id="visibility-select"
 //             value={visibility}
 //             onChange={handleVisibilityChange}
+//             required
 //           >
+//             <MenuItem value="" disabled>Select visibility</MenuItem>
 //             <MenuItem value="connections">Connections</MenuItem>
 //             <MenuItem value="only_share_with">Only Share With</MenuItem>
 //           </Select>
@@ -134,41 +137,19 @@
 // export default PostFunding;
 
 
+import React, { useState, useEffect } from 'react';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
-
-
-
-
-import React, { useState } from 'react';
-import {
-  Container,
-  Typography,
-  TextField,
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-  IconButton,
-  Grid,
-} from '@mui/material';
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import EmojiPicker from 'emoji-picker-react';
-
-const FundingUploadPage = () => {
+const PostFunding = () => {
   const [title, setTitle] = useState('');
-  const [image, setImage] = useState(null);
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState('');
+  const [file, setFile] = useState(null);
+  const [visibility, setVisibility] = useState('');
+  const [link, setLink] = useState('');
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-  };
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setImage(URL.createObjectURL(file));
   };
 
   const handleDescriptionChange = (event) => {
@@ -179,112 +160,105 @@ const FundingUploadPage = () => {
     setDueDate(event.target.value);
   };
 
-  const handleToggleEmojiPicker = () => {
-    setShowEmojiPicker(!showEmojiPicker);
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
   };
 
-  const handleEmojiSelect = (emoji) => {
-    setSelectedEmoji(emoji.native);
+  const handleVisibilityChange = (event) => {
+    setVisibility(event.target.value);
   };
 
-  const handleUploadFunding = () => {
-    // Handle funding upload logic here
-    console.log({
-      title,
-      image,
-      description,
-      dueDate,
-      selectedEmoji,
-    });
-    setTitle("");
-    setImage(null);
-    setDescription("");
-    setDueDate("");
-    setShowEmojiPicker("");
-    setSelectedEmoji("");
+  const handleLinkChange = (event) => {
+    setLink(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Title:', title);
+    console.log('Description:', description);
+    console.log('Due Date:', dueDate);
+    console.log('File:', file);
+    console.log('Visibility:', visibility);
+    console.log('Link:', link);
+    setTitle('');
+    setDescription('');
+    setDueDate('');
+    setFile(null);
+    setVisibility('');
+    setLink('');
+    alert('Thank you for posting Details');
   };
 
   return (
-    <Container maxWidth="sm">
-      <Card>
-        <CardContent>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Title"
+          value={title}
+          onChange={handleTitleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Description"
+          value={description}
+          onChange={handleDescriptionChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Due Date"
+          type="date"
+          value={dueDate}
+          onChange={handleDueDateChange}
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          required
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <FormControl fullWidth margin="normal" required>
+          <InputLabel id="visibility-label">Visibility</InputLabel>
+          <Select
+            label="Select Visibility"
+            labelId="visibility-label"
+            id="visibility-select"
+            value={visibility}
+            onChange={handleVisibilityChange}
+            required
+          >
+            <MenuItem value="connections">Connections</MenuItem>
+            <MenuItem value="everyone">Everyone</MenuItem>
+          </Select>
+        </FormControl>
           <TextField
-            label="Title"
-            value={title}
-            onChange={handleTitleChange}
+            label="Link"
+            value={link}
+            onChange={handleLinkChange}
             fullWidth
-            variant="outlined"
             margin="normal"
           />
-        
-          <TextField
-            label="Description"
-            value={description}
-            onChange={handleDescriptionChange}
-            fullWidth
-            multiline
-            rows={4}
-            variant="outlined"
-            margin="normal"
-            InputProps={{
-              endAdornment: (
-                <>
-                  <IconButton
-                    color="primary"
-                    onClick={handleToggleEmojiPicker}
-                  >
-                    😄
-                  </IconButton>
-                  {showEmojiPicker && (
-                    <EmojiPicker onEmojiClick={handleEmojiSelect} />
-                  )}
-                </>
-              ),
-            }}
-          />
-          <TextField
-            label="Due Date"
-            type="date"
-            value={dueDate}
-            onChange={handleDueDateChange}
-            fullWidth
-            variant="outlined"
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <input
-            accept="image/*"
-            style={{ display: 'none' }}
-            id="upload-image"
-            type="file"
-            onChange={handleImageChange}
-          />
-          <label htmlFor="upload-image">
-            <IconButton color="primary" component="span">
-              <AddPhotoAlternateIcon />
-            </IconButton>
-          </label>
-          {image && (
-            <img src={image} alt="Uploaded" style={{ width: '100%' }} />
-          )}
-        </CardContent>
-        <CardActions>
-          <Grid container justifyContent="flex-end">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleUploadFunding}
-              disabled={!title || !description || !dueDate}
-            >
-              Upload
-            </Button>
-          </Grid>
-        </CardActions>
-      </Card>
-    </Container>
+        <input
+          type="file"
+          accept=".pdf,.doc,.docx"
+          onChange={handleFileChange}
+          style={{ marginTop: '16px', marginBottom: '16px' }}
+        />
+        <Button
+          type="submit"
+          style={{ marginTop: '16px', marginBottom: '16px', marginLeft: '500px', paddingLeft: '40px', paddingRight: '40px' }}
+          variant="contained"
+          color="primary"
+        >
+          Submit
+        </Button>
+      </form>
+    </div>
   );
 };
 
-export default FundingUploadPage;
+export default PostFunding;
