@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
-import Appointment from "./components/Appointment";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -21,6 +20,9 @@ import Sidebar from "./components/SideBar";
 import UserState from "./components/context/User/UserState";
 import SupSidebar from "./components/Supervisor/SupSideBar";
 import { SupConnection } from "./components/Supervisor/SupConnection";
+import ShowFunding from "./components/Supervisor/SupervisorFunding/ShowFunding"
+import ViewAppointment from "./components/Supervisor/SupervisorAppointments/ViewAppointments"
+import Testappointment from "./components/Testappointment"
 
 const App = () => {
   //Fetch API
@@ -134,8 +136,8 @@ const App = () => {
                               element={<ProfileView />}
                             />
                             <Route
-                              path="/appointment"
-                              element={<Appointment />}
+                              path="/ViewAppointment"
+                              element={<ViewAppointment />}
                             />
                             <Route
                               path="/editprofile"
@@ -165,6 +167,10 @@ const App = () => {
                               path="/ShowAvailability"
                               element={<ShowAvailability />}
                             />
+                            <Route
+                              path="/ShowFunding"
+                              element={<ShowFunding />}
+                            />
                           </>
                         )}
                       </Routes>
@@ -176,6 +182,7 @@ const App = () => {
           </ProjectState>
         </WorkState>
       </SkillState>
+      {/* <Testappointment/> */}
     </div>
   );
 };

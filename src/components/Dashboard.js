@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import profileImage from "./Assets/teacher1.jpg";
-import { Link } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [Users, setUsers] = useState([]);
@@ -23,6 +23,10 @@ export default function Dashboard() {
   useEffect(() => {
     getAllPro();
   }, []);
+  const navigate = useNavigate();
+  const navigateToProfile = (id) => {
+    navigate(`/SupervisorProfileView/${id}`);
+  };
 
   return (
     <>
@@ -57,12 +61,12 @@ export default function Dashboard() {
                 <p>{user.occupation}</p>
               </div>
               <div className="card-action">
-                <Link
-                  to={`/SupervisorProfileView/${user._id}`}
+                <button
                   className="btn btn-primary btn-sm"
+                  onClick={() => navigateToProfile(user._id)}
                 >
                   View Profile
-                </Link>
+                </button>
               </div>
             </div>
           ))}

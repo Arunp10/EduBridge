@@ -41,8 +41,8 @@ const SupSidebar = (props) => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="#">
-            <i class="far fa-chart-bar font-weight-bold"></i>{" "}
+          <a class="nav-link text-secondary" href="/ShowFunding">
+            <i class="far fa-chart-bar font-weight-bold"></i>
             <span className="ml-3">Post Funding</span>
           </a>
         </li>
@@ -53,7 +53,7 @@ const SupSidebar = (props) => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <Link class="nav-link text-secondary" to="/Appointment">
+          <Link class="nav-link text-secondary" to="/ViewAppointment">
             <i class="far fa-calendar font-weight-bold"></i>
             <span className="ml-3">Your Appointments</span>
           </Link>

@@ -2,9 +2,9 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Avatar } from "@mui/material";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
-import Availability from "./Availability";
+import PostFunding from "./PostFunding"
 
-const ShowAvailability = () => {
+const ShowFunding = () => {
   return (
     <Box sx={{ width: "83%", pt: 2, pl: 2 }}>
       <Box sx={{ alignItems: "center", display: "flex" }}>
@@ -12,15 +12,15 @@ const ShowAvailability = () => {
           <CalendarMonthRoundedIcon />
         </Avatar>
         <Typography component="h1" variant="h5" style={{ marginLeft: "8px", display: "inline-block", verticalAlign: "middle" }}>
-          Availability
+          Upload Funding Details
         </Typography>
       </Box>
       <hr />
       <Box sx={{ pt: 2, pl: 1}}>
-        <Availability />
+        <PostFunding />
       </Box>
     </Box>
   );
 };
 
-export default ShowAvailability;
+export default ShowFunding;
