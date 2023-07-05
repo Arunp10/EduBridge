@@ -29,6 +29,29 @@ const ShowAvailability = () => {
   const [day, setDay] = useState("Monday");
   const [isNotAvailable, setIsNotAvailable] = useState(false);
 
+  // const handleTimeslotClick = (time) => {
+  //   if (!isNotAvailable) {
+  //     const timeslot = { day, time };
+  //     const isSelected = selectedTimeslots.some(
+  //       (selectedTimeslot) =>
+  //         selectedTimeslot.day === timeslot.day &&
+  //         selectedTimeslot.time === timeslot.time
+  //     );
+
+  //     if (isSelected) {
+  //       setSelectedTimeslots((prevState) =>
+  //         prevState.filter(
+  //           (selectedTimeslot) =>
+  //             selectedTimeslot.day !== timeslot.day ||
+  //             selectedTimeslot.time !== timeslot.time
+  //         )
+  //       );
+  //     } else {
+  //       setSelectedTimeslots((prevState) => [...prevState, timeslot]);
+  //     }
+  //   }
+  // };
+
   const handleTimeslotClick = (time) => {
     if (!isNotAvailable) {
       const timeslot = { day, time };
@@ -37,7 +60,7 @@ const ShowAvailability = () => {
           selectedTimeslot.day === timeslot.day &&
           selectedTimeslot.time === timeslot.time
       );
-
+  
       if (isSelected) {
         setSelectedTimeslots((prevState) =>
           prevState.filter(
@@ -47,11 +70,25 @@ const ShowAvailability = () => {
           )
         );
       } else {
-        setSelectedTimeslots((prevState) => [...prevState, timeslot]);
+        setSelectedTimeslots((prevState) => {
+          // Check if the timeslot already exists in the array
+          const exists = prevState.some(
+            (selectedTimeslot) =>
+              selectedTimeslot.day === timeslot.day &&
+              selectedTimeslot.time === timeslot.time
+          );
+  
+          // Return the previous state if the timeslot already exists
+          if (exists) {
+            return prevState;
+          }
+  
+          // Add the new timeslot to the array
+          return [...prevState, timeslot];
+        });
       }
     }
   };
-
   const handleNotAvailableClick = () => {
     setIsNotAvailable(true);
     setSelectedTimeslots([]);
