@@ -7,15 +7,20 @@ router.post('/Availability',fetchUser,async(req,res)=>{
     try {
 
         const userId = req.user.id;
-        const {day,availableSlots} = req.body;
+        const selectedTimeslots = req.body;
 
-        const availability = await Availability({
-            supervisor : userId,
-            day,
-            availableSlots
-        })
-        await availability.save();
-        res.status(201).json(availability)
+        // Save each selected timeslot to the database
+        for (const timeslot of selectedTimeslots) {
+          await Availability.create({
+            supervisor: userId,
+            day: timeslot.day,
+            time: timeslot.time
+          });
+        }
+    
+        res.status(200).json({ message: 'Timeslots saved successfully' });
+
+    res.status(200).json(availability);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });

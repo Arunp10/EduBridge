@@ -58,9 +58,22 @@ const ShowAvailability = () => {
     console.log(`Not available on ${day}`);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(selectedTimeslots);
+          // API Call 
+          const response = await fetch(`http://localhost:8080/api/Appointment/Availability`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              "auth-token": localStorage.getItem('token')
+            },
+            //Sending Json in form of Data in Body
+            body: JSON.stringify(selectedTimeslots)
+          });
+      
+          const data = await response.json();
+          console.log(data);
+          console.log(selectedTimeslots)
     alert("Thankyou for showing Availability")
   };
 

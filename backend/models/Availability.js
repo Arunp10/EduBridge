@@ -2,8 +2,14 @@ const mongoose = require('mongoose');
 
 const AvailabilitySchema = new mongoose.Schema({
     supervisor : {type : mongoose.Schema.Types.ObjectId},
-    day : {type:String},
-    availableSlots: [{ type: String, required: true }],
+    day: {
+        type: String,
+        required: true,
+      },
+      time: {
+        type: String,
+        required: true,
+      },
 
 },{timestamps : true});
 
