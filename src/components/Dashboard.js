@@ -1,74 +1,76 @@
-import React from "react";
-import Card from "./Card";
-import Sidebar from "./SideBar";
+import React, { useState, useEffect } from "react";
 import profileImage from "./Assets/teacher1.jpg";
-import profileImage2 from "./Assets/teacher2.png";
-import profileImage3 from "./Assets/teacher3.png";
-import { Link } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const [Users, setUsers] = useState([]);
+
+  const getAllPro = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/auth/getAllUsers",
+        {
+          method: "GET",
+        }
+      );
+      const json = await response.json();
+      setUsers(json);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllPro();
+  }, []);
+  const navigate = useNavigate();
+  const navigateToProfile = (id) => {
+    navigate(`/SupervisorProfileView/${id}`);
+  };
+
   return (
     <>
-      <Sidebar />
-      <div class="col main pt-5 mt-3">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="/#">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="/#">Dashboard</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-              Student
-            </li>
-          </ol>
-        </nav>
-        <p class="lead d-none d-sm-block">Suggested Supervisor</p>
-
+      <div className="col main pt-5 mt-3">
+        <p className="lead d-none d-sm-block">Suggested Supervisor</p>
         <div
-          class="alert alert-warning fade collapse"
+          className="alert alert-warning fade collapse"
           role="alert"
           id="myAlert"
         >
           <button
             type="button"
-            class="close"
+            className="close"
             data-dismiss="alert"
             aria-label="Close"
           >
             <span aria-hidden="true">×</span>
-            <span class="sr-only">Close</span>
+            <span className="sr-only">Close</span>
           </button>
           <strong>Data and Records</strong> Learn more about employee
         </div>
-
-        <div class="d-flex justify-content-center">
-          <Link className="nav-link" to="/ProfileView">
-            <Card
-              image={profileImage}
-              Name="Mr. Amir Ali"
-              Domin="Machine Learning, Datascience"
-              buttonText="View profile"
-              className="dashboardCard"
-            ></Card>
-          </Link>
-          <Card
-            image={profileImage2}
-            Name="Ms. Sana Khan"
-            Domin="Web Development, Framework Assets"
-            buttonText="View profile"
-            className="dashboardCard"
-          ></Card>
-          <Card
-            image={profileImage3}
-            Name="Mr. Ahmed Ayub"
-            Domin="Machine Learning, Datascience"
-            buttonText="View profile"
-            className="dashboardCard"
-          ></Card>
+        <div className="d-flex justify-content-center">
+          {Users.map((user) => (
+            <div className="Card-pattren" key={user._id}>
+              <div className="card-image">
+                <img src={profileImage} alt="profile" className="circle-img" />
+              </div>
+              <div className="card-content">
+                <h2>
+                  {user.firstName} {user.lastName}
+                </h2>
+                <p>{user.occupation}</p>
+              </div>
+              <div className="card-action">
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={() => navigateToProfile(user._id)}
+                >
+                  View Profile
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
-        <hr />
       </div>
     </>
   );

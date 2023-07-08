@@ -2,14 +2,15 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
 import elogo from "../images/elogo.png";
-import Sidebar from "./SideBar";
+
 const Navbar = () => {
+  const isLoggedIn = localStorage.getItem('token');
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light py-3">
-        <a className="navbar-brand" href="#">
+         <nav className={`navbar navbar-expand-lg navbar-light bg-light ${isLoggedIn ? 'logged-in-navbar' : ''}`}>
+        <Link className="navbar-brand" to="/">
           <img src={elogo} alt="elogo" />
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -24,19 +25,20 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/Home">
+
+              {!localStorage.getItem('token')?<Link className="nav-link" to="/">
                 Home <span className="sr-only"></span>
-              </Link>
+              </Link> : " "}
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/Signup">
+            {!localStorage.getItem('token') ?<Link className="nav-link" to="/Signup">
                 Sign up
-              </Link>
+              </Link>: " "}
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/Login">
+            {!localStorage.getItem('token')?<Link className="nav-link" to="/Login">
                 Login
-              </Link>
+              </Link>: ""}
             </li>
           </ul>
         </div>

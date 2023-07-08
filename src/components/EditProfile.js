@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import Sidebar from "./SideBar";
 import Avatar from "@mui/material/Avatar";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -13,13 +13,13 @@ import EducationSection from "./EditProfileSections/EducationSection";
 import WorkExperienceSection from "./EditProfileSections/WorkExperienceSection";
 
 function EditProfile() {
+
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
     <>
-      <Sidebar />
       <Box sx={{ width: "83%", pt: 1 }}>
         <Box sx={{ alignItems: "center", display: "flex" }}>
           <Avatar sx={{ m: 1, bgcolor: "#47a4f2" }}>
