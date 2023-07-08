@@ -93,8 +93,11 @@ const handleConnect = async () => {
       });
       setAvailability(response.data);
 
-      const day = response.data[0]?.day; // Assuming the response is an array and you want the day from the first item
+      const day = response.data[0]?.day; // the response of the day selected as a Day
       setDay(day);
+
+      const times = response.data.map((item) => item.time);
+      setTimeSlots(times);
   
     } catch (error) {
       console.error('Error fetching availability:', error);
@@ -112,8 +115,10 @@ const handleConnect = async () => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [purpose, setPurpose] = useState("");
   const [isTeacherAvailable, setIsTeacherAvailable] = useState(true);
+
   const [Availability, setAvailability] = useState([]);
   const [Day, setDay] = useState('');
+  const [timeSlots, setTimeSlots] = useState([]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -266,13 +271,13 @@ const handleConnect = async () => {
               >
                 <InputLabel>Time Slot</InputLabel>
                 <Select
-                  value={selectedTimeSlot}
-                  onChange={handleTimeSlotChange}
+                  // value={selectedTimeSlot}
+                  // onChange={handleTimeSlotChange}
                   label="Time Slot"
                 >
-                  {generateTimeSlots().map((slot) => (
-                    <MenuItem key={slot.value} value={slot.value}>
-                      {slot.label}
+                  {timeSlots.map((time) => (
+                    <MenuItem key={time} value={time}>
+                      {time}
                     </MenuItem>
                   ))}
                 </Select>
