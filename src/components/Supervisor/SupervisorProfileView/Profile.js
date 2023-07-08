@@ -1,6 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Alert from "@mui/material/Alert";
+import axios from 'axios';
+import { format } from 'date-fns';
 import {
   Button,
   Dialog,
@@ -15,8 +17,8 @@ import {
   makeStyles,
   createStyles,
 } from "@material-ui/core";
-import DatePicker from "react-datepicker";
 
+  
 const Profile = (props) => {
   const [connectOpen, setConnectOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -36,41 +38,73 @@ const Profile = (props) => {
     setConnectOpen(true);
   };
 
-  const handleConnect = async () => {
-    try {
-      Connection.supervisor = props.id;
-      if (Connection.interest === "" || Connection.comment === "") {
-        setError("Please fill in all the required fields");
-        return;
-      }
-      // API Call 
-       const response = await fetch(`http://localhost:8080/api/connection/AddConnection`, {
-         method: 'POST',
-         headers: {
-           'Content-Type': 'application/json',
-           "auth-token": localStorage.getItem('token')
-         },
-         //Sending Json in form of Data in Body
-         body: JSON.stringify(Connection)
-       });
-   
-       const data = await response.json();
 
-      // Request sent successfully
-      // setError('');
-      setRequestSent(true);
-      
-   } catch (error) {
-      setError(error.message);
-   }
-    setIsOpen(false);
-  };
+  // Handle the cancel action here
   const handleCancel = () => {
-    // Handle the cancel action here
     console.log("Cancel");
     setIsOpen(false);
   };
+  const formatDate = (date) => {
+    return format(date, 'yyyy-MM-dd');
+  };
+  const [selected_Date, setselected_Date] = useState('');
 
+//Function to Connect with other User through API
+const handleConnect = async () => {
+  try {
+    Connection.supervisor = props.id;
+    if (Connection.interest === "" || Connection.comment === "") {
+      setError("Please fill in all the required fields");
+      return;
+    }
+    // API Call 
+     const response = await fetch(`http://localhost:8080/api/connection/AddConnection`, {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+         "auth-token": localStorage.getItem('token')
+       },
+       //Sending Json in form of Data in Body
+       body: JSON.stringify(Connection)
+     });
+ 
+     const data = await response.json();
+    setRequestSent(true);
+    
+ } catch (error) {
+    setError(error.message);
+ }
+  setIsOpen(false);
+};
+
+  //Handle to fetch Date from text Field
+  const handleDateChange = async (event) => {
+    const selected_DateValue = event.target.value;
+    setselected_Date(selected_DateValue);
+    const formattedDate = formatDate(new Date(selected_Date));
+  };
+  //Function to Fetch the Availability through Date:
+  const availability = async()=>{
+    const userId = props.id;
+    try {
+      const response = await axios.post('http://localhost:8080/api/Appointment/Availability/fetch', {
+        date: selected_Date,
+        userId: userId
+      });
+      setAvailability(response.data);
+
+      const day = response.data[0]?.day; // Assuming the response is an array and you want the day from the first item
+      setDay(day);
+  
+    } catch (error) {
+      console.error('Error fetching availability:', error);
+    }
+  }
+
+  useEffect(() => {
+    availability();
+  })
+  
   // for Book an appointment usestates
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -78,6 +112,8 @@ const Profile = (props) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [purpose, setPurpose] = useState("");
   const [isTeacherAvailable, setIsTeacherAvailable] = useState(true);
+  const [Availability, setAvailability] = useState([]);
+  const [Day, setDay] = useState('');
 
   const handleOpen = () => {
     setOpen(true);
@@ -91,16 +127,16 @@ const Profile = (props) => {
     setOpen(false);
   };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    const day = date.toLocaleDateString("en-US", { weekday: "long" });
-    setSelectedDay(day);
-    if (day === "Saturday" || day === "Sunday") {
-      setIsTeacherAvailable(false);
-    } else {
-      setIsTeacherAvailable(true);
-    }
-  };
+  // const handleDateChange = (date) => {
+  //   setSelectedDate(date);
+  //   const day = date.toLocaleDateString("en-US", { weekday: "long" });
+  //   setSelectedDay(day);
+  //   if (day === "Saturday" || day === "Sunday") {
+  //     setIsTeacherAvailable(false);
+  //   } else {
+  //     setIsTeacherAvailable(true);
+  //   }
+  // };
 
   const handleTimeSlotChange = (event) => {
     setSelectedTimeSlot(event.target.value);
@@ -193,26 +229,27 @@ const Profile = (props) => {
           <div className="profile-picture-background"></div>
         </div>
       </div>
+
       {/* Book an appointment popup dialog box */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Book an Appointment</DialogTitle>
         <DialogContent>
-          <DatePicker
-            selected={selectedDate}
+          <TextField
+            label="Date"
+            variant="outlined"
+            fullWidth
+            type="Date"
             onChange={handleDateChange}
-            dateFormat="MM/dd/yyyy"
+            // value={formatDate(selected_Date)}
             minDate={new Date()}
-            required
-            showYearDropdown
-            scrollableYearDropdown
-            yearDropdownItemNumber={10}
-            customInput={<TextField variant="outlined" fullWidth />}
+            style={{ marginTop: "16px" }}
           />
+
           <TextField
             label="Day"
             variant="outlined"
             fullWidth
-            value={selectedDay}
+            value={Day}
             style={{ marginTop: "16px" }}
           />
           {!isTeacherAvailable ? (
@@ -253,6 +290,13 @@ const Profile = (props) => {
           )}
         </DialogContent>
         <DialogActions>
+        <Button
+            onClick={handleDateChange}
+            variant="contained"
+            color="primary"
+          >
+            Book
+          </Button>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
             onClick={handleSubmit}

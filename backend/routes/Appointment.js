@@ -3,6 +3,7 @@ const router = express.Router();
 const fetchUser  = require('../MiddleWare/fetchUser');
 const Availability = require('../models/Availability');
 
+//Route 1: To Add availability through selection the array
 router.post('/Availability',fetchUser,async(req,res)=>{
     try {
 
@@ -17,14 +18,33 @@ router.post('/Availability',fetchUser,async(req,res)=>{
             time: timeslot.time
           });
         }
-    
         res.status(200).json({ message: 'Timeslots saved successfully' });
-
-    res.status(200).json(availability);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 })
 
+//Route 2: Fetch the Availability Through Date & UserID
+router.post('/Availability/fetch',async(req,res)=>{
+  const { date } = req.body;
+  const {userId} = req.body;
+
+  //Convert the Data into the Week
+  const parsedDate = new Date(date);
+  const options = { weekday: 'long' };
+
+    // Get the day of the week
+    const dayOfWeek = parsedDate.toLocaleString('en-US', options);
+  try {
+    // for time slots matching the provided date
+    const availability= await Availability.find({ day: dayOfWeek,supervisor : userId });
+
+    res.json(availability);
+  } catch (error) {
+    console.error('Error fetching time slots:', error);
+    res.status(500).json({ error: 'Failed to fetch time slots' });
+  }
+})
+//Router 3 : API to ADD 
 module.exports = router;
