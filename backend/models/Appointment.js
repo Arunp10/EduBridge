@@ -20,7 +20,10 @@ const AppointmentSchema = new mongoose.Schema({
         enum: ['pending','approved','rejected'],
         default : 'pending'
     },
-    sendDate:{type: Date}
+    sendDate:{
+      type: Date,
+      default: Date.now
+    }
 })
 
 AppointmentSchema.set('toJSON', {
