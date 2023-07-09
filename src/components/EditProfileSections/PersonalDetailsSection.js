@@ -19,7 +19,7 @@ export default function PersonalDetailsSection() {
     formData.append('image', selectedFile);
 
     try {
-      await axios.put(`http://localhost:8080/api/users/uploadImg`, formData, {
+      await axios.put(`http://localhost:8080/api/users/uploads`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           "auth-token": localStorage.getItem('token')

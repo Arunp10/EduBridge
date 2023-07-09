@@ -21,6 +21,7 @@ const UserState = (props)=>{
           const json = await response.json();
           setuser(json)
     }
+    
   
   const fetchSupervisor = async(userId)=>{
     const response = await fetch(`http://localhost:8080/api/auth/${userId}`, {
@@ -30,11 +31,11 @@ const UserState = (props)=>{
     setuserData(json);
   }
     return (
-
         <UserContext.Provider value={{user, getUser,userData,fetchSupervisor}}>
             {props.children}
         </UserContext.Provider>
       )
 }
+
 
 export default UserState
