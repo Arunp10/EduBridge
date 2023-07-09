@@ -54,8 +54,6 @@ router.put('/uploads',fetchUser,upload.single('image'),async(req,res)=>{
 		userProfile.image = req.file.filename;
 
 		await userProfile.save();
-		console.log('Received image file:', req.file);
-
 
 		return res.status(200).json({ message: 'Profile image updated successfully' }
 		
