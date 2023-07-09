@@ -15,9 +15,26 @@ const AppointmentSchema = new mongoose.Schema({
     day:{type: String},
     timeSlot:{type:String},
     purpose:{type:String},
-    sendDate:{type: Date.now}
+    status:{
+        type:String,
+        enum: ['pending','approved','rejected'],
+        default : 'pending'
+    },
+    sendDate:{type: Date}
 })
 
+AppointmentSchema.set('toJSON', {
+    transform: function (doc, ret) {
+      ret.sendDate = formatDate(ret.sendDate);
+      return ret;
+    },
+  });
+  //func to format Date with no time
+  function formatDate(date) {
+    const isoDate = new Date(date).toISOString();
+    return isoDate.split('T')[0];
+  }
+  
 const Appointment = mongoose.model('Appointment',AppointmentSchema);
 
 module.exports = Appointment;

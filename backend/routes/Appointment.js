@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fetchUser  = require('../MiddleWare/fetchUser');
 const Availability = require('../models/Availability');
+const Appointment = require('../models/Appointment');
 
 //Route 1: To Add availability through selection the array
 router.post('/Availability',fetchUser,async(req,res)=>{
@@ -46,5 +47,26 @@ router.post('/Availability/fetch',async(req,res)=>{
     res.status(500).json({ error: 'Failed to fetch time slots' });
   }
 })
-//Router 3 : API to ADD 
+//Router 3 : API to send Appointment Request to Supervisor:
+router.post('/request',fetchUser,async(req,res)=>{
+    const {supervisor,date,day,timeSlot,purpose} = req.body;
+
+try {
+      const appointment = new Appointment({
+        user: req.user.id,
+        supervisor,
+        date,
+        day,
+        timeSlot,
+        purpose
+      })
+      await appointment.save();
+      res.json(appointment);
+      
+} catch (error) {
+  console.error('Error fetching time slots:', error);
+    res.status(500).json({ error: 'Failed to Send Appointment Request' });
+}
+
+})
 module.exports = router;
