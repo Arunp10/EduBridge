@@ -119,27 +119,6 @@ const AvailabilityPopup = (props) => {
     setAvailabilityOpen(false);
   };
 
-  // const handleConfirmClick = () => {
-  //   if(selectedDay === "")
-  //   {
-  //     setDayError(true);
-  //     setDisabled(true);
-  //   }
-  //   if(selectedTimeSlot === "")
-  //   {
-  //     setTimeError(true);
-  //     setDisabled(true);
-  //   }
-  //     props.onConfirm({
-  //       day: selectedDay,
-  //       timeSlot: selectedTimeSlot,
-  //       message: message,
-  //     });
-  //     setSelectedDay("")
-  //     setSelectedTimeSlot("")
-  //     setMessage("")
-  //     setDisabled(false)
-  // };
 
   return (
       <Dialog
