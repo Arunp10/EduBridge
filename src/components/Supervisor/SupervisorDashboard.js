@@ -43,7 +43,6 @@ const handleReject = async(connectionId)=>{
       alert(response.data.message);
     });
     fetchConnection();
-    
   } catch (error) {
       console.error(error);
       alert("Failed to Approve connection request")
@@ -64,7 +63,6 @@ useEffect(() => {
         <div className="col-9 pt-9">
           {ConnectionData.map((connection)=>(
             <div className="mt-3">
-
               <StudentConnectionCard key={connection._id} 
               FirstName={connection.user.firstName} 
               LastName={connection.user.lastName} 

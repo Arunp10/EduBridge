@@ -15,82 +15,34 @@ import {
   makeStyles,
   createStyles,
 } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    error: {
-      color: "red",
-    },
-  })
-);
-
-const Monday = [
-  { value: "9:00 AM - 10:00 AM", label: "9:00 AM - 10:00 AM" },
-  { value: "10:00 AM - 11:00 AM", label: "10:00 AM - 11:00 AM" },
-  { value: "11:00 AM - 12:00 PM", label: "11:00 AM - 12:00 PM" },
-];
-const Tuesday = [
-  { value: "9:00 AM - 10:00 AM", label: "9:00 AM - 10:00 AM" },
-  { value: "10:00 AM - 11:00 AM", label: "10:00 AM - 11:00 AM" },
-  { value: "11:00 AM - 12:00 PM", label: "11:00 AM - 12:00 PM" },
-  { value: "1:00 PM - 2:00 PM", label: "1:00 PM - 2:00 PM" },
-  { value: "2:00 PM - 3:00 PM", label: "2:00 PM - 3:00 PM" },
-  { value: "3:00 PM - 4:00 PM", label: "3:00 PM - 4:00 PM" },
-];
-const Wednesday = [{ value: "Not Available", label: "Not Available" }];
-const Thursday = [{ value: "Not Available", label: "Not Available" }];
-const Friday = [
-  { value: "9:00 AM - 10:00 AM", label: "9:00 AM - 10:00 AM" },
-  { value: "10:00 AM - 11:00 AM", label: "10:00 AM - 11:00 AM" },
-  { value: "11:00 AM - 12:00 PM", label: "11:00 AM - 12:00 PM" },
-  { value: "1:00 PM - 2:00 PM", label: "1:00 PM - 2:00 PM" },
-];
-
-const daysOfWeek = [
-  { value: "Monday", label: "Monday" },
-  { value: "Tuesday", label: "Tuesday" },
-  { value: "Wednesday", label: "Wednesday" },
-  { value: "Thursday", label: "Thursday" },
-  { value: "Friday", label: "Friday" },
-];
+import DatePicker from "react-datepicker";
 
 const Profile = (props) => {
-  const [selectedDay, setSelectedDay] = useState("");
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
-  const [message, setMessage] = useState("");
-  const [isDisabled, setDisabled] = useState(false);
-  const [dayError, setDayError] = useState('');
-  const [timeError, setTimeError] = useState(false);
-  const [availabilityOpen, setAvailabilityOpen] = useState(false);
   const [connectOpen, setConnectOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [Connection, setConnection] = useState({
-    supervisor: '',
-    interest: '',
-    comment: '',
-  });
   const [Error, setError] = useState("");
   const [requestSent, setRequestSent] = useState(false);
+  const [Connection, setConnection] = useState({
+    supervisor: "",
+    interest: "",
+    comment: "",
+  });
 
-  const onchangehandle = (e)=>{
-    setConnection({ ...Connection, [e.target.name] : e.target.value});
-  }
-
-  const handleAvailabilityOpen = () => {
-    setAvailabilityOpen(true);
+  const onchangehandle = (e) => {
+    setConnection({ ...Connection, [e.target.name]: e.target.value });
   };
-  const handleConnectOpen= () => {
+
+  const handleConnectOpen = () => {
     setConnectOpen(true);
   };
-  const handleConnect = async() => {
+
+  const handleConnect = async () => {
     try {
       Connection.supervisor = props.id;
-      if (Connection.interest === '' || Connection.comment === '') {
-        setError('Please fill in all the required fields');
+      if (Connection.interest === "" || Connection.comment === "") {
+        setError("Please fill in all the required fields");
         return;
       }
-
        // API Call 
        const response = await fetch(`http://localhost:8080/api/connection/AddConnection`, {
          method: 'POST',
@@ -103,89 +55,124 @@ const Profile = (props) => {
        });
    
        const data = await response.json();
-      //  if (!response.ok) {
-      //   throw new setError(data.error || 'An error occurred');
-      // }
+
       // Request sent successfully
-      setError('');
+      // setError('');
       setRequestSent(true);
       
    } catch (error) {
-    setError(error.message);
+      setError(error.message);
    }
     setIsOpen(false);
   };
   const handleCancel = () => {
     // Handle the cancel action here
-    console.log('Cancel');
+    console.log("Cancel");
     setIsOpen(false);
   };
-  const handleAvailabilityClose = () => {
+
+  // for Book an appointment usestates
+  const [open, setOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [isTeacherAvailable, setIsTeacherAvailable] = useState(true);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setSelectedDate("");
     setSelectedDay("");
     setSelectedTimeSlot("");
-    setMessage("");
-    setDayError(false);
-    setTimeError(false);
-    setAvailabilityOpen(false);
+    setPurpose("");
+    setOpen(false);
   };
 
-  const handleDaySelectChange = (event) => {
-    setSelectedDay(event.target.value);
-    setSelectedTimeSlot("");
-    setDayError(false);
-  };
-
-  const handleTimeSlotSelectChange = (event) => {
-    setSelectedTimeSlot(event.target.value);
-    setTimeError(false);
-    if (selectedTimeSlot === 'Not Available') {
-      setDisabled(true);
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    const day = date.toLocaleDateString("en-US", { weekday: "long" });
+    setSelectedDay(day);
+    if (day === "Saturday" || day === "Sunday") {
+      setIsTeacherAvailable(false);
     } else {
-      setDisabled(false);
+      setIsTeacherAvailable(true);
     }
   };
 
-  const handleInputChange = (event) => {
-    setMessage(event.target.value);
-    if(message === ""){
-      setDisabled(true)
-    } else{
-      setDisabled(false)
-    }
+  const handleTimeSlotChange = (event) => {
+    setSelectedTimeSlot(event.target.value);
   };
 
-  const handleAvailabilityConfirm = () => {
-    if (selectedDay === "") {
-      setDayError(true);
-      setDisabled(true);
-    }
-    else if (selectedTimeSlot === "" || selectedTimeSlot === "Not Available") {
-      setTimeError(true);
-      setDisabled(true);
-    }
-    else if(message === ""){
-      alert("Please write the purpose of Appointment")
-    }
-    else{
-      console.log({
+  const handlePurposeChange = (event) => {
+    setPurpose(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    // Handle the form submission
+    if (selectedDate && selectedTimeSlot && purpose) {
+      const appointmentDetails = {
+        date: selectedDate,
         day: selectedDay,
-        timeslot: selectedTimeSlot,
-        message: message,
-      });
-      setSelectedDay("");
-      setSelectedTimeSlot("");
-      setMessage("");
-      setDisabled(false);
-      setAvailabilityOpen(false);
+        timeSlot: selectedTimeSlot,
+        purpose: purpose,
+      };
+      console.log(appointmentDetails);
+      handleClose();
     }
   };
+
+  const generateTimeSlots = () => {
+    const timeSlotsByDay = {
+      Monday: [
+        { startTime: "10:00 AM", endTime: "11:00 AM" },
+        { startTime: "11:30 AM", endTime: "12:30 PM" },
+        { startTime: "01:00 PM", endTime: "02:00 PM" },
+        { startTime: "02:30 PM", endTime: "03:30 PM" },
+        { startTime: "04:00 PM", endTime: "04:30 PM" },
+      ],
+      Tuesday: [
+        { startTime: "01:00 PM", endTime: "02:00 PM" },
+        { startTime: "02:30 PM", endTime: "03:30 PM" },
+        { startTime: "03:45 PM", endTime: "04:00 PM" },
+      ],
+      Wednesday: [
+        { startTime: "09:00 AM", endTime: "10:00 AM" },
+        { startTime: "10:30 AM", endTime: "11:30 AM" },
+        { startTime: "12:00 PM", endTime: "01:00 PM" },
+      ],
+      Thursday: [
+        { startTime: "11:00 AM", endTime: "12:00 PM" },
+        { startTime: "12:30 PM", endTime: "01:30 PM" },
+        { startTime: "02:00 PM", endTime: "03:00 PM" },
+      ],
+      Friday: [
+        { startTime: "10:00 AM", endTime: "11:00 AM" },
+        { startTime: "11:30 AM", endTime: "12:30 PM" },
+        { startTime: "01:00 PM", endTime: "02:00 PM" },
+        { startTime: "02:30 PM", endTime: "03:30 PM" },
+      ],
+    };
+
+    return (
+      timeSlotsByDay[selectedDay]?.map((slot) => ({
+        label: `${slot.startTime} - ${slot.endTime}`,
+        value: `${slot.startTime} - ${slot.endTime}`,
+      })) || []
+    );
+  };
+
   return (
     <div className="profile-container">
       <div className="profile-parent">
         <div className="profile-details">
           <div className="profile-details-name">
             <span className="primary-text">
-              <span className="highlighted-text">{props.firstName} {""} {props.lastName} </span>
+              <span className="highlighted-text">
+                {props.firstName} {""} {props.lastName}{" "}
+              </span>
             </span>
           </div>
           <div className="profile-details-role">
@@ -194,154 +181,105 @@ const Profile = (props) => {
             </span>
           </div>
           <div className="profile-options">
-            <button className="primary-btn" onClick={handleAvailabilityOpen}>
+            <button className="primary-btn" onClick={handleOpen}>
               Book Appointment
             </button>
-              <button className="highlighted-btn" onClick={() => setIsOpen(true)}>Connect</button>
+            <button className="highlighted-btn" onClick={() => setIsOpen(true)}>
+              Connect
+            </button>
           </div>
         </div>
         <div className="profile-picture">
           <div className="profile-picture-background"></div>
         </div>
       </div>
-      <Dialog
-        open={availabilityOpen}
-        onClose={handleAvailabilityClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Book Appointment</DialogTitle>
+      {/* Book an appointment popup dialog box */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Book an Appointment</DialogTitle>
         <DialogContent>
-          <FormControl fullWidth>
-            <InputLabel id="day-select-label">Day</InputLabel>
-            <Select
-              labelId="day-select-label"
-              id="day-select"
-              label="Select day"
-              value={selectedDay}
-              onChange={handleDaySelectChange}
-              error={dayError}
-            >
-              {daysOfWeek.map((day) => (
-                <MenuItem key={day.value} value={day.value}>
-                  {day.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          {selectedDay && (
-            <FormControl fullWidth>
-              <InputLabel id="time-slot-select-label">Time Slot</InputLabel>
-              {selectedDay === "Monday" && (
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            dateFormat="MM/dd/yyyy"
+            minDate={new Date()}
+            required
+            showYearDropdown
+            scrollableYearDropdown
+            yearDropdownItemNumber={10}
+            customInput={<TextField variant="outlined" fullWidth />}
+          />
+          <TextField
+            label="Day"
+            variant="outlined"
+            fullWidth
+            value={selectedDay}
+            style={{ marginTop: "16px" }}
+          />
+          {!isTeacherAvailable ? (
+            <p style={{ color: "red" }}>
+              Srry! Not available on {selectedDay}.
+            </p>
+          ) : (
+            <>
+              <FormControl
+                variant="outlined"
+                fullWidth
+                required
+                style={{ marginTop: "16px" }}
+              >
+                <InputLabel>Time Slot</InputLabel>
                 <Select
-                  labelId="time-slot-select-label"
-                  id="time-slot-select"
-                  label="Select time"
                   value={selectedTimeSlot}
-                  onChange={handleTimeSlotSelectChange}
-                  error={timeError}
+                  onChange={handleTimeSlotChange}
+                  label="Time Slot"
                 >
-                  {Monday.map((slot) => (
+                  {generateTimeSlots().map((slot) => (
                     <MenuItem key={slot.value} value={slot.value}>
                       {slot.label}
                     </MenuItem>
                   ))}
                 </Select>
-              )}
-              {selectedDay === "Tuesday" && (
-                <Select
-                  labelId="time-slot-select-label"
-                  id="time-slot-select"
-                  label="Select time"
-                  value={selectedTimeSlot}
-                  onChange={handleTimeSlotSelectChange}
-                  error={timeError}
-                >
-                  {Tuesday.map((slot) => (
-                    <MenuItem key={slot.value} value={slot.value}>
-                      {slot.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
-              {selectedDay === "Wednesday" && (
-                <Select
-                  labelId="time-slot-select-label"
-                  id="time-slot-select"
-                  label="Select time"
-                  value={selectedTimeSlot}
-                  onChange={handleTimeSlotSelectChange}
-                  error={timeError}
-                >
-                  {Wednesday.map((slot) => (
-                    <MenuItem key={slot.value} value={slot.value}>
-                      {slot.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
-              {selectedDay === "Thursday" && (
-                <Select
-                  labelId="time-slot-select-label"
-                  id="time-slot-select"
-                  label="Select time"
-                  value={selectedTimeSlot}
-                  onChange={handleTimeSlotSelectChange}
-                  error={timeError}
-                >
-                  {Thursday.map((slot) => (
-                    <MenuItem key={slot.value} value={slot.value}>
-                      {slot.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
-              {selectedDay === "Friday" && (
-                <Select
-                  labelId="time-slot-select-label"
-                  id="time-slot-select"
-                  label="Select time"
-                  value={selectedTimeSlot}
-                  onChange={handleTimeSlotSelectChange}
-                  error={timeError}
-                >
-                  {Friday.map((slot) => (
-                    <MenuItem key={slot.value} value={slot.value}>
-                      {slot.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
-            </FormControl>
-          )}
-          {selectedTimeSlot !== "Not Available" && (
-            <TextField
-              margin="dense"
-              id="message"
-              label="Purpose"
-              fullWidth
-              value={message}
-              onChange={handleInputChange}
-            />
+              </FormControl>
+              <TextField
+                label="Purpose"
+                variant="outlined"
+                fullWidth
+                value={purpose}
+                onChange={handlePurposeChange}
+                required
+                style={{ marginTop: "16px" }}
+              />
+            </>
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleAvailabilityClose} color="primary">
-            Cancel
-          </Button>
+          <Button onClick={handleClose}>Cancel</Button>
           <Button
-            onClick={handleAvailabilityConfirm}
+            onClick={handleSubmit}
+            variant="contained"
             color="primary"
-            disabled={isDisabled}
+            disabled={
+              !selectedDate ||
+              !purpose ||
+              !selectedTimeSlot ||
+              !isTeacherAvailable
+            }
           >
-            Confirm
+            Book
           </Button>
         </DialogActions>
       </Dialog>
+
       {/* Dialong Box for Connection request */}
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)} maxWidth="md" fullWidth>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        maxWidth="md"
+        fullWidth
+      >
         <DialogTitle>Send Connection</DialogTitle>
         <DialogContent>
-        <TextField
+          <TextField
             name="interest"
             id="interest"
             onChange={onchangehandle}
@@ -363,8 +301,16 @@ const Profile = (props) => {
           {Error && <Alert severity="warning">Alert : {Error}</Alert>}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConnect} color="primary" disabled={requestSent}>Connect</Button>
-          <Button onClick={handleCancel} color="primary">Cancel</Button>
+          <Button
+            onClick={handleConnect}
+            color="primary"
+            disabled={requestSent}
+          >
+            Connect
+          </Button>
+          <Button onClick={handleCancel} color="primary">
+            Cancel
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
