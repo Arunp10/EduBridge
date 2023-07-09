@@ -30,6 +30,29 @@ const ShowAvailability = () => {
   const [day, setDay] = useState("Monday");
   const [isNotAvailable, setIsNotAvailable] = useState(false);
 
+  // const handleTimeslotClick = (time) => {
+  //   if (!isNotAvailable) {
+  //     const timeslot = { day, time };
+  //     const isSelected = selectedTimeslots.some(
+  //       (selectedTimeslot) =>
+  //         selectedTimeslot.day === timeslot.day &&
+  //         selectedTimeslot.time === timeslot.time
+  //     );
+
+  //     if (isSelected) {
+  //       setSelectedTimeslots((prevState) =>
+  //         prevState.filter(
+  //           (selectedTimeslot) =>
+  //             selectedTimeslot.day !== timeslot.day ||
+  //             selectedTimeslot.time !== timeslot.time
+  //         )
+  //       );
+  //     } else {
+  //       setSelectedTimeslots((prevState) => [...prevState, timeslot]);
+  //     }
+  //   }
+  // };
+
   const handleTimeslotClick = (time) => {
     if (!isNotAvailable) {
       const timeslot = { day, time };
@@ -38,7 +61,7 @@ const ShowAvailability = () => {
           selectedTimeslot.day === timeslot.day &&
           selectedTimeslot.time === timeslot.time
       );
-
+  
       if (isSelected) {
         setSelectedTimeslots((prevState) =>
           prevState.filter(
@@ -48,20 +71,47 @@ const ShowAvailability = () => {
           )
         );
       } else {
-        setSelectedTimeslots((prevState) => [...prevState, timeslot]);
+        setSelectedTimeslots((prevState) => {
+          // Check if the timeslot already exists in the array
+          const exists = prevState.some(
+            (selectedTimeslot) =>
+              selectedTimeslot.day === timeslot.day &&
+              selectedTimeslot.time === timeslot.time
+          );
+  
+          // Return the previous state if the timeslot already exists
+          if (exists) {
+            return prevState;
+          }
+  
+          // Add the new timeslot to the array
+          return [...prevState, timeslot];
+        });
       }
     }
   };
-
   const handleNotAvailableClick = () => {
     setIsNotAvailable(true);
     setSelectedTimeslots([]);
     console.log(`Not available on ${day}`);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(selectedTimeslots);
+          // API Call 
+          const response = await fetch(`http://localhost:8080/api/Appointment/Availability`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              "auth-token": localStorage.getItem('token')
+            },
+            //Sending Json in form of Data in Body
+            body: JSON.stringify(selectedTimeslots)
+          });
+      
+          const data = await response.json();
+          console.log(data);
+          console.log(selectedTimeslots)
     alert("Thankyou for showing Availability")
   };
 
