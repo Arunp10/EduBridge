@@ -13,7 +13,7 @@ const AppointmentSchema = new mongoose.Schema({
         type: Date
     },
     day:{type: String},
-    timeSlot:{type:String},
+    timeSlot: {type:String} ,
     purpose:{type:String},
     status:{
         type:String,
@@ -29,6 +29,7 @@ const AppointmentSchema = new mongoose.Schema({
 AppointmentSchema.set('toJSON', {
     transform: function (doc, ret) {
       ret.sendDate = formatDate(ret.sendDate);
+      ret.date = formatDate(ret.date);
       return ret;
     },
   });
