@@ -188,7 +188,7 @@ const handleConnect = async () => {
           <div className="profile-details-name">
             <span className="primary-text">
               <span className="highlighted-text">
-                {props.firstName} {""} {props.lastName}{" "}
+                {props.firstName} {""} {props.lastName}
               </span>
             </span>
           </div>
@@ -207,7 +207,7 @@ const handleConnect = async () => {
           </div>
         </div>
         <div className="profile-picture">
-          <div className="profile-picture-background"></div>
+        <img className="profile-picture-background" src={props.img} alt="Profile" />
         </div>
       </div>
 
