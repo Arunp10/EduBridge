@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.spacing(5),
-    boxShadow: theme.shadows[4],
+    backgroundColor: "#f5f5f5",
     transition: "transform 0.3s",
     "&:hover": {
       transform: "scale(1.03)",
