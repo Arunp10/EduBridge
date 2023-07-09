@@ -86,6 +86,14 @@
   cursor: pointer;
   border-radius: 0px;
 }
+#buttonmui {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+#buttonmui:hover {
+  background-color:#1976d2;
+}
 
 .Card-pattren:hover{
   transform: scaleX(2rem);

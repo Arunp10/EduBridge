@@ -39,10 +39,11 @@ const storage = multer.diskStorage({
 	},
   });
   
+  
   // Create multer upload instance
   const upload = multer({ storage: storage });
 
-router.put('/uploadImg',fetchUser,upload.single('image'),async(req,res)=>{
+router.put('/uploads',fetchUser,upload.single('image'),async(req,res)=>{
 	try{
 		const userId = req.user.id;
 
@@ -53,8 +54,13 @@ router.put('/uploadImg',fetchUser,upload.single('image'),async(req,res)=>{
 		userProfile.image = req.file.filename;
 
 		await userProfile.save();
+		console.log('Received image file:', req.file);
 
-		return res.status(200).json({ message: 'Profile image updated successfully' });
+
+		return res.status(200).json({ message: 'Profile image updated successfully' }
+		
+		
+		);
 
 	}catch(error){
 		console.error(error.message)
