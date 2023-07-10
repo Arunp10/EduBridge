@@ -143,20 +143,6 @@ const handleConnect = async () => {
     setPurpose(event.target.value);
   };
 
-  // const handleSubmit = () => {
-  //   // Handle the form submission
-  //   if (selectedDate && selectedTimeSlot && purpose) {
-  //     const appointmentDetails = {
-  //       date: selectedDate,
-  //       day: selectedDay,
-  //       timeSlot: selectedTimeSlot,
-  //       purpose: purpose,
-  //     };
-  //     console.log(appointmentDetails);
-  //     handleClose();
-  //   }
-  // };
-
   const handleSubmit = async()=>{
     const supervisor = props.id;
     const response  = await fetch('http://localhost:8080/api/Appointment/Request',{
