@@ -8,7 +8,7 @@ import axios from "axios";
 
 export default function SupervisorDashboard() {
   const [ConnectionData, setConnectionData] = useState([]);
-
+  
 //Function to Fetch Connection
 const fetchConnection = async () => {
   //API Calling Link:
@@ -65,6 +65,7 @@ useEffect(() => {
           {ConnectionData.map((connection)=>(
             <div className="mt-3">
               <StudentConnectionCard key={connection._id} 
+              img={connection.user.image}
               FirstName={connection.user.firstName} 
               LastName={connection.user.lastName} 
               interest={connection.interest} 
