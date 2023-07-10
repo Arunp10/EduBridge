@@ -10,9 +10,7 @@ export default function ProfileView() {
   const [imageURL, setImageURL] = useState("");
 
   useEffect(() => {
-    console.log(getUser())
-  }, []);
-  useEffect(() => {
+    getUser()
     if (user && user.image) {
       setImageURL("http://localhost:8080/" + user.image);
     }
@@ -21,14 +19,20 @@ export default function ProfileView() {
   return (
     <Box sx={{ width: "83%", pt: 0, pl: 0 }}>
       <div className="profileview-container">
-        {imageURL && (
+        {imageURL ? (
           <Profile
             img={imageURL}
             firstName={user?.firstName}
             lastName={user?.lastName}
             occupation={user?.occupation}
           />
-        )}
+        ) : (
+          <Profile
+            firstName={user?.firstName}
+            lastName={user?.lastName}
+            occupation={user?.occupation}
+          />
+        ) }
         <View />
       </div>
     </Box>

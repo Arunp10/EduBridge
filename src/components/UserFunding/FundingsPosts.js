@@ -1,62 +1,91 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
-import LinkIcon from "@mui/icons-material/Link";
-import DescriptionIcon from "@mui/icons-material/Description";
 import {
   Avatar,
-  Paper,
   Typography,
   Link,
-  Grid,
+  List,
   ListItem,
   ListItemText,
   ListItemAvatar,
-  List,
-  Box,
   IconButton,
+  Grid,
+  Paper,
+  Box,
+  Divider,
 } from "@material-ui/core";
+import {
+  Link as LinkIcon,
+  Description as DescriptionIcon,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    padding: theme.spacing(2),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: theme.spacing(2),
   },
-  card: {
-    backgroundColor: "#f5f5f5",
-    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
+  post: {
     width: "100%",
+    backgroundColor: "#f8f9fa",
+    borderRadius: theme.spacing(1),
+    padding: theme.spacing(2),
+    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
   },
   avatar: {
     width: theme.spacing(7),
     height: theme.spacing(7),
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
   },
-  listItem: {
-    padding: theme.spacing(1, 0),
-    marginLeft: theme.spacing(2),
-    
+  header: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: theme.spacing(1),
+  },
+  content: {
+    marginBottom: theme.spacing(2),
+  },
+  description: {
+    marginBottom: theme.spacing(2),
+  },
+  linkContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  linkIcon: {
+    marginRight: theme.spacing(1),
+  },
+  nameContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    // marginBottom: theme.spacing(1),
+  },
+  name: {
+    marginRight: theme.spacing(1),
+  },
+  occupation: {
+    fontStyle: "italic",
   },
   listItemText: {
     color: "#222",
   },
-  linkText: {
-    color: "#1976d2",
-  },
   documentText: {
-    position: "relative",
-    paddingLeft: "1.5rem",
-    marginLeft:theme.spacing(-8),
-   
+    display: "flex",
+    alignItems: "center",
+    color: "#222",
     fontWeight: "bold",
-    listStyleType: "none", // Add this line
   },
-  teacherName: {
-    fontWeight: "bold",
-    fontSize: "1.2rem",
+  documentContainer: {
+    display: "flex",
+    marginTop: theme.spacing(2),
   },
-  dueDate: {
-    fontWeight: "bold",
+  postedOn: {
+    marginTop: theme.spacing(1),
+    display: "block",
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -65,122 +94,87 @@ const FundingDetailsView = ({ funding }) => {
 
   const {
     teacherName,
+    teacherOccupation,
     teacherPicture,
-    fundingTitle,
     fundingDescription,
-    fundingDueDate,
     fundingLink,
     fundingDocuments,
   } = funding;
 
-  const formattedDate = new Date(fundingDueDate).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   });
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={12}>
-          <Paper className={classes.card}>
-            <List>
-              <ListItem className={classes.listItem}>
-                <ListItemAvatar>
-                  <Avatar
-                    alt={teacherName}
-                    src={teacherPicture}
-                    className={classes.avatar}
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={teacherName}
-                  secondary="Teacher"
-                  classes={{
-                    primary: `${classes.listItemText} ${classes.teacherName}`,
-                  }}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primary="Funding Title"
-                  secondary={fundingTitle}
-                  classes={{ primary: classes.listItemText }}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primary="Funding Description"
-                  secondary={fundingDescription}
-                  classes={{ primary: classes.listItemText }}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primary={
-                    <Typography
-                      variant="subtitle1"
-                      className={classes.listItemText}
-                    >
-                      Funding Due Date
-                    </Typography>
-                  }
-                  secondary={
-                    <Typography
-                      variant="subtitle1"
-                      className={`${classes.listItemText} ${classes.dueDate}`}
-                    >
-                      {formattedDate}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              {fundingLink && (
-                <ListItem className={classes.listItem}>
-                  <ListItemText
-                    primary="Link"
-                    secondary={
-                      <Link
-                        href={fundingLink}
+      <Paper elevation={3} className={classes.post}>
+        <div className={classes.header}>
+          <Avatar
+            alt={teacherName}
+            src={teacherPicture}
+            className={classes.avatar}
+          />
+          <div className={classes.nameContainer}>
+            <Typography variant="subtitle1" className={classes.name}>
+              {teacherName}
+            </Typography>
+            <Typography variant="caption" className={classes.occupation}>
+              {teacherOccupation}
+            </Typography>
+          </div>
+        </div>
+        <div className={classes.content}>
+          <Typography variant="caption" className={classes.postedOn}>
+            Posted on {currentDate}
+          </Typography>
+          <Typography variant="body1" className={classes.description}>
+            {fundingDescription}
+          </Typography>
+          <Divider />
+          {fundingDocuments.length > 0 && (
+            <Box className={classes.documentContainer}>
+              <List>
+                <Typography variant="subtitle1">
+                  Supporting Material:
+                </Typography>
+                {fundingDocuments.map((document, index) => (
+                  <ListItem key={index}>
+                    <ListItemAvatar>
+                      <IconButton
+                        href={document.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`${classes.listItemText} ${classes.linkText}`}
                       >
-                        <LinkIcon />
-                        {fundingLink}
-                      </Link>
-                    }
-                  />
-                </ListItem>
-              )}
-              {fundingDocuments.length > 0 && (
-                <ListItem className={classes.listItem}>
-                  <ListItemText
-                    primary="Funding Documents"
-                    secondary={
-                      <ul>
-                        {fundingDocuments.map((document, index) => (
-                          <li key={index} className={classes.documentText}>
-                            <IconButton
-                              href={document.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={classes.listItemText}
-                            >
-                              <DescriptionIcon />
-                            </IconButton>
-                            {document.name}
-                          </li>
-                        ))}
-                      </ul>
-                    }
-                  />
-                </ListItem>
-              )}
-            </List>
-          </Paper>
-        </Grid>
-      </Grid>
+                        <DescriptionIcon />
+                      </IconButton>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={document.name}
+                      className={classes.documentText}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          )}
+          <div className={classes.linkContainer}>
+            <div>
+              <LinkIcon className={classes.linkIcon} />
+              <Link
+                href={fundingLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                color="primary"
+                variant="body2"
+              >
+                {fundingLink}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Paper>
     </div>
   );
 };
