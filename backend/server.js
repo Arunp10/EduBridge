@@ -27,7 +27,7 @@ app.use("/api/connection",require('./routes/connection'));
 app.use("/api/Appointment",require('./routes/Appointment'));
 app.use("/api/funding",require('./routes/Funding'));
 app.use(express.static('../src/components/uploads'));
-
+app.use(express.static('../src/components/document'));
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));

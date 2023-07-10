@@ -94,7 +94,7 @@ const FundingDetailsView = (props) => {
 
   const handleDownload = (file) => {
     const downloadLink = document.createElement('a');
-    downloadLink.href = `../src/components/document/${file}`;
+    downloadLink.href = `http://localhost:8080/${file}`;
     downloadLink.download = file;
     downloadLink.click();
   };
