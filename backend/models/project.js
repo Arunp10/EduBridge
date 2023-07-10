@@ -5,13 +5,10 @@ const ProjectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    projectTitle : {
-        type: String,
-        require: true
-    },
-    startDate : {type:Date,require:true},
-    endDate : {type:Date,require:true},
-    description:{type:String,required:true}
+    projectTitle : {type: String,required: true},
+    startDate : {type:Date,required:true},
+    endDate : {type:Date,required:false},
+    description:{type:String,required:false}
 },{
     timestamps : true
 })
@@ -22,8 +19,12 @@ ProjectSchema.set('toJSON', {
       return ret;
     },
   });
-  //func to format Date with no timing 
+
+  //func to format Date with no time Stamp
   function formatDate(date) {
+    if (!date) {
+      return 'Present';
+    }
     const isoDate = new Date(date).toISOString();
     return isoDate.split('T')[0];
   }

@@ -1,45 +1,164 @@
-import React, { useState, useContext } from "react";
-import TextField from "@mui/material/TextField";
-import { Grid } from "@material-ui/core";
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  IconButton,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  InputAdornment,
+  Typography,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useState, useContext, useEffect } from "react";
 import EducationContext from "../context/Education/EducationContext";
 
-//React Function
 export default function EducationSection() {
-  //Calling Education Context API
-  const context = useContext(EducationContext);
-  console.log(context);
-  let { AddEducation } = context;
+  const [isInstituteNameEmpty, setIsInstituteNameEmpty] = useState(false);
+  const [isDegreeEmpty, setIsDegreeEmpty] = useState(false);
+  const [isStartDateEmpty, setIsStartDateEmpty] = useState(false);
 
-  //State for Education Data
-  const [education, seteducation] = useState({
-    InstitueName: "",
-    degree: " ",
-    startDate: " ",
-    endDate: " ",
+  // Calling Education Context API
+  const context = useContext(EducationContext);
+  const { AddEducation, Education, deleteEducation, updateEducation } = context;
+
+  //Calling Education Context
+  const educontext = useContext(EducationContext);
+  const { Edu, getEducation } = educontext;
+
+  // State for Education Data
+  const [education, setEducation] = useState({
+    id: "",
+    InstituteName: "",
+    degree: "",
+    startDate: "",
+    endDate: "",
   });
 
-  //function to submit data to AddEducation Function
+  useEffect(() => {
+    // Retrieve education data from the server or local storage
+    getEducation();
+  }, [education]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    AddEducation(
-      education.InstitueName,
-      education.degree,
-      education.startDate,
-      education.endDate
-    );
-    seteducation({
-      InstitueName: "",
+    if (isEditMode) {
+      // Reset form and edit mode
+      setEducation({
+        id: "",
+        InstituteName: "",
+        degree: "",
+        startDate: "",
+        endDate: "",
+      });
+      setIsEditMode(false);
+    } else {
+      if (validateForm() === true) {
+        // Add new education
+        AddEducation(
+          education.InstituteName,
+          education.degree,
+          education.startDate,
+          education.endDate === null ? "Present" : education.endDate
+        );
+        // Reset form
+        setEducation({
+          id: "",
+          InstituteName: "",
+          degree: "",
+          startDate: "",
+          endDate: "",
+        });
+      }
+    }
+  };
+
+  const handleChange = (e) => {
+    setEducation({ ...education, [e.target.name]: e.target.value });
+  };
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const handleUpdate = (id) => {
+    const selectedEducation = Education.find((item) => item._id === id);
+    if (selectedEducation) {
+      setEducation({
+        id: selectedEducation._id,
+        InstituteName: selectedEducation.InstituteName,
+        degree: selectedEducation.degree,
+        startDate: selectedEducation.startDate,
+        endDate: selectedEducation.endDate,
+      });
+      setIsEditMode(true);
+    }
+  };
+
+  const handleDelete = (id) => {
+    deleteEducation(id);
+  };
+
+  const clearForm = () => {
+    setEducation({
+      id: "",
+      InstituteName: "",
       degree: "",
       startDate: "",
       endDate: "",
     });
-    // Show success message
-    alert("Education details added successfully!");
+    setIsEditMode(false);
   };
-  //Create onChange function for Required fields for Input Data:
-  const onChange = (e) => {
-    seteducation({ ...education, [e.target.name]: e.target.value });
+
+  // Function to handle the edit submission
+  const handleEditSubmit = () => {
+    if (validateForm()) {
+      const endDateValue = education.endDate === "Present" ? null : education.endDate;
+      // Call your update function here
+      updateEducation(education.id, {
+        InstituteName: education.InstituteName,
+        degree: education.degree,
+        startDate: education.startDate,
+        endDate: endDateValue
+      });
+
+      // Reset form and edit mode
+      setEducation({
+        id: "",
+        InstituteName: "",
+        degree: "",
+        startDate: "",
+        endDate: "",
+      });
+      setIsEditMode(false);
+    }
+  };
+  const validateForm = () => {
+    let isValid = true;
+
+    if (education.InstituteName.trim() === "") {
+      setIsInstituteNameEmpty(true);
+      isValid = false;
+    } else {
+      setIsInstituteNameEmpty(false);
+    }
+
+    if (education.degree.trim() === "") {
+      setIsDegreeEmpty(true);
+      isValid = false;
+    } else {
+      setIsDegreeEmpty(false);
+    }
+
+    if (education.startDate.trim() === "") {
+      setIsStartDateEmpty(true);
+      isValid = false;
+    } else {
+      setIsStartDateEmpty(false);
+    }
+    return isValid;
   };
   return (
     <Box
@@ -50,80 +169,148 @@ export default function EducationSection() {
         alignItems: "center",
       }}
     >
-      <Box component="form" noValidate sx={{ mt: 0 }}>
-        <Typography variant="overline" textAlign={"center"}>
+      <Box
+        component="form"
+        noValidate
+        sx={{ mt: 0, width: "100%" }}
+        onSubmit={handleSubmit}
+      >
+        <Typography variant="overline" textAlign="center">
           Education
         </Typography>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
               required
-              id="InstitueName"
-              name="InstitueName"
-              label="Institue Name"
+              name="InstituteName"
+              id="institute-name"
+              label="Institute Name"
+              inputProps={{ required: true }}
               fullWidth
               margin="normal"
               variant="outlined"
-              onChange={onChange}
-              value={education.InstitueName}
+              value={education.InstituteName}
+              onChange={handleChange}
+              error={isInstituteNameEmpty}
+              helperText={isInstituteNameEmpty && "Institute Name is required"}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               required
-              id="degree"
               name="degree"
+              id="degree"
               label="Degree"
               fullWidth
               margin="normal"
               variant="outlined"
-              onChange={onChange}
               value={education.degree}
+              onChange={handleChange}
+              error={isDegreeEmpty}
+              helperText={isDegreeEmpty && "Degree is required"}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               required
-              id="startDate"
-              name="startDate"
               type="date"
-              label="From"
-              fullWidth
-              margin="normal"
-              variant="outlined"
+              name="startDate"
+              id="start-date"
+              label="Start Date"
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={onChange}
+              fullWidth
+              margin="normal"
+              variant="outlined"
               value={education.startDate}
+              onChange={handleChange}
+              error={isStartDateEmpty}
+              helperText={isStartDateEmpty && "Start-date is required"}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              id="endDate"
-              label="To"
               name="endDate"
+              id="endDate"
+              label="End Date"
+              InputLabelProps={{
+                shrink: true,
+              }}
               type="date"
               fullWidth
               margin="normal"
               variant="outlined"
-              InputLabelProps={{
-                shrink: true,
+              value={education.endDate === "Present" ? "" : education.endDate}
+              onChange={handleChange}
+              InputProps={{
+                endAdornment: !education.endDate && (
+                  <InputAdornment position="end">
+                    <Typography variant="caption" color="textSecondary">
+                      Present
+                    </Typography>
+                  </InputAdornment>
+                ),
               }}
-              onChange={onChange}
-              value={education.endDate}
             />
           </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              className="mx-3"
+              onClick={isEditMode ? handleEditSubmit : handleSubmit}
+            >
+              {isEditMode ? "Update Education" : "Add Education"}
+            </Button>
+            {isEditMode && (
+              <Button
+                variant="contained"
+                color="primary"
+                className="mx-3"
+                onClick={() => clearForm()}
+              >
+                Cancel
+              </Button>
+            )}
+          </Grid>
         </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          onClick={handleSubmit}
-        >
-          Add Eduction
-        </Button>
       </Box>
+      {Education.length > 0 && (
+        <Box mt={4} sx={{ width: "100%" }}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Institute Name</TableCell>
+                  <TableCell>Degree</TableCell>
+                  <TableCell>Start Date</TableCell>
+                  <TableCell>End Date</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Education.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.InstituteName}</TableCell>
+                    <TableCell>{item.degree}</TableCell>
+                    <TableCell>{item.startDate}</TableCell>
+                    <TableCell>{item.endDate === null ? "Present" : item.endDate}</TableCell>
+                    <TableCell>
+                      <IconButton onClick={() => handleUpdate(item._id)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => handleDelete(item._id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      )}
     </Box>
   );
 }

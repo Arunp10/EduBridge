@@ -10,9 +10,10 @@ const App = () => {
   const fundingDetails = [
     {
       teacherName: 'John Doe',
+      teacherOccupation: 'Professional',
       teacherPicture: 'https://example.com/teacher1.jpg',
-      fundingTitle: 'Project Funding 1',
-      fundingDescription: 'This is the description of funding project 1.',
+      fundingTitle: 'Project Funding',
+      fundingDescription: "🎉 Exciting news! Our school is launching a new coding club for students interested in learning programming and building awesome projects. 🚀 Join us and explore the world of coding through fun and interactive activities. No prior coding experience is required. All students from grades 5 to 8 are welcome to participate. Don't miss this incredible opportunity to unleash your creativity and develop valuable skills for the future. Register now and embark on an amazing coding journey with us! 💻🌟",
       fundingDueDate: '2023-07-31',
       fundingLink: 'https://example.com/funding1',
       fundingDocuments: [
@@ -21,38 +22,18 @@ const App = () => {
       ],
     },
     {
-      teacherName: 'Jane Smith',
+      teacherName: 'Emily Smith',
+      teacherOccupation: 'Professional',
       teacherPicture: 'https://example.com/teacher2.jpg',
-      fundingTitle: 'Project Funding 2',
-      fundingDescription: 'This is the description of funding project 2.This is the description of funding project This is the description of funding project This is the description of funding project This is the description of funding project This is the description of funding project This is the description of funding project',
+      fundingTitle: 'Science Fair Funding',
+      fundingDescription: '🔬 Calling all science enthusiasts! Our school is hosting a Science Fair to showcase the creativity and scientific knowledge of our students. 🌟 We are seeking funding support to provide necessary resources, equipment, and materials for their innovative projects. Your contributions will help create a memorable experience and inspire young minds. Join us in nurturing the next generation of scientists and inventors. Together, let\'s make the world a better place through the wonders of science! 🌍✨',
       fundingDueDate: '2023-08-15',
-      fundingLink: '',
-      fundingDocuments: [],
-    },
-    {
-      teacherName: 'Robert Johnson',
-      teacherPicture: 'https://example.com/teacher3.jpg',
-      fundingTitle: 'Project Funding 3',
-      fundingDescription: 'This is the description of funding project 3.',
-      fundingDueDate: '2023-09-01',
-      fundingLink: 'https://example.com/funding3',
+      fundingLink: 'https://example.com/funding2',
       fundingDocuments: [
-        { name: 'Document 1', url: 'https://example.com/document1.pdf' },
+        { name: 'Project Guidelines', url: 'https://example.com/guidelines.pdf' },
+        { name: 'Event Schedule', url: 'https://example.com/schedule.pdf' },
       ],
-    },
-    {
-      teacherName: 'Emily Wilson',
-      teacherPicture: 'https://example.com/teacher4.jpg',
-      fundingTitle: 'Project Funding 4',
-      fundingDescription: 'This is the description of funding project 4.',
-      fundingDueDate: '2023-09-15',
-      fundingLink: '',
-      fundingDocuments: [
-        { name: 'Document 1', url: 'https://example.com/document1.pdf' },
-        { name: 'Document 2', url: 'https://example.com/document2.pdf' },
-        { name: 'Document 3', url: 'https://example.com/document3.pdf' },
-      ],
-    },
+    }
   ];
 
   return (

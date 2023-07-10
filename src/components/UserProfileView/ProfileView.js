@@ -1,24 +1,40 @@
-import React,{useContext,useEffect} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Profile from "./Profile";
 import View from "./View";
 import { Box } from "@mui/material";
 import UserContext from "../context/User/UserContext";
 
 export default function ProfileView() {
-  const usercontext = useContext(UserContext);
-  const {user,getUser} = usercontext;
+  const userContext = useContext(UserContext);
+  const { user, getUser } = userContext;
+  const [imageURL, setImageURL] = useState("");
+
   useEffect(() => {
-    getUser();
-    console.log(user.image)
-  })
+    getUser()
+    if (user && user.image) {
+      setImageURL("http://localhost:8080/" + user.image);
+    }
+  }, [user]);
+
   return (
-    <>
     <Box sx={{ width: "83%", pt: 0, pl: 0 }}>
       <div className="profileview-container">
-        <Profile img={`../uploads/${user.image}`} firstName={user.firstName} lastName={user.lastName} occupation={user.occupation} />
-        <View/>
+        {imageURL ? (
+          <Profile
+            img={imageURL}
+            firstName={user?.firstName}
+            lastName={user?.lastName}
+            occupation={user?.occupation}
+          />
+        ) : (
+          <Profile
+            firstName={user?.firstName}
+            lastName={user?.lastName}
+            occupation={user?.occupation}
+          />
+        ) }
+        <View />
       </div>
     </Box>
-    </>
   );
 }

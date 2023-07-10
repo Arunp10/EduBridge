@@ -10,11 +10,12 @@ const WorkExperienceSchema = mongoose.Schema({
     title: { type: String, required: true },
     employee: { type: String, required: true },
     startDate:{type: Date,required :true},
-    endDate:{type: Date,required :true},
+    endDate:{type: Date, default: null},
     description:{type:String}
 },{
     timestamps: true
 })
+
 WorkExperienceSchema.set('toJSON', {
     transform: function (doc, ret) {
       ret.startDate = formatDate(ret.startDate);
@@ -24,9 +25,13 @@ WorkExperienceSchema.set('toJSON', {
   });
   //func to format Date with no timing 
   function formatDate(date) {
+    if (!date) {
+      return 'Present';
+    }
     const isoDate = new Date(date).toISOString();
     return isoDate.split('T')[0];
   }
+  
 //Export the Module to Work Experience:
 const WorkExperience = mongoose.model("WorkExperience", WorkExperienceSchema);
 
