@@ -43,7 +43,7 @@ const App = () => {
             description={data.description}
             img={data.postBy.image}
             link={data.link}
-            fileName={data.file}
+            file={data.file}
             postDate={data.postDate}
             />
         ))}

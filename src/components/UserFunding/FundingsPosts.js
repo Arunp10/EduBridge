@@ -92,6 +92,12 @@ const useStyles = makeStyles((theme) => ({
 const FundingDetailsView = (props) => {
   const classes = useStyles();
 
+  const handleDownload = (file) => {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = `../src/components/document/${file}`;
+    downloadLink.download = file;
+    downloadLink.click();
+  };
   return (
     <div className={classes.root}>
       <Paper elevation={3} className={classes.post}>
@@ -126,16 +132,15 @@ const FundingDetailsView = (props) => {
                   <ListItem>
                     <ListItemAvatar>
                       <IconButton
-                        href={`${props.file}`}
-                        target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => handleDownload(props.file)}
                       >
                         
                         <DescriptionIcon />
                       </IconButton>
                     </ListItemAvatar>
                     <ListItemText
-                      primary={props.fileName}
+                      primary={props.file}
                       className={classes.documentText}
                     />
                   </ListItem>
