@@ -1,62 +1,48 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
-import LinkIcon from "@mui/icons-material/Link";
-import DescriptionIcon from "@mui/icons-material/Description";
-import {
-  Avatar,
-  Paper,
-  Typography,
-  Link,
-  Grid,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  List,
-  Box,
-  IconButton,
-} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import Link from "@material-ui/core/Link";
+import DescriptionIcon from "@material-ui/icons/Description";
+import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(2),
+    backgroundColor: "#f0f2f5",
   },
-  card: {
-    backgroundColor: "#f5f5f5",
-    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
-    width: "100%",
+  paper: {
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  title: {
+    marginBottom: theme.spacing(1),
+    fontWeight: "bold",
+  },
+  listItem: {
+    marginBottom: theme.spacing(1),
+    display: "flex",
+    alignItems: "center",
+  },
+  documentIcon: {
+    marginRight: theme.spacing(1),
   },
   avatar: {
     width: theme.spacing(7),
     height: theme.spacing(7),
     marginRight: theme.spacing(2),
   },
-  listItem: {
-    padding: theme.spacing(1, 0),
-    marginLeft: theme.spacing(2),
-    
+  descriptionContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginBottom: theme.spacing(1),
   },
-  listItemText: {
-    color: "#222",
-  },
-  linkText: {
-    color: "#1976d2",
-  },
-  documentText: {
-    position: "relative",
-    paddingLeft: "1.5rem",
-    marginLeft:theme.spacing(-8),
-   
+  descriptionHeading: {
     fontWeight: "bold",
-    listStyleType: "none", // Add this line
   },
-  teacherName: {
-    fontWeight: "bold",
-    fontSize: "1.2rem",
-  },
-  dueDate: {
-    fontWeight: "bold",
+  descriptionText: {
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -71,118 +57,82 @@ const FundingDetailsView = ({ funding }) => {
     fundingDueDate,
     fundingLink,
     fundingDocuments,
+    uploadDate,
   } = funding;
 
-  const formattedDate = new Date(fundingDueDate).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
-  });
+  const formattedDueDate = new Date(fundingDueDate).toLocaleDateString(
+    "en-GB",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    }
+  );
+
+  const formattedUploadDate = uploadDate
+    ? new Date(uploadDate).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      })
+    : null;
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={12}>
-          <Paper className={classes.card}>
-            <List>
-              <ListItem className={classes.listItem}>
-                <ListItemAvatar>
-                  <Avatar
-                    alt={teacherName}
-                    src={teacherPicture}
-                    className={classes.avatar}
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={teacherName}
-                  secondary="Teacher"
-                  classes={{
-                    primary: `${classes.listItemText} ${classes.teacherName}`,
-                  }}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primary="Funding Title"
-                  secondary={fundingTitle}
-                  classes={{ primary: classes.listItemText }}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primary="Funding Description"
-                  secondary={fundingDescription}
-                  classes={{ primary: classes.listItemText }}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primary={
-                    <Typography
-                      variant="subtitle1"
-                      className={classes.listItemText}
-                    >
-                      Funding Due Date
-                    </Typography>
-                  }
-                  secondary={
-                    <Typography
-                      variant="subtitle1"
-                      className={`${classes.listItemText} ${classes.dueDate}`}
-                    >
-                      {formattedDate}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              {fundingLink && (
-                <ListItem className={classes.listItem}>
-                  <ListItemText
-                    primary="Link"
-                    secondary={
-                      <Link
-                        href={fundingLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`${classes.listItemText} ${classes.linkText}`}
-                      >
-                        <LinkIcon />
-                        {fundingLink}
-                      </Link>
-                    }
-                  />
-                </ListItem>
-              )}
-              {fundingDocuments.length > 0 && (
-                <ListItem className={classes.listItem}>
-                  <ListItemText
-                    primary="Funding Documents"
-                    secondary={
-                      <ul>
-                        {fundingDocuments.map((document, index) => (
-                          <li key={index} className={classes.documentText}>
-                            <IconButton
-                              href={document.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={classes.listItemText}
-                            >
-                              <DescriptionIcon />
-                            </IconButton>
-                            {document.name}
-                          </li>
-                        ))}
-                      </ul>
-                    }
-                  />
-                </ListItem>
-              )}
-            </List>
-          </Paper>
-        </Grid>
-      </Grid>
+      <Paper className={classes.paper} elevation={3}>
+        <div className={classes.listItem}>
+          <Avatar
+            alt={teacherName}
+            src={teacherPicture}
+            className={classes.avatar}
+          />
+          <Typography variant="body1" component="span">
+           <strong>{teacherName}</strong>
+          </Typography>
+        </div>
+        <div className={classes.descriptionContainer}>
+          <Typography variant="h5" className={classes.title}>
+            {fundingTitle}
+          </Typography>
+          <Typography variant="body1" className={classes.descriptionText}>
+            <strong>Description:</strong> {fundingDescription}
+          </Typography>
+        </div>
+        <Typography variant="body1" className={classes.listItem}>
+          <strong>Due Date:</strong> {formattedDueDate}
+        </Typography>
+        {fundingLink && (
+          <Typography variant="body1" className={classes.listItem}>
+            <strong>Link:</strong>{" "}
+            <Link href={fundingLink} target="_blank" rel="noopener noreferrer">
+              {fundingLink}
+            </Link>
+          </Typography>
+        )}
+        {fundingDocuments.length > 0 && (
+          <div>
+            {fundingDocuments.map((document, index) => (
+              <Typography
+                key={index}
+                variant="body1"
+                className={classes.listItem}
+              >
+                <DescriptionIcon className={classes.documentIcon} />
+                <Link href={document.url} target="_blank" rel="noopener noreferrer">
+                  {document.name}
+                </Link>
+              </Typography>
+            ))}
+          </div>
+        )}
+      </Paper>
     </div>
   );
 };
 
 export default FundingDetailsView;
+
+
+
+
+
