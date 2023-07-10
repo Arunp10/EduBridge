@@ -24,7 +24,7 @@ export function Connections() {
    useEffect(() => {
     fetchConnection();
    })
-   
+   console.log(Connections);
   return (
     <>
       <Box sx={{ width: "83%", pt: 2, pl: 12 }}>
@@ -48,7 +48,7 @@ export function Connections() {
                       lastName={request.supervisor.lastName}
                       sentDate={request.sendDate}
                       status={request.status}
-                      avatarSrc={img1}
+                      img={request.supervisor.image}
                     />
                   </Grid>
                 </Grid>

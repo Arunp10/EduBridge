@@ -18,7 +18,6 @@ const App = () => {
     fetchFunding();
 
   })
-  console.log(funding);
 
   return (
     <Box sx={{ width: "83%", pt: 2, pl: 2 }}>
@@ -32,9 +31,6 @@ const App = () => {
       </Box>
       <hr />
       <Box sx={{ pt: 2, pl: 1}}>
-        {/* {fundingDetails.map((funding, index) => (
-          <FundingDetailsView key={index}></FundingDetailsView>
-        ))} */}
         {funding.map((data)=>(
             <FundingDetailsView key={data._id}
             firstName={data.postBy.firstName}

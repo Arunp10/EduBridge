@@ -101,9 +101,10 @@ router.put("/:connectionId/rejected", async (req, res) => {
 router.get("/fetchApprovSupervisor", fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
-    const connections = await Connections.find({ user: userId }).populate(
-      "supervisor"
-    );
+    const connections = await Connections.find({ user: userId }).populate({
+      path:'supervisor',
+      select: 'firstName lastName occupation image' 
+    });
     res.json(connections);
   } catch (error) {
     console.error("Error retrieving connection:", error);
