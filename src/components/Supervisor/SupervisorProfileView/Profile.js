@@ -20,6 +20,7 @@ import {
 
   
 const Profile = (props) => {
+   // for Send Connection Request usestates
   const [connectOpen, setConnectOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [Error, setError] = useState("");
@@ -29,6 +30,18 @@ const Profile = (props) => {
     interest: "",
     comment: "",
   });
+
+  // for Book an appointment usestates
+  const [open, setOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [isTeacherAvailable, setIsTeacherAvailable] = useState(true);
+
+  const [Availability, setAvailability] = useState([]);
+  const [Day, setDay] = useState('');
+  const [timeSlots, setTimeSlots] = useState([]);
 
   const onchangehandle = (e) => {
     setConnection({ ...Connection, [e.target.name]: e.target.value });
@@ -87,6 +100,7 @@ const handleConnect = async () => {
   const availability = async()=>{
     const userId = props.id;
     try {
+      //API Call
       const response = await axios.post('http://localhost:8080/api/Appointment/Availability/fetch', {
         date: selected_Date,
         userId: userId
@@ -108,17 +122,6 @@ const handleConnect = async () => {
     availability();
   })
   
-  // for Book an appointment usestates
-  const [open, setOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState("");
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
-  const [purpose, setPurpose] = useState("");
-  const [isTeacherAvailable, setIsTeacherAvailable] = useState(true);
-
-  const [Availability, setAvailability] = useState([]);
-  const [Day, setDay] = useState('');
-  const [timeSlots, setTimeSlots] = useState([]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -132,17 +135,6 @@ const handleConnect = async () => {
     setOpen(false);
   };
 
-  // const handleDateChange = (date) => {
-  //   setSelectedDate(date);
-  //   const day = date.toLocaleDateString("en-US", { weekday: "long" });
-  //   setSelectedDay(day);
-  //   if (day === "Saturday" || day === "Sunday") {
-  //     setIsTeacherAvailable(false);
-  //   } else {
-  //     setIsTeacherAvailable(true);
-  //   }
-  // };
-
   const handleTimeSlotChange = (event) => {
     setSelectedTimeSlot(event.target.value);
   };
@@ -151,59 +143,43 @@ const handleConnect = async () => {
     setPurpose(event.target.value);
   };
 
-  const handleSubmit = () => {
-    // Handle the form submission
-    if (selectedDate && selectedTimeSlot && purpose) {
-      const appointmentDetails = {
-        date: selectedDate,
-        day: selectedDay,
-        timeSlot: selectedTimeSlot,
-        purpose: purpose,
-      };
-      console.log(appointmentDetails);
-      handleClose();
-    }
-  };
+  // const handleSubmit = () => {
+  //   // Handle the form submission
+  //   if (selectedDate && selectedTimeSlot && purpose) {
+  //     const appointmentDetails = {
+  //       date: selectedDate,
+  //       day: selectedDay,
+  //       timeSlot: selectedTimeSlot,
+  //       purpose: purpose,
+  //     };
+  //     console.log(appointmentDetails);
+  //     handleClose();
+  //   }
+  // };
 
-  const generateTimeSlots = () => {
-    const timeSlotsByDay = {
-      Monday: [
-        { startTime: "10:00 AM", endTime: "11:00 AM" },
-        { startTime: "11:30 AM", endTime: "12:30 PM" },
-        { startTime: "01:00 PM", endTime: "02:00 PM" },
-        { startTime: "02:30 PM", endTime: "03:30 PM" },
-        { startTime: "04:00 PM", endTime: "04:30 PM" },
-      ],
-      Tuesday: [
-        { startTime: "01:00 PM", endTime: "02:00 PM" },
-        { startTime: "02:30 PM", endTime: "03:30 PM" },
-        { startTime: "03:45 PM", endTime: "04:00 PM" },
-      ],
-      Wednesday: [
-        { startTime: "09:00 AM", endTime: "10:00 AM" },
-        { startTime: "10:30 AM", endTime: "11:30 AM" },
-        { startTime: "12:00 PM", endTime: "01:00 PM" },
-      ],
-      Thursday: [
-        { startTime: "11:00 AM", endTime: "12:00 PM" },
-        { startTime: "12:30 PM", endTime: "01:30 PM" },
-        { startTime: "02:00 PM", endTime: "03:00 PM" },
-      ],
-      Friday: [
-        { startTime: "10:00 AM", endTime: "11:00 AM" },
-        { startTime: "11:30 AM", endTime: "12:30 PM" },
-        { startTime: "01:00 PM", endTime: "02:00 PM" },
-        { startTime: "02:30 PM", endTime: "03:30 PM" },
-      ],
-    };
+  const handleSubmit = async()=>{
+    const supervisor = props.id;
+    const response  = await fetch('http://localhost:8080/api/Appointment/Request',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": localStorage.getItem('token')
+      },
+             //Sending Json in form of Data in Body
+             body: JSON.stringify({
+              supervisor,
+              day:Day,
+              date:selected_Date,
+              timeSlot:selectedTimeSlot,              
+              purpose
+             })
 
-    return (
-      timeSlotsByDay[selectedDay]?.map((slot) => ({
-        label: `${slot.startTime} - ${slot.endTime}`,
-        value: `${slot.startTime} - ${slot.endTime}`,
-      })) || []
-    );
-  };
+    })
+    const json = await response.json();
+    alert(json.message);
+    handleClose();
+  }
+  
 
   return (
     <div className="profile-container">
@@ -212,7 +188,7 @@ const handleConnect = async () => {
           <div className="profile-details-name">
             <span className="primary-text">
               <span className="highlighted-text">
-                {props.firstName} {""} {props.lastName}{" "}
+                {props.firstName} {""} {props.lastName}
               </span>
             </span>
           </div>
@@ -231,7 +207,7 @@ const handleConnect = async () => {
           </div>
         </div>
         <div className="profile-picture">
-          <div className="profile-picture-background"></div>
+        <img className="profile-picture-background" src={props.img} alt="Profile" />
         </div>
       </div>
 
@@ -245,7 +221,6 @@ const handleConnect = async () => {
             fullWidth
             type="Date"
             onChange={handleDateChange}
-            // value={formatDate(selected_Date)}
             minDate={new Date()}
             style={{ marginTop: "16px" }}
           />
@@ -271,9 +246,9 @@ const handleConnect = async () => {
               >
                 <InputLabel>Time Slot</InputLabel>
                 <Select
-                  // value={selectedTimeSlot}
-                  // onChange={handleTimeSlotChange}
-                  label="Time Slot"
+                  value={selectedTimeSlot}
+                  onChange={handleTimeSlotChange}
+                  labsel="Time Slot"
                 >
                   {timeSlots.map((time) => (
                     <MenuItem key={time} value={time}>
@@ -295,13 +270,6 @@ const handleConnect = async () => {
           )}
         </DialogContent>
         <DialogActions>
-        <Button
-            onClick={handleDateChange}
-            variant="contained"
-            color="primary"
-          >
-            Book
-          </Button>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
             onClick={handleSubmit}

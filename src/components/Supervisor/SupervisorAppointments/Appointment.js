@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Card,
   CardContent,
@@ -94,93 +95,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const appointmentsData = [
-  {
-    id: 1,
-    studentName: "John Doe",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Monday",
-    message: "i want to book an appointment to discuss about my fyp idea ",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-  {
-    id: 2,
-    studentName: "John Doe ",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Tuesday",
-    message: "i want to book an appointment to discuss about my fyp idea  ",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-  {
-    id: 3,
-    studentName: "John Doe",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Wednesday",
-    message: "i want to book an appointment to discuss about my fyp idea ",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-  {
-    id: 4,
-    studentName: "John Doe",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Friday",
-    message: "i want to book an appointment to discuss about my fyp idea",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-  {
-    id: 5,
-    studentName: "John Doe",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Monday",
-    message: "i want to book an appointment to discuss about my fyp idea",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-];
 
 const Appointment = () => {
   const classes = useStyles();
-  const [appointments, setAppointments] = useState(appointmentsData);
+  const [appointments, setAppointments] = useState([]);
 
-  const handleCancelAppointment = (appointmentId) => {
-    const updatedAppointments = appointments.filter(
-      (appointment) => appointment.id !== appointmentId
-    );
-    setAppointments(updatedAppointments);
+  //function fetch the Record through API for Supervior:
+  const fetchAppointment = async()=>{
+    const response = await fetch('http://localhost:8080/api/Appointment/SupervisorFetch',{
+      method : 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        "auth-token": localStorage.getItem('token')
+      },
+    })
+    const json = await response.json();
+    setAppointments(json);
+  }
+  useEffect(() => {
+    fetchAppointment();
+  })
+
+  const handleCancelAppointment = async(appointmentId) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/Appointment/${appointmentId}/delete`).
+      then((response)=>{
+      });
+      fetchAppointment();
+      
+    } catch (error) {
+        console.error(error);
+        alert("Failed to Delete Appointment request")
+    }
   };
 
-  const handleAcceptAppointment = (appointmentId) => {
-    const updatedAppointments = appointments.map((appointment) => {
-      if (appointment.id === appointmentId) {
-        return { ...appointment, appointmentStatus: "Accepted" };
-      }
-      return appointment;
-    });
-    setAppointments(updatedAppointments);
+  const handleAcceptAppointment = async(appointmentId) => {
+    try {
+      await axios.put(`http://localhost:8080/api/Appointment/${appointmentId}/approved`).
+      then((response)=>{});
+      fetchAppointment();
+      
+    } catch (error) {
+        console.error(error);
+        alert("Failed to Approve Appointment request")
+    }
   };
 
-  const handleRejectAppointment = (appointmentId) => {
-    const updatedAppointments = appointments.map((appointment) => {
-      if (appointment.id === appointmentId) {
-        return { ...appointment, appointmentStatus: "Rejected" };
-      }
-      return appointment;
-    });
-    setAppointments(updatedAppointments);
+  const handleRejectAppointment = async(appointmentId) => {
+    try {
+      await axios.put(`http://localhost:8080/api/Appointment/${appointmentId}/rejected`).
+      then((response)=>{});
+      fetchAppointment();
+      
+    } catch (error) {
+        console.error(error);
+        alert("Failed to Approve Appointment request")
+    }
   };
 
   return (
@@ -194,20 +164,20 @@ const Appointment = () => {
                   <Grid container alignItems="center">
                     <Grid item>
                       <Avatar
-                        src={appointment.studentPicture}
+                        src={`http://localhost:8080/${appointment.user.image}`}
                         alt="Student"
                         className={classes.avatar}
                       />
                     </Grid>
                     <Grid item>
                       <Typography variant="h6" className={classes.studentName}>
-                        {appointment.studentName}
+                        {appointment.user.firstName} {""} {appointment.user.lastName}
                       </Typography>
                       <Typography
                         variant="body2"
                         className={classes.interestedDomain}
                       >
-                        {appointment.interestedDomain}
+                        {appointment.user.occupation}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -227,7 +197,7 @@ const Appointment = () => {
                         Time:
                       </Typography>
                       <Typography variant="body2" className={classes.value}>
-                        {appointment.bookedTime}
+                        {appointment.timeSlot}
                       </Typography>
                     </Grid>
                     <Grid item xs={6} sm={4}>
@@ -235,7 +205,7 @@ const Appointment = () => {
                         Date:
                       </Typography>
                       <Typography variant="body2" className={classes.value}>
-                        {appointment.bookedDate}
+                        {appointment.date}
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sm={8}>
@@ -243,7 +213,7 @@ const Appointment = () => {
                         Purpose:
                       </Typography>
                       <Typography variant="body2" className={classes.value}>
-                        {appointment.message}
+                        {appointment.purpose}
                       </Typography>
                     </Grid>
                     <Grid item xs={6} sm={4}>
@@ -251,7 +221,7 @@ const Appointment = () => {
                         Status:
                       </Typography>
                       <Typography variant="body2" className={classes.value}>
-                        {appointment.appointmentStatus}
+                        {appointment.status}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -262,7 +232,7 @@ const Appointment = () => {
               <Button
                 variant="contained"
                 className={classes.cancelBtn}
-                onClick={() => handleCancelAppointment(appointment.id)}
+                onClick={() => handleCancelAppointment(appointment._id)}
               >
                 <DeleteIcon className={classes.deleteIcon} />
               </Button>
@@ -270,7 +240,7 @@ const Appointment = () => {
                 <Button
                   variant="contained"
                   className={`${classes.acceptBtn}`}
-                  onClick={() => handleAcceptAppointment(appointment.id)}
+                  onClick={() => handleAcceptAppointment(appointment._id)}
                   startIcon={<CheckIcon />}
                 >
                   Accept
@@ -278,7 +248,7 @@ const Appointment = () => {
                 <Button
                   variant="contained"
                   className={`${classes.rejectBtn}`}
-                  onClick={() => handleRejectAppointment(appointment.id)}
+                  onClick={() => handleRejectAppointment(appointment._id)}
                   startIcon={<CloseIcon />}
                 >
                   Reject

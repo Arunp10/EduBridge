@@ -52,6 +52,14 @@ router.post('/request',fetchUser,async(req,res)=>{
     const {supervisor,date,day,timeSlot,purpose} = req.body;
 
 try {
+    const existingRequest = await Appointment.findOne({
+    user: req.user.id,
+    supervisor: supervisor,
+    });
+
+    if (existingRequest) {
+    return res.status(400).json({ message: "Can't send Request already sent" });
+    }
       const appointment = new Appointment({
         user: req.user.id,
         supervisor,
@@ -61,12 +69,102 @@ try {
         purpose
       })
       await appointment.save();
-      res.json(appointment);
+      res.json({message : "Appointment Request Send Successful"});
       
 } catch (error) {
-  console.error('Error fetching time slots:', error);
+    console.error('Error:', error);
     res.status(500).json({ error: 'Failed to Send Appointment Request' });
 }
 
 })
+//Router 4: API To fetch Appointment Request for Supervisor End:
+router.get('/SupervisorFetch',fetchUser,async(req,res)=>{
+  try {
+    const supervisorId = req.user.id;
+    const appointment = await Appointment.find({supervisor: supervisorId})
+    .populate({
+      path : 'user',
+      select: 'firstName lastName occupation image' 
+    });
+    res.json(appointment);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to Fetch Appointment Request' });
+  }
+})
+//Router 5: API to Approved the Status of the Appointment on Supervisor End
+router.put('/:AppointmentId/Approved',async(req,res)=>{
+  try {
+
+    const {AppointmentId} = req.params;
+    const appointment = await Appointment.findByIdAndUpdate(
+      AppointmentId,
+      { status: "Accepted" },
+      { new: true }
+    )
+    if (!appointment) {
+      res.status(401).json({ error: "Appointment request not found" });
+    }
+
+    res.json({ message: "Appointment Requestion Approved Successful" });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to update Appointment request status' });
+  }
+})
+//Router 6: API to Reject the Status of the Appointment on Supervisor End
+router.put('/:AppointmentId/Rejected',async(req,res)=>{
+  try {
+
+    const {AppointmentId} = req.params;
+    const appointment = await Appointment.findByIdAndUpdate(
+      AppointmentId,
+      { status: "rejected" },
+      { new: true }
+    )
+    if (!appointment) {
+      res.status(401).json({ error: "Appointment request not found" });
+    }
+
+    res.json({ message: "Appointment Requestion Rejected Successful" });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to update Appointment request status' });
+  }
+})
+
+//Router 6: API to Delete the Booked Appointment on Supervisor End
+router.delete('/:AppointmentId/delete',  async(req,res)=>{
+  
+  try {
+    const {AppointmentId} = req.params;
+    const appointment = await Appointment.findByIdAndDelete(AppointmentId);
+    if (!appointment) {
+      res.status(401).json({ error: "Appointment request not found" });
+    }
+
+    res.json({ message: "Appointment Request Delete Successful" });
+    
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to Delete Appointment' });
+  }
+}); 
+//Router 7 : API To Fetch Appointment Request on Student End:
+router.get('/StudentFetch',fetchUser,async(req,res)=>{
+  try {
+    const userId = req.user.id;
+
+    const appointment = await Appointment.find({user: userId}).populate({
+      path:'supervisor',
+      select: 'firstName lastName occupation image' 
+    });
+
+    res.json(appointment);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to Fetch Appointment Request' });
+  }
+})
+
 module.exports = router;

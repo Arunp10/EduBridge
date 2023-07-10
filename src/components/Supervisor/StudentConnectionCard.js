@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-const StudentConnectionCard = ({FirstName,LastName,interest,comment,connection,onApprove,onReject}) => {
+const StudentConnectionCard = ({img,FirstName,LastName,interest,comment,connection,onApprove,onReject}) => {
 
   const classes = useStyles();
 
@@ -37,7 +37,7 @@ const StudentConnectionCard = ({FirstName,LastName,interest,comment,connection,o
           <Grid item>
             <Avatar
               alt="Aroon"
-              src={imgsrc}
+              src={`http://localhost:8080/${img}`}
               style={{ height: "120px", width: "120px" }}
             />
           </Grid>
