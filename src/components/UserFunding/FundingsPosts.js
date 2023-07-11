@@ -92,31 +92,12 @@ const useStyles = makeStyles((theme) => ({
 const FundingDetailsView = (props) => {
   const classes = useStyles();
 
-<<<<<<< HEAD
-  const {
-    teacherName,
-    teacherOccupation,
-    teacherPicture,
-    fundingDescription,
-    fundingLink,
-    fundingDocuments,
-    uploadDate,
-  } = funding;
-
-  const currentDate = new Date().toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
-=======
   const handleDownload = (file) => {
     const downloadLink = document.createElement('a');
     downloadLink.href = `http://localhost:8080/${file}`;
     downloadLink.download = file;
     downloadLink.click();
   };
->>>>>>> origin/main
   return (
     <div className={classes.root}>
       <Paper elevation={3} className={classes.post}>
