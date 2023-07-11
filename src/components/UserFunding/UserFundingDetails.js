@@ -7,18 +7,22 @@ import FundingDetailsView from "./FundingsPosts";
 
 const App = () => {
   const [funding, setFunding] = useState([])
+
   const fetchFunding = async()=>{
-    const response = await fetch('http://localhost:8080/api/Funding/fetch',{
-      method : "GET"
-    })
+    const response = await fetch(`http://localhost:8080/api/Funding/fetch`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token" : localStorage.getItem('token')
+      }
+    });
     const json = await response.json();
     setFunding(json);
   }
   useEffect(() => {
     fetchFunding();
-
   })
-
+  console.log(funding);
   return (
     <Box sx={{ width: "83%", pt: 2, pl: 2 }}>
       <Box sx={{ alignItems: "center", display: "flex" }}>
