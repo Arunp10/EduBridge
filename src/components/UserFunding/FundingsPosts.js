@@ -89,9 +89,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FundingDetailsView = ({ funding }) => {
+const FundingDetailsView = (props) => {
   const classes = useStyles();
 
+<<<<<<< HEAD
   const {
     teacherName,
     teacherOccupation,
@@ -108,70 +109,74 @@ const FundingDetailsView = ({ funding }) => {
     year: "numeric",
   });
 
+=======
+  const handleDownload = (file) => {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = `http://localhost:8080/${file}`;
+    downloadLink.download = file;
+    downloadLink.click();
+  };
+>>>>>>> origin/main
   return (
     <div className={classes.root}>
       <Paper elevation={3} className={classes.post}>
         <div className={classes.header}>
           <Avatar
-            alt={teacherName}
-            src={teacherPicture}
+            alt={props.firstName}
+            src={`http://localhost:8080/${props.img}`}
             className={classes.avatar}
           />
           <div className={classes.nameContainer}>
             <Typography variant="subtitle1" className={classes.name}>
-              {teacherName}
+              {props.firstName} {" "} {props.lastName}
             </Typography>
             <Typography variant="caption" className={classes.occupation}>
-              {teacherOccupation}
+              {props.occupation}
             </Typography>
           </div>
         </div>
         <div className={classes.content}>
           <Typography variant="caption" className={classes.postedOn}>
-            Posted on {currentDate}
+            Posted on {props.postDate}
           </Typography>
           <Typography variant="body1" className={classes.description}>
-            {fundingDescription}
+            {props.description}
           </Typography>
           <Divider />
-          {fundingDocuments.length > 0 && (
             <Box className={classes.documentContainer}>
               <List>
                 <Typography variant="subtitle1">
                   Supporting Material:
                 </Typography>
-                {fundingDocuments.map((document, index) => (
-                  <ListItem key={index}>
+                  <ListItem>
                     <ListItemAvatar>
                       <IconButton
-                        href={document.url}
-                        target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => handleDownload(props.file)}
                       >
+                        
                         <DescriptionIcon />
                       </IconButton>
                     </ListItemAvatar>
                     <ListItemText
-                      primary={document.name}
+                      primary={props.file}
                       className={classes.documentText}
                     />
                   </ListItem>
-                ))}
               </List>
             </Box>
-          )}
           <div className={classes.linkContainer}>
             <div>
               <LinkIcon className={classes.linkIcon} />
-              <Link
-                href={fundingLink}
+              <a
                 target="_blank"
+                href={`https://${props.link}`}
                 rel="noopener noreferrer"
                 color="primary"
                 variant="body2"
               >
-                {fundingLink}
-              </Link>
+                {props.link}
+              </a>
             </div>
           </div>
         </div>
