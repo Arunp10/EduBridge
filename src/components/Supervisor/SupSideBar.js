@@ -41,10 +41,10 @@ const SupSidebar = (props) => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="/ShowFunding">
+          <Link class="nav-link text-secondary" to="/ShowFunding">
             <i class="far fa-chart-bar font-weight-bold"></i>
             <span className="ml-3">Post Funding</span>
-          </a>
+          </Link>
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/SupConnection">
