@@ -65,16 +65,10 @@ const PostFunding = () => {
   return (
     <div>
       <form>
-        {/* <TextField
-          label="Title"
-          value={title}
-          onChange={handleTitleChange}
-          fullWidth
-          margin="normal"
-          required
-        /> */}
         <TextField
           label="Description"
+          multiline
+          maxRows={4}
           value={description}
           onChange={handleDescriptionChange}
           name="description"

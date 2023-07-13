@@ -30,29 +30,6 @@ const ShowAvailability = () => {
   const [day, setDay] = useState("Monday");
   const [isNotAvailable, setIsNotAvailable] = useState(false);
 
-  // const handleTimeslotClick = (time) => {
-  //   if (!isNotAvailable) {
-  //     const timeslot = { day, time };
-  //     const isSelected = selectedTimeslots.some(
-  //       (selectedTimeslot) =>
-  //         selectedTimeslot.day === timeslot.day &&
-  //         selectedTimeslot.time === timeslot.time
-  //     );
-
-  //     if (isSelected) {
-  //       setSelectedTimeslots((prevState) =>
-  //         prevState.filter(
-  //           (selectedTimeslot) =>
-  //             selectedTimeslot.day !== timeslot.day ||
-  //             selectedTimeslot.time !== timeslot.time
-  //         )
-  //       );
-  //     } else {
-  //       setSelectedTimeslots((prevState) => [...prevState, timeslot]);
-  //     }
-  //   }
-  // };
-
   const handleTimeslotClick = (time) => {
     if (!isNotAvailable) {
       const timeslot = { day, time };
@@ -98,6 +75,23 @@ const ShowAvailability = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    let selectedTimeslotsToSend = [];
+
+
+  // Check if "Not Available" is selected and a day is chosen
+  if (isNotAvailable && day !== "") {
+    const notAvailableTimeslot = { day, time: "Not Available" };
+    selectedTimeslotsToSend.push(notAvailableTimeslot);
+  }
+
+  //  Add the selected timeslots for other days
+  selectedTimeslots.forEach((timeslot) => {
+    if (timeslot.day !== day || !isNotAvailable) {
+      selectedTimeslotsToSend.push(timeslot);
+    }
+  });
+
           // API Call 
           const response = await fetch(`http://localhost:8080/api/Appointment/Availability`, {
             method: 'POST',
@@ -106,13 +100,11 @@ const ShowAvailability = () => {
               "auth-token": localStorage.getItem('token')
             },
             //Sending Json in form of Data in Body
-            body: JSON.stringify(selectedTimeslots)
+            body: JSON.stringify(selectedTimeslotsToSend)
           });
       
           const data = await response.json();
-          console.log(data);
-          console.log(selectedTimeslots)
-    alert("Thankyou for showing Availability")
+          alert(data.message)
   };
 
   const handleDayChange = (event) => {

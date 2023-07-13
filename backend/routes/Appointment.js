@@ -5,26 +5,47 @@ const Availability = require('../models/Availability');
 const Appointment = require('../models/Appointment');
 
 //Route 1: To Add availability through selection the array
-router.post('/Availability',fetchUser,async(req,res)=>{
-    try {
+router.post('/Availability', fetchUser, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const selectedTimeslots = req.body;
 
-        const userId = req.user.id;
-        const selectedTimeslots = req.body;
+    
+    const notAvailableSelected = selectedTimeslots.some((timeslot) => timeslot.time === "Not Available");
 
-        // Save each selected timeslot to the database
-        for (const timeslot of selectedTimeslots) {
-          await Availability.create({
-            supervisor: userId,
-            day: timeslot.day,
-            time: timeslot.time
-          });
-        }
-        res.status(200).json({ message: 'Timeslots saved successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+
+    if (notAvailableSelected) {
+      const dayToRemove = selectedTimeslots.find((timeslot) => timeslot.time === "Not Available").day;
+      selectedTimeslots.filter((timeslot) => timeslot.day !== dayToRemove);
     }
-})
+
+    // Save each selected timeslot to the database
+    for (const timeslot of selectedTimeslots) {
+      // Check if the timeslot already exists in the database for the supervisor and day
+      const existingTimeslot = await Availability.findOne({
+        supervisor: userId,
+        day: timeslot.day,
+        time: timeslot.time
+      });
+
+      // If the timeslot exists, return an error response
+      if (existingTimeslot) {
+        return res.status(200).json({ message: 'Selected timeslot is already taken' });
+      }
+
+      await Availability.create({
+        supervisor: userId,
+        day: timeslot.day,
+        time: timeslot.time
+      });
+    }
+
+    res.status(200).json({ message: 'Timeslots saved successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 //Route 2: Fetch the Availability Through Date & UserID
 router.post('/Availability/fetch',async(req,res)=>{
@@ -52,14 +73,17 @@ router.post('/request',fetchUser,async(req,res)=>{
     const {supervisor,date,day,timeSlot,purpose} = req.body;
 
 try {
-    const existingRequest = await Appointment.findOne({
-    user: req.user.id,
-    supervisor: supervisor,
-    });
-
-    if (existingRequest) {
-    return res.status(400).json({ message: "Can't send Request already sent" });
-    }
+        // Check if the timeslot is already booked by another user
+        const existingRequest = await Appointment.findOne({
+          supervisor: supervisor,
+          date: date,
+          day: day,
+          timeSlot: timeSlot,
+        });
+    
+        if (existingRequest) {
+          return res.status(400).json({ message: "Timeslot is already booked" });
+        }
       const appointment = new Appointment({
         user: req.user.id,
         supervisor,
@@ -166,5 +190,25 @@ router.get('/StudentFetch',fetchUser,async(req,res)=>{
     res.status(500).json({ error: 'Failed to Fetch Appointment Request' });
   }
 })
+
+//Router 8: To check User already send Connection
+router.get("/existingRequest/:id", fetchUser, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    const existingRequest = await Appointment.findOne({
+      user: req.user.id,
+      supervisor: id,
+    });
+
+    if (existingRequest) {
+      return res.status(200).json({status : existingRequest.status});
+    }
+  } catch (error) {
+    console.error("Error retrieving Appointment:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 module.exports = router;
