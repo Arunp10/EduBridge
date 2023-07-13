@@ -262,6 +262,9 @@ const Profile = (props) => {
             type="Date"
             onChange={handleDateChange}
             minDate={new Date()}
+            inputProps={{
+              min: new Date().toISOString().split('T')[0], // Set minimum date to today
+            }}
             style={{ marginTop: "16px" }}
           />
 
