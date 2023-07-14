@@ -320,7 +320,7 @@ const Profile = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-
+          {/* Check the TimeSlot is NotAvailable */}
           {!timeSlots.includes("Not Available") && (
             <Button
               onClick={handleSubmit}
