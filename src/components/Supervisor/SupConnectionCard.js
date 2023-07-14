@@ -6,15 +6,18 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 export default function ConnectionCard(props) {
   
-  const { recipientFirstName,recipientLastName, avatarSrc} = props;
+  const { recipientFirstName,recipientLastName, avatarSrc,onDelete,connection} = props;
+  const handleDelete =()=>{
+    onDelete(connection._id);
+  }
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardHeader
-        avatar={<Avatar src={avatarSrc} />}
+        avatar={<Avatar src={`http://localhost:8080/${avatarSrc}`} />}
         title={`${recipientFirstName} ${recipientLastName}`}
         subheader={"Student"}
         action={
-          <IconButton aria-label="Cancel">
+          <IconButton aria-label="Cancel" onClick={handleDelete}>
             <PersonRemoveIcon />
           </IconButton>
         }

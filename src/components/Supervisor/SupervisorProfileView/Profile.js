@@ -24,7 +24,7 @@ const Profile = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [Error, setError] = useState("");
   const [requestSent, setRequestSent] = useState(false);
-  const [existing, setexisting] = useState('');
+  const [existing, setexisting] = useState("");
 
   const [Connection, setConnection] = useState({
     supervisor: "",
@@ -42,7 +42,7 @@ const Profile = (props) => {
   const [Availability, setAvailability] = useState([]);
   const [Day, setDay] = useState("");
   const [timeSlots, setTimeSlots] = useState([]);
-  const [existingRequest, setexistingAppointment] = useState('')
+  const [existingRequest, setexistingAppointment] = useState("");
 
   const onchangehandle = (e) => {
     setConnection({ ...Connection, [e.target.name]: e.target.value });
@@ -92,29 +92,31 @@ const Profile = (props) => {
           "auth-token": localStorage.getItem("token"),
         },
       }
-    ).then((response) => response.json())
-    .then((data) => {
-      const saveData = data.status;
-      setexistingAppointment(saveData);
-    });
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const saveData = data.status;
+        setexistingAppointment(saveData);
+      });
   };
-    //Function to Fetch Existing Request:
-    const existingConnection = async () => {
-      const response = await fetch(
-        `http://localhost:8080/api/connection/existingRequest/${props.id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": localStorage.getItem("token"),
-          },
-        }
-      ).then((response) => response.json())
+  //Function to Fetch Existing Request:
+  const existingConnection = async () => {
+    const response = await fetch(
+      `http://localhost:8080/api/connection/existingRequest/${props.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+      }
+    )
+      .then((response) => response.json())
       .then((data) => {
         const saveData = data.status;
         setexisting(saveData);
       });
-    };
+  };
   //Function to Connect with other User through API
   const handleConnect = async () => {
     try {
@@ -144,8 +146,6 @@ const Profile = (props) => {
     }
     setIsOpen(false);
   };
-
-
 
   //Handle to fetch Date from text Field
   const handleDateChange = async (event) => {
@@ -177,14 +177,11 @@ const Profile = (props) => {
     }
   };
 
-
   useEffect(() => {
     existingAppointment();
     existingConnection();
     availability();
-    
   });
-
 
   const handleSubmit = async () => {
     const supervisor = props.id;
@@ -228,17 +225,25 @@ const Profile = (props) => {
             </span>
           </div>
           <div className="profile-options">
-            <button className="primary-btn" 
-            onClick={handleOpen}
-            disabled={existingRequest === 'Accepted' || existingRequest === 'pending'} 
+            <button
+              className="primary-btn"
+              onClick={handleOpen}
+              disabled={
+                existingRequest === "Accepted" || existingRequest === "pending"
+              }
             >
-              {existingRequest === 'Accpeted' || existingRequest === 'pending' ? "Already Booked" : 'Book Appointment'}
+              {existingRequest === "Accpeted" || existingRequest === "pending"
+                ? "Already Booked"
+                : "Book Appointment"}
             </button>
-            <button className="highlighted-btn" 
-            onClick={() => setIsOpen(true)}
-            disabled={existing === 'approved' || existing === 'pending'} 
+            <button
+              className="highlighted-btn"
+              onClick={() => setIsOpen(true)}
+              disabled={existing === "approved" || existing === "pending"}
             >
-              {existing === 'approved' || existing === 'pending' ? "Connect Pending" : 'Connect'}
+              {existing === "approved" || existing === "pending"
+                ? "Connect Pending"
+                : "Connect"}
             </button>
           </div>
         </div>
@@ -263,7 +268,7 @@ const Profile = (props) => {
             onChange={handleDateChange}
             minDate={new Date()}
             inputProps={{
-              min: new Date().toISOString().split('T')[0], // Set minimum date to today
+              min: new Date().toISOString().split("T")[0], // Set minimum date to today
             }}
             style={{ marginTop: "16px" }}
           />
@@ -300,6 +305,7 @@ const Profile = (props) => {
                   ))}
                 </Select>
               </FormControl>
+
               <TextField
                 label="Purpose"
                 variant="outlined"
@@ -314,24 +320,27 @@ const Profile = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            color="primary"
-            disabled={
-              !selectedDate ||
-              !purpose ||
-              !selectedTimeSlot ||
-              !isTeacherAvailable
-            }
-          >
-            Book
-          </Button>
+
+          {!timeSlots.includes("Not Available") && (
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              color="primary"
+              disabled={
+                !selectedDate ||
+                !purpose ||
+                !selectedTimeSlot ||
+                !isTeacherAvailable
+              }
+            >
+              Book
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
 
       {/* Dialong Box for Connection request */}
-      
+
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}

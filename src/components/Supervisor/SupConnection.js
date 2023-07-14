@@ -1,19 +1,13 @@
 import { Avatar, Box, Grid, Typography } from "@mui/material";
-import ConnectionCard from "./SupConnectionCard";
-import img1 from "../Assets/teacher1.png";
-import img2 from "../Assets/teacher2.png";
-import img3 from "../Assets/teacher3.png";
-import img4 from "../Assets/teacher1.jpg";
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
-import { useState } from "react";
-import { useEffect } from "react";
-
-
+import ConnectionCard from "./SupConnectionCard";
+import { useState,useEffect } from "react";
+import axios from 'axios';
 
 
 export function SupConnection() {
   const [Connections, setConnections] = useState([]);
-
+  //Fetch Connection through API
   const fetchApprovedConnection = async()=>{
     const response = await fetch(`http://localhost:8080/api/connection/fetchConnection`, {
     method: "GET",
@@ -25,6 +19,19 @@ export function SupConnection() {
   const json = await response.json();
   const ApprovedConnection = json.filter(connection => connection.status === 'approved');
   setConnections(ApprovedConnection)
+  }
+  //Function to Delete Connection on Supervisor End:
+  const handleDelete = async(connectionId)=>{
+    try {
+      await axios.delete(`http://localhost:8080/api/connection/deleteConnection/${connectionId}`).
+      then((response)=>{
+        alert(response.data.message);
+      });
+      fetchApprovedConnection();
+    } catch (error) {
+        console.error(error);
+        alert("Failed to Approve connection request")
+    }
   }
   useEffect(() => {
     fetchApprovedConnection();
@@ -50,7 +57,9 @@ export function SupConnection() {
                 <ConnectionCard
                   recipientFirstName={connection.user.firstName}
                   recipientLastName={connection.user.lastName}
-                  avatarSrc={img1}
+                  avatarSrc={connection.user.image}
+                  connection={connection}
+                  onDelete={handleDelete}
                 />
               </Grid>
             ))}
