@@ -111,4 +111,25 @@ router.get("/fetchApprovSupervisor", fetchUser, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+//Router 6: To check User already send Connection
+router.get("/existingRequest/:id", fetchUser, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    const existingRequest = await Connections.findOne({
+      user: req.user.id,
+      supervisor: id,
+    });
+
+    if (existingRequest) {
+      return res.status(200).json({status : existingRequest.status});
+    }
+  } catch (error) {
+    console.error("Error retrieving connection:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = router;

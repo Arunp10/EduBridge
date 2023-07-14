@@ -1,8 +1,8 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Alert from "@mui/material/Alert";
-import axios from 'axios';
-import { format } from 'date-fns';
+import axios from "axios";
+import { format } from "date-fns";
 import {
   Button,
   Dialog,
@@ -18,13 +18,14 @@ import {
   createStyles,
 } from "@material-ui/core";
 
-  
 const Profile = (props) => {
-   // for Send Connection Request usestates
+  // for Send Connection Request usestates
   const [connectOpen, setConnectOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [Error, setError] = useState("");
   const [requestSent, setRequestSent] = useState(false);
+  const [existing, setexisting] = useState('');
+
   const [Connection, setConnection] = useState({
     supervisor: "",
     interest: "",
@@ -38,10 +39,10 @@ const Profile = (props) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [purpose, setPurpose] = useState("");
   const [isTeacherAvailable, setIsTeacherAvailable] = useState(true);
-
   const [Availability, setAvailability] = useState([]);
-  const [Day, setDay] = useState('');
+  const [Day, setDay] = useState("");
   const [timeSlots, setTimeSlots] = useState([]);
+  const [existingRequest, setexistingAppointment] = useState('')
 
   const onchangehandle = (e) => {
     setConnection({ ...Connection, [e.target.name]: e.target.value });
@@ -50,78 +51,6 @@ const Profile = (props) => {
   const handleConnectOpen = () => {
     setConnectOpen(true);
   };
-
-
-  // Handle the cancel action here
-  const handleCancel = () => {
-    console.log("Cancel");
-    setIsOpen(false);
-  };
-  const formatDate = (date) => {
-    return format(date, 'yyyy-MM-dd');
-  };
-  const [selected_Date, setselected_Date] = useState('');
-
-//Function to Connect with other User through API
-const handleConnect = async () => {
-  try {
-    Connection.supervisor = props.id;
-    if (Connection.interest === "" || Connection.comment === "") {
-      setError("Please fill in all the required fields");
-      return;
-    }
-    // API Call 
-     const response = await fetch(`http://localhost:8080/api/connection/AddConnection`, {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-         "auth-token": localStorage.getItem('token')
-       },
-       //Sending Json in form of Data in Body
-       body: JSON.stringify(Connection)
-     });
- 
-     const data = await response.json();
-    setRequestSent(true);
-    
- } catch (error) {
-    setError(error.message);
- }
-  setIsOpen(false);
-};
-
-  //Handle to fetch Date from text Field
-  const handleDateChange = async (event) => {
-    const selected_DateValue = event.target.value;
-    setselected_Date(selected_DateValue);
-    const formattedDate = formatDate(new Date(selected_Date));
-  };
-  //Function to Fetch the Availability through Date:
-  const availability = async()=>{
-    const userId = props.id;
-    try {
-      //API Call
-      const response = await axios.post('http://localhost:8080/api/Appointment/Availability/fetch', {
-        date: selected_Date,
-        userId: userId
-      });
-      setAvailability(response.data);
-
-      const day = response.data[0]?.day; // the response of the day selected as a Day
-      setDay(day);
-
-      const times = response.data.map((item) => item.time);
-      setTimeSlots(times);
-  
-    } catch (error) {
-      console.error('Error fetching availability:', error);
-    }
-  }
-
-  useEffect(() => {
-    availability();
-  })
-  
 
   const handleOpen = () => {
     setOpen(true);
@@ -143,43 +72,144 @@ const handleConnect = async () => {
     setPurpose(event.target.value);
   };
 
-  // const handleSubmit = () => {
-  //   // Handle the form submission
-  //   if (selectedDate && selectedTimeSlot && purpose) {
-  //     const appointmentDetails = {
-  //       date: selectedDate,
-  //       day: selectedDay,
-  //       timeSlot: selectedTimeSlot,
-  //       purpose: purpose,
-  //     };
-  //     console.log(appointmentDetails);
-  //     handleClose();
-  //   }
-  // };
+  // Handle the cancel action here
+  const handleCancel = () => {
+    console.log("Cancel");
+    setIsOpen(false);
+  };
+  const formatDate = (date) => {
+    return format(date, "yyyy-MM-dd");
+  };
+  const [selected_Date, setselected_Date] = useState("");
 
-  const handleSubmit = async()=>{
+  const existingAppointment = async () => {
+    const response = await fetch(
+      `http://localhost:8080/api/appointment/existingRequest/${props.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+      }
+    ).then((response) => response.json())
+    .then((data) => {
+      const saveData = data.status;
+      setexistingAppointment(saveData);
+    });
+  };
+    //Function to Fetch Existing Request:
+    const existingConnection = async () => {
+      const response = await fetch(
+        `http://localhost:8080/api/connection/existingRequest/${props.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+        }
+      ).then((response) => response.json())
+      .then((data) => {
+        const saveData = data.status;
+        setexisting(saveData);
+      });
+    };
+  //Function to Connect with other User through API
+  const handleConnect = async () => {
+    try {
+      Connection.supervisor = props.id;
+      if (Connection.interest === "" || Connection.comment === "") {
+        setError("Please fill in all the required fields");
+        return;
+      }
+      // API Call
+      const response = await fetch(
+        `http://localhost:8080/api/connection/AddConnection`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+          //Sending Json in form of Data in Body
+          body: JSON.stringify(Connection),
+        }
+      );
+
+      const data = await response.json();
+      setRequestSent(true);
+    } catch (error) {
+      setError(error.message);
+    }
+    setIsOpen(false);
+  };
+
+
+
+  //Handle to fetch Date from text Field
+  const handleDateChange = async (event) => {
+    const selected_DateValue = event.target.value;
+    setselected_Date(selected_DateValue);
+    const formattedDate = formatDate(new Date(selected_Date));
+  };
+  //Function to Fetch the Availability through Date:
+  const availability = async () => {
+    const userId = props.id;
+    try {
+      //API Call
+      const response = await axios.post(
+        "http://localhost:8080/api/Appointment/Availability/fetch",
+        {
+          date: selected_Date,
+          userId: userId,
+        }
+      );
+      setAvailability(response.data);
+
+      const day = response.data[0]?.day; // the response of the day selected as a Day
+      setDay(day);
+
+      const times = response.data.map((item) => item.time);
+      setTimeSlots(times);
+    } catch (error) {
+      console.error("Error fetching availability:", error);
+    }
+  };
+
+
+  useEffect(() => {
+    existingAppointment();
+    existingConnection();
+    availability();
+    
+  });
+
+
+  const handleSubmit = async () => {
     const supervisor = props.id;
-    const response  = await fetch('http://localhost:8080/api/Appointment/Request',{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        "auth-token": localStorage.getItem('token')
-      },
-             //Sending Json in form of Data in Body
-             body: JSON.stringify({
-              supervisor,
-              day:Day,
-              date:selected_Date,
-              timeSlot:selectedTimeSlot,              
-              purpose
-             })
-
-    })
+    const response = await fetch(
+      "http://localhost:8080/api/Appointment/Request",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+        //Sending Json in form of Data in Body
+        body: JSON.stringify({
+          supervisor,
+          day: Day,
+          date: selected_Date,
+          timeSlot: selectedTimeSlot,
+          purpose,
+        }),
+      }
+    );
     const json = await response.json();
     alert(json.message);
     handleClose();
-  }
-  
+  };
 
   return (
     <div className="profile-container">
@@ -198,16 +228,26 @@ const handleConnect = async () => {
             </span>
           </div>
           <div className="profile-options">
-            <button className="primary-btn" onClick={handleOpen}>
-              Book Appointment
+            <button className="primary-btn" 
+            onClick={handleOpen}
+            disabled={existingRequest === 'Accepted' || existingRequest === 'pending'} 
+            >
+              {existingRequest === 'Accpeted' || existingRequest === 'pending' ? "Already Booked" : 'Book Appointment'}
             </button>
-            <button className="highlighted-btn" onClick={() => setIsOpen(true)}>
-              Connect
+            <button className="highlighted-btn" 
+            onClick={() => setIsOpen(true)}
+            disabled={existing === 'approved' || existing === 'pending'} 
+            >
+              {existing === 'approved' || existing === 'pending' ? "Connect Pending" : 'Connect'}
             </button>
           </div>
         </div>
         <div className="profile-picture">
-        <img className="profile-picture-background" src={props.img} alt="Profile" />
+          <img
+            className="profile-picture-background"
+            src={props.img}
+            alt="Profile"
+          />
         </div>
       </div>
 
@@ -222,6 +262,9 @@ const handleConnect = async () => {
             type="Date"
             onChange={handleDateChange}
             minDate={new Date()}
+            inputProps={{
+              min: new Date().toISOString().split('T')[0], // Set minimum date to today
+            }}
             style={{ marginTop: "16px" }}
           />
 
@@ -288,6 +331,7 @@ const handleConnect = async () => {
       </Dialog>
 
       {/* Dialong Box for Connection request */}
+      
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
