@@ -2,9 +2,8 @@ const mongoose = require('mongoose');
 
 const fundingSchema = new mongoose.Schema({
     postBy:{type:mongoose.Schema.Types.ObjectId,ref : 'user'},
-    // title:{type:String},
-    description:{type:String},
-    visibility:{type:String},
+    description:{type:String,required:true},
+    visibility:{type:String,required:true},
     link:{type:String},
     file:{type:String},
     postDate:{type: Date, default: Date.now}

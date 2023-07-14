@@ -18,7 +18,7 @@ import {
   Link as LinkIcon,
   Description as DescriptionIcon,
 } from "@material-ui/icons";
-
+// const [isLink,setIsLink]=useState(true);
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -90,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FundingDetailsView = (props) => {
+  // if(props.link==""){
+  //   setIsLink(false);
+  // }
   const classes = useStyles();
 
   const handleDownload = (file) => {
@@ -124,7 +127,8 @@ const FundingDetailsView = (props) => {
             {props.description}
           </Typography>
           <Divider />
-            <Box className={classes.documentContainer}>
+          {props.file &&
+            (<Box className={classes.documentContainer}>
               <List>
                 <Typography variant="subtitle1">
                   Supporting Material:
@@ -145,8 +149,9 @@ const FundingDetailsView = (props) => {
                     />
                   </ListItem>
               </List>
-            </Box>
-          <div className={classes.linkContainer}>
+            </Box>)}
+          {props.link && 
+          (<div className={classes.linkContainer}>
             <div>
               <LinkIcon className={classes.linkIcon} />
               <a
@@ -159,7 +164,7 @@ const FundingDetailsView = (props) => {
                 {props.link}
               </a>
             </div>
-          </div>
+          </div>)}
         </div>
       </Paper>
     </div>
