@@ -233,8 +233,7 @@ const Profile = (props) => {
               }
             >
               {existingRequest === "Accpeted" || existingRequest === "pending"
-                ? "Already Booked"
-                : "Book Appointment"}
+                ? "Already Booked" : "Book Appointment"}
             </button>
             <button
               className="highlighted-btn"
@@ -242,7 +241,7 @@ const Profile = (props) => {
               disabled={existing === "approved" || existing === "pending"}
             >
               {existing === "approved" || existing === "pending"
-                ? "Connect Pending"
+                ? existing
                 : "Connect"}
             </button>
           </div>
