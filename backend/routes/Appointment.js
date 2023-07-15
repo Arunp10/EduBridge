@@ -203,6 +203,17 @@ router.get("/existingRequest/:id", fetchUser, async (req, res) => {
     });
 
     if (existingRequest) {
+
+      const currentDate = new Date();
+      const existingAppointmentDate = new Date(existingRequest.date);
+
+      if (existingAppointmentDate < currentDate) {
+        // Delete the existing appointment request
+        await Appointment.findByIdAndDelete(existingRequest._id);
+
+        return res.status(200).json({ message: "Existing appointment request has been deleted." });
+      }
+      
       return res.status(200).json({status : existingRequest.status});
     }
   } catch (error) {
