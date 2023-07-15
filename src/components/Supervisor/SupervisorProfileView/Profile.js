@@ -242,7 +242,7 @@ const Profile = (props) => {
               disabled={existing === "approved" || existing === "pending"}
             >
               {existing === "approved" || existing === "pending"
-                ? "Connect Pending"
+                ? existing
                 : "Connect"}
             </button>
           </div>
@@ -340,7 +340,6 @@ const Profile = (props) => {
       </Dialog>
 
       {/* Dialong Box for Connection request */}
-
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
