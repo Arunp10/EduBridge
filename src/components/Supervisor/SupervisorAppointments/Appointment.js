@@ -129,30 +129,39 @@ const Appointment = () => {
     }
   };
 
-  const handleAcceptAppointment = async(appointmentId) => {
+  const handleAcceptAppointment = async (appointmentId) => {
     try {
-      await axios.put(`http://localhost:8080/api/Appointment/${appointmentId}/approved`).
-      then((response)=>{});
-      fetchAppointment();
-      
+      await axios.put(`http://localhost:8080/api/Appointment/${appointmentId}/approved`);
+      setAppointments((prevAppointments) =>
+        prevAppointments.map((appointment) => {
+          if (appointment._id === appointmentId) {
+            return { ...appointment, status: "Approved" };
+          }
+          return appointment;
+        })
+      );
     } catch (error) {
-        console.error(error);
-        alert("Failed to Approve Appointment request")
+      console.error(error);
+      alert("Failed to Approve Appointment request");
     }
   };
 
-  const handleRejectAppointment = async(appointmentId) => {
+  const handleRejectAppointment = async (appointmentId) => {
     try {
-      await axios.put(`http://localhost:8080/api/Appointment/${appointmentId}/rejected`).
-      then((response)=>{});
-      fetchAppointment();
-      
+      await axios.put(`http://localhost:8080/api/Appointment/${appointmentId}/rejected`);
+      setAppointments((prevAppointments) =>
+        prevAppointments.map((appointment) => {
+          if (appointment._id === appointmentId) {
+            return { ...appointment, status: "Rejected" };
+          }
+          return appointment;
+        })
+      );
     } catch (error) {
-        console.error(error);
-        alert("Failed to Approve Appointment request")
+      console.error(error);
+      alert("Failed to Reject Appointment request");
     }
   };
-
   return (
     <Grid container spacing={2}>
       {appointments.map((appointment) => (
@@ -237,22 +246,27 @@ const Appointment = () => {
                 <DeleteIcon className={classes.deleteIcon} />
               </Button>
               <div>
-                <Button
-                  variant="contained"
-                  className={`${classes.acceptBtn}`}
-                  onClick={() => handleAcceptAppointment(appointment._id)}
-                  startIcon={<CheckIcon />}
-                >
-                  Accept
-                </Button>
-                <Button
-                  variant="contained"
-                  className={`${classes.rejectBtn}`}
-                  onClick={() => handleRejectAppointment(appointment._id)}
-                  startIcon={<CloseIcon />}
-                >
-                  Reject
-                </Button>
+              {appointment.status !== "Accepted" && (
+                  <Button
+                    variant="contained"
+                    className={`${classes.acceptBtn}`}
+                    onClick={() => handleAcceptAppointment(appointment._id)}
+                    startIcon={<CheckIcon />}
+                  >
+                    Accept
+                  </Button>
+                )}
+                {appointment.status !== "rejected" && (
+                  <Button
+                    variant="contained"
+                    className={`${classes.rejectBtn}`}
+                    onClick={() => handleRejectAppointment(appointment._id)}
+                    startIcon={<CloseIcon />}
+                  >
+                    Reject
+                  </Button>
+                )}
+
               </div>
             </CardActions>
           </Card>

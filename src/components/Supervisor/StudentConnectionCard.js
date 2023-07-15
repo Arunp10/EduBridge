@@ -25,7 +25,6 @@ const StudentConnectionCard = ({img,FirstName,LastName,interest,comment,connecti
 
   const handleApprovedClick = ()=>{
     onApprove(connection._id);
-
   }
   const handleRejectClick = () => {
     onReject(connection._id);
