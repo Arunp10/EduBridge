@@ -180,11 +180,11 @@ const Profile = (props) => {
   
   useEffect(() => {
     existingAppointment();
-  }, [props.id]); // Add props.id as a dependency
+  }, [existingRequest]); // Add props.id as a dependency
   
   useEffect(() => {
     existingConnection();
-  }, [props.id]); 
+  }, [existing]); 
 
   const handleSubmit = async () => {
     const supervisor = props.id;
