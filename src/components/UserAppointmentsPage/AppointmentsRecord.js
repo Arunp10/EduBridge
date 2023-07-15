@@ -191,6 +191,7 @@ const AppointmentRecord = () => {
             </CardContent>
             <CardActions>
               <div>
+              {appointment.status === "pending" && (
                 <Button
                   variant="contained"
                   className={`${classes.acceptBtn}`}
@@ -198,6 +199,7 @@ const AppointmentRecord = () => {
                 >
                   Cancel
                 </Button>
+              )}
               </div>
             </CardActions>
           </Card>
