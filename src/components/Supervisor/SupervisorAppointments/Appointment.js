@@ -95,43 +95,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const Appointment = () => {
   const classes = useStyles();
   const [appointments, setAppointments] = useState([]);
 
   //function fetch the Record through API for Supervior:
-  const fetchAppointment = async()=>{
-    const response = await fetch('http://localhost:8080/api/Appointment/SupervisorFetch',{
-      method : 'GET',
-      headers:{
-        'Content-Type': 'application/json',
-        "auth-token": localStorage.getItem('token')
-      },
-    })
+  const fetchAppointment = async () => {
+    const response = await fetch(
+      "http://localhost:8080/api/Appointment/SupervisorFetch",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+      }
+    );
     const json = await response.json();
     setAppointments(json);
-  }
+  };
   useEffect(() => {
     fetchAppointment();
-  })
+  });
 
-  const handleCancelAppointment = async(appointmentId) => {
+  const handleCancelAppointment = async (appointmentId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/Appointment/${appointmentId}/delete`).
-      then((response)=>{
-      });
+      await axios
+        .delete(`http://localhost:8080/api/Appointment/${appointmentId}/delete`)
+        .then((response) => {});
       fetchAppointment();
-      
     } catch (error) {
-        console.error(error);
-        alert("Failed to Delete Appointment request")
+      console.error(error);
+      alert("Failed to Delete Appointment request");
     }
   };
 
   const handleAcceptAppointment = async (appointmentId) => {
     try {
-      await axios.put(`http://localhost:8080/api/Appointment/${appointmentId}/approved`);
+      await axios.put(
+        `http://localhost:8080/api/Appointment/${appointmentId}/approved`
+      );
       setAppointments((prevAppointments) =>
         prevAppointments.map((appointment) => {
           if (appointment._id === appointmentId) {
@@ -148,7 +151,9 @@ const Appointment = () => {
 
   const handleRejectAppointment = async (appointmentId) => {
     try {
-      await axios.put(`http://localhost:8080/api/Appointment/${appointmentId}/rejected`);
+      await axios.put(
+        `http://localhost:8080/api/Appointment/${appointmentId}/rejected`
+      );
       setAppointments((prevAppointments) =>
         prevAppointments.map((appointment) => {
           if (appointment._id === appointmentId) {
@@ -180,7 +185,8 @@ const Appointment = () => {
                     </Grid>
                     <Grid item>
                       <Typography variant="h6" className={classes.studentName}>
-                        {appointment.user.firstName} {""} {appointment.user.lastName}
+                        {appointment.user.firstName} {""}{" "}
+                        {appointment.user.lastName}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -246,7 +252,7 @@ const Appointment = () => {
                 <DeleteIcon className={classes.deleteIcon} />
               </Button>
               <div>
-              {appointment.status !== "Accepted" && (
+                {appointment.status === "pending" && (
                   <Button
                     variant="contained"
                     className={`${classes.acceptBtn}`}
@@ -256,7 +262,7 @@ const Appointment = () => {
                     Accept
                   </Button>
                 )}
-                {appointment.status !== "rejected" && (
+                {appointment.status === "pending" && (
                   <Button
                     variant="contained"
                     className={`${classes.rejectBtn}`}
@@ -266,7 +272,6 @@ const Appointment = () => {
                     Reject
                   </Button>
                 )}
-
               </div>
             </CardActions>
           </Card>
