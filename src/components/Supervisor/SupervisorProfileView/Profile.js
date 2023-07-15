@@ -93,11 +93,9 @@ const Profile = (props) => {
         },
       }
     )
-      .then((response) => response.json())
-      .then((data) => {
-        const saveData = data.status;
-        setexistingAppointment(saveData);
-      });
+    const data = await response.json();
+    const saveData = data.status;
+    setexistingAppointment(saveData);
   };
   //Function to Fetch Existing Request:
   const existingConnection = async () => {
@@ -111,11 +109,9 @@ const Profile = (props) => {
         },
       }
     )
-      .then((response) => response.json())
-      .then((data) => {
-        const saveData = data.status;
-        setexisting(saveData);
-      });
+    const data = await response.json();
+    const saveData = data.status;
+    setexisting(saveData);
   };
   //Function to Connect with other User through API
   const handleConnect = async () => {
@@ -153,6 +149,7 @@ const Profile = (props) => {
     setselected_Date(selected_DateValue);
     const formattedDate = formatDate(new Date(selected_Date));
   };
+
   //Function to Fetch the Availability through Date:
   const availability = async () => {
     const userId = props.id;
@@ -178,10 +175,16 @@ const Profile = (props) => {
   };
 
   useEffect(() => {
-    existingAppointment();
-    existingConnection();
     availability();
-  });
+  }, [selected_Date]); // Add selected_Date as a dependency
+  
+  useEffect(() => {
+    existingAppointment();
+  }, [props.id]); // Add props.id as a dependency
+  
+  useEffect(() => {
+    existingConnection();
+  }, [props.id]); 
 
   const handleSubmit = async () => {
     const supervisor = props.id;
@@ -276,7 +279,7 @@ const Profile = (props) => {
             label="Day"
             variant="outlined"
             fullWidth
-            value={Day}
+            value={!Day ? "Day Not Available" : Day}
             style={{ marginTop: "16px" }}
           />
           {!isTeacherAvailable ? (
@@ -339,7 +342,6 @@ const Profile = (props) => {
       </Dialog>
 
       {/* Dialong Box for Connection request */}
-
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
