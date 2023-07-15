@@ -84,7 +84,7 @@ router.put("/:connectionId/approved", async (req, res) => {
 router.put("/:connectionId/rejected", async (req, res) => {
   try {
     const { connectionId } = req.params;
-    const connection = await Connections.findByIdAndDelete(connectionId);
+    const connection = await Connections.Connections.findByIdAndDelete(connectionId);
     if (!connection) {
       res.status(401).json({ error: "Connection request not found" });
     }
@@ -131,5 +131,27 @@ router.get("/existingRequest/:id", fetchUser, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+//Router 7:API to delete Connections 
+router.delete('/deleteConnection/:id',async(req,res)=>{
+  const {id} = req.params;
+
+  try {
+
+    const DeleteConnection = await Connections.findByIdAndDelete(id);
+    if (!DeleteConnection) {
+      res.status(401).json({ error: "Connection request not found" });
+    }
+
+    res.json({ message: "Connection Request Delete Successful" });
+
+    
+  } catch (error) {
+
+    console.error("Error retrieving connection:", error);
+    res.status(400).json({ error: "Failed to Delete Appointmentr" });
+    
+  }
+
+})
 
 module.exports = router;
