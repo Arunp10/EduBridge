@@ -1,11 +1,13 @@
 import { Box, Typography, Grid, TextField, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from 'axios';
-
+import UserContext from "../context/User/UserContext";
+import { useEffect } from "react";
 
 export default function PersonalDetailsSection() {
   const [selectedFile, setselectedFile] = useState(null);
-
+  const userContext = useContext(UserContext);
+  const { user, getUser } = userContext;
   const handleFileChange = (event) => {
     setselectedFile(event.target.files[0]);
   };
@@ -29,6 +31,9 @@ export default function PersonalDetailsSection() {
       console.log(error);
     }
   };
+  useEffect(() => {
+    getUser();
+  });
   return (
     <Box
       sx={{
@@ -48,6 +53,8 @@ export default function PersonalDetailsSection() {
               required
               id="firstName"
               label="First Name"
+              disabled
+              value={user?.firstName}
               fullWidth
               margin="normal"
               variant="outlined"
@@ -59,6 +66,8 @@ export default function PersonalDetailsSection() {
               id="lastName"
               label="Last Name"
               fullWidth
+              disabled
+              value={user?.lastName}
               margin="normal"
               variant="outlined"
             />
@@ -69,14 +78,13 @@ export default function PersonalDetailsSection() {
               id="email"
               label="Email"
               fullWidth
+              disabled
+              value={user?.email}
               margin="normal"
               variant="outlined"
             />
           </Grid>
           <Grid item xs={12} md={12} pl={15}>
-            <Button variant="contained" color="primary">
-              Update Profile
-            </Button>
             <Grid item xs={4} md={12} pt={2}>
             <input accept="image/*" type="file" id="select-image" onChange={handleFileChange}/>
             <label htmlFor="select-image">
