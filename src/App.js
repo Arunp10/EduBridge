@@ -139,7 +139,7 @@ const App = () => {
                             />
                             <Route
                               path="/chat"
-                              element={<Chat />}
+                              element={<Chat user={user} />}
                             />
                             <Route
                               path="/ViewAppointment"

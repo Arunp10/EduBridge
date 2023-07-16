@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import imgSrc from "./Assets/student_1.jpg";
 import { Avatar } from "@mui/material";
+import ChatIcon from '@mui/icons-material/Chat';
 
 const Sidebar = (props) => {
   let navigate = useNavigate();
@@ -70,7 +71,7 @@ const Sidebar = (props) => {
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/chat">
-            <i class="far fa-calendar font-weight-bold"></i>
+            <i class="fas fa-comment-alt font-weight-bold"></i>
             <span className="ml-3">Chat</span>
           </Link>
         </li>
