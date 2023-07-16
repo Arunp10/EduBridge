@@ -68,6 +68,12 @@ const Sidebar = (props) => {
             <span className="ml-3">Appointment</span>
           </Link>
         </li>
+        <li class="nav-item mb-2">
+          <Link class="nav-link text-secondary" to="/chat">
+            <i class="far fa-calendar font-weight-bold"></i>
+            <span className="ml-3">Chat</span>
+          </Link>
+        </li>
         <li class="nav-item mb-2 mt-5">
           <Link class="nav-link text-secondary" to="/">
             <button type="button" class="btn btn-danger" onClick={handlelogout}>
