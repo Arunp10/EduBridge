@@ -35,7 +35,7 @@ const Sidebar = (props) => {
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/EditProfile">
-            <i class="fas fa-user font-weight-bold"></i>
+            <i class="fas fa-edit font-weight-bold"></i>
             <span className="ml-3">Edit Profile</span>
           </Link>
           <ul
@@ -52,7 +52,7 @@ const Sidebar = (props) => {
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/UserFundingDetails">
-            <i class="far fa-chart-bar font-weight-bold"></i>
+            <i class="fa fa-twitch font font-weight-bold"></i>
             <span className="ml-3">Funding</span>
           </Link>
         </li>
