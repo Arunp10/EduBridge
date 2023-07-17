@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Avatar,
 } from "@material-ui/core";
 import Timeline from "@material-ui/lab/Timeline";
 import TimelineItem from "@material-ui/lab/TimelineItem";
@@ -19,6 +20,8 @@ import EducationContext from "../context/Education/EducationContext";
 import WorkContext from "../context/WorkExperience/WorkContext";
 import ProjectContext from "../context/project/ProjectContext";
 import SkillContext from "../context/Skill/SkillContext";
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,11 +63,31 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
   },
   dots: {
-    color: "orange",
-    fontSize: "20px",
+    color: "#ff5823",
+    fontSize: "23px",
     marginRight: "10px",
   },
-
+  customDate: {
+    fontSize: '14px',
+    color: 'gray',        
+  },
+  customDescription: {
+    fontSize: '14px',   
+    color: 'gray',
+    fontWeight: "bold",
+  },
+  customDot: {
+    color: '#ff5823',
+    padding: 0,
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center',
+  },
+  customConnector: {
+    backgroundColor: "#ff5823" ,
+    height: '4px', 
+    margin: '0 5px',
+  },
 }));
 
 function ScreenHeading() {
@@ -148,12 +171,12 @@ function WorkHistory() {
               <ListItemText
                 primary={Work.title}
                 secondary={`${Work.employee} (${Work.startDate}) - (${Work.endDate})`}
-                classes={{ primary: classes.listItemText, secondary: classes.listItemText }} // Adjust secondary text style
+                classes={{ primary: classes.listItemText}} 
               />
             </ListItem>
             {Work.description && (
-              <ListItem style={{ marginTop: -20 }}> {/* Apply negative margin to the ListItem */}
-                <ListItemText primary={Work.description} />
+              <ListItem style={{ marginTop: -20 }}>
+                <ListItemText secondary={Work.description} classes={{secondary: classes.listItemText }}  />
               </ListItem>
             )}
             {index !== Work.length - 1 && (
@@ -181,23 +204,27 @@ function Projects() {
     <Divider className={classes.divider} />
     <Timeline className={classes.timeline}>
       {Project.map((project, index) => (
-        <TimelineItem key={index} className={classes.timelineItem}>
-          <TimelineSeparator>
-            <TimelineDot color="inherit" variant="outlined" />
-            {index < Project.length - 1 && <TimelineConnector />} {/* Add the TimelineConnector */}
-          </TimelineSeparator>
-          <TimelineContent className={classes.customContent}>
-            <Typography variant="h6" style={{ fontWeight: "bold" }}>
-              {project.projectTitle}
-            </Typography>
-            <Typography>
-              ({project.startDate} - {project.endDate})
-            </Typography>
-            <Typography style={{ marginTop: 3 }}>
-              {project.description}
-            </Typography>
-          </TimelineContent>
-        </TimelineItem>
+        <React.Fragment key={index}>
+          <TimelineItem className={classes.timelineItem}>
+            <TimelineSeparator>
+              <TimelineDot className={classes.customDot} variant="outlined">
+                <FiberManualRecordIcon fontSize="small" /> {/* Use FiberManualRecordIcon for the diamond shape */}
+              </TimelineDot>
+              {index < Project.length - 1 && <TimelineConnector className={classes.customConnector} />}
+            </TimelineSeparator>
+            <TimelineContent className={classes.customContent}>
+              <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '18px' }}>
+                {project.projectTitle}
+              </Typography>
+              <Typography className={classes.customDate}>
+                {`(${project.startDate}) - (${project.endDate})`}
+              </Typography>
+              <Typography className={classes.customDescription}>
+                {project.description}
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+        </React.Fragment>
       ))}
     </Timeline>
   </Paper>
