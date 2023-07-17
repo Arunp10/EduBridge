@@ -14,7 +14,7 @@ import ProfileView from "./components/UserProfileView/ProfileView";
 import SupervisorProfileView from "./components/Supervisor/SupervisorProfileView/ProfileView";
 import EditProfile from "./components/EditProfile";
 import SupervisorDashboard from "./components/Supervisor/SupervisorDashboard";
-import { Connections } from "./components/ConectionCards /Connections"
+import { Connections } from "./components/Connections"
 import ShowAvailability from "./components/Supervisor/Supervisor Availability/ShowAvailability"
 import Sidebar from "./components/SideBar";
 import UserState from "./components/context/User/UserState";

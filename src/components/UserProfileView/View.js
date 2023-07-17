@@ -64,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "20px",
     marginRight: "10px",
   },
+
 }));
 
 function ScreenHeading() {
@@ -140,17 +141,29 @@ function WorkHistory() {
         Work Experience
       </Typography>
       <Divider className={classes.divider} />
-            <List>
+      <List>
         {Work.map((Work, index) => (
-          <ListItem key={index}>
-            <ListItemText
-              primary={Work.title}
-              secondary={`${Work.employee}  (${Work.startDate}) - (${Work.endDate})`}
-             classes={{ primary: classes.listItemText }}
-            />
-         </ListItem>
-         ))}
-     </List>
+          <div key={index}>
+            <ListItem>
+              <ListItemText
+                primary={Work.title}
+                secondary={`${Work.employee} (${Work.startDate}) - (${Work.endDate})`}
+                classes={{ primary: classes.listItemText, secondary: classes.listItemText }} // Adjust secondary text style
+              />
+            </ListItem>
+            {Work.description && (
+              <ListItem style={{ marginTop: -20 }}> {/* Apply negative margin to the ListItem */}
+                <ListItemText primary={Work.description} />
+              </ListItem>
+            )}
+            {index !== Work.length - 1 && (
+              <div style={{ marginBottom: 16 }}>
+                <Divider />
+              </div>
+            )}
+          </div>
+        ))}
+      </List>
     </Paper>
   );
 }
@@ -162,34 +175,32 @@ function Projects() {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
-      <Typography variant="h5" className={classes.title}>
-        Projects
-      </Typography>
-      <Divider className={classes.divider} />
-      <Timeline className={classes.timeline}>
-        {Project.map((Project, index) => (
-          <TimelineItem key={index} className={classes.timelineItem}>
-            <TimelineSeparator>
-              <TimelineDot color="inherit" variant="outlined" />
-              {index < Project.length - 1 && <TimelineConnector />}
-            </TimelineSeparator>
-            <TimelineContent
-              style={{ marginTop: -8, fontWeight: "bold", marginLeft: 0 }}
-            >
-              <Typography variant="h6" style={{ fontWeight: "bold" }}>
-                {Project.projectTitle}
-              </Typography>
-              <Typography>
-                ({Project.startDate} - {Project.endDate})
-              </Typography>
-              <Typography style={{ marginTop: 3 }}>
-                {Project.description}
-              </Typography>
-            </TimelineContent>
-          </TimelineItem>
-        ))}
-      </Timeline>
-    </Paper>
+    <Typography variant="h5" className={classes.title}>
+      Projects
+    </Typography>
+    <Divider className={classes.divider} />
+    <Timeline className={classes.timeline}>
+      {Project.map((project, index) => (
+        <TimelineItem key={index} className={classes.timelineItem}>
+          <TimelineSeparator>
+            <TimelineDot color="inherit" variant="outlined" />
+            {index < Project.length - 1 && <TimelineConnector />} {/* Add the TimelineConnector */}
+          </TimelineSeparator>
+          <TimelineContent className={classes.customContent}>
+            <Typography variant="h6" style={{ fontWeight: "bold" }}>
+              {project.projectTitle}
+            </Typography>
+            <Typography>
+              ({project.startDate} - {project.endDate})
+            </Typography>
+            <Typography style={{ marginTop: 3 }}>
+              {project.description}
+            </Typography>
+          </TimelineContent>
+        </TimelineItem>
+      ))}
+    </Timeline>
+  </Paper>
   );
 }
 
