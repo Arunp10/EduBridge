@@ -21,6 +21,8 @@ import ProjectContext from "../../context/project/ProjectContext";
 import SkillContext from "../../context/Skill/SkillContext"
 import EducationContext from "../../context/Education/EducationContext";
 import { useRadioGroup } from "@mui/material";
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,11 +65,33 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
   },
   dots: {
-    color: "orange",
-    fontSize: "20px",
+    color: "#ff5823",
+    fontSize: "23px",
     marginRight: "10px",
   },
+  customDate: {
+    fontSize: '14px',
+    color: 'gray',        
+  },
+  customDescription: {
+    fontSize: '14px',   
+    color: 'gray',
+    fontWeight: "bold",
+  },
+  customDot: {
+    color: '#ff5823',
+    padding: 0,
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center',
+  },
+  customConnector: {
+    backgroundColor: "#ff5823" ,
+    height: '4px', 
+    margin: '0 5px',
+  },
 }));
+
 
 function ScreenHeading() {
   return (
@@ -112,6 +136,7 @@ function UserEducation() {
 
   const classes = useStyles();
   return (
+
     <Paper className={classes.root}>
       <Typography variant="h5" className={classes.title}>
         Education
@@ -138,22 +163,34 @@ function WorkHistory() {
 
   const classes = useStyles();
   return (
-    <Paper className={classes.root}>
+<Paper className={classes.root}>
       <Typography variant="h5" className={classes.title}>
         Work Experience
       </Typography>
       <Divider className={classes.divider} />
-            <List>
+      <List>
         {WorkData.map((Work, index) => (
-          <ListItem key={index}>
-            <ListItemText
-              primary={Work.title}
-              secondary={`${Work.employee}  (${Work.startDate}) - (${Work.endDate})`}
-             classes={{ primary: classes.listItemText }}
-            />
-         </ListItem>
-         ))}
-     </List>
+          <div key={index}>
+            <ListItem>
+              <ListItemText
+                primary={Work.title}
+                secondary={`${Work.employee} (${Work.startDate}) - (${Work.endDate})`}
+                classes={{ primary: classes.listItemText}} 
+              />
+            </ListItem>
+            {Work.description && (
+              <ListItem style={{ marginTop: -20 }}>
+                <ListItemText secondary={Work.description} classes={{secondary: classes.listItemText }}  />
+              </ListItem>
+            )}
+            {index !== Work.length - 1 && (
+              <div style={{ marginBottom: 16 }}>
+                <Divider />
+              </div>
+            )}
+          </div>
+        ))}
+      </List>
     </Paper>
   );
 }
@@ -166,34 +203,36 @@ function Projects() {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
-      <Typography variant="h5" className={classes.title}>
-        Projects
-      </Typography>
-      <Divider className={classes.divider} />
-      <Timeline className={classes.timeline}>
-        {ProjectData.map((Project, index) => (
-          <TimelineItem key={index} className={classes.timelineItem}>
+    <Typography variant="h5" className={classes.title}>
+      Projects
+    </Typography>
+    <Divider className={classes.divider} />
+    <Timeline className={classes.timeline}>
+      {ProjectData.map((project, index) => (
+        <React.Fragment key={index}>
+          <TimelineItem className={classes.timelineItem}>
             <TimelineSeparator>
-              <TimelineDot color="inherit" variant="outlined" />
-              {index < Project.length - 1 && <TimelineConnector />}
+              <TimelineDot className={classes.customDot} variant="outlined">
+                <FiberManualRecordIcon fontSize="small" /> {/* Use FiberManualRecordIcon for the diamond shape */}
+              </TimelineDot>
+              {index < ProjectData.length - 1 && <TimelineConnector className={classes.customConnector} />}
             </TimelineSeparator>
-            <TimelineContent
-              style={{ marginTop: -8, fontWeight: "bold", marginLeft: 0 }}
-            >
-              <Typography variant="h6" style={{ fontWeight: "bold" }}>
-                {Project.projectTitle}
+            <TimelineContent className={classes.customContent}>
+              <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '18px' }}>
+                {project.projectTitle}
               </Typography>
-              <Typography>
-                ({Project.startDate} - {Project.endDate})
+              <Typography className={classes.customDate}>
+                {`(${project.startDate}) - (${project.endDate})`}
               </Typography>
-              <Typography style={{ marginTop: 3 }}>
-                {Project.description}
+              <Typography className={classes.customDescription}>
+                {project.description}
               </Typography>
             </TimelineContent>
           </TimelineItem>
-        ))}
-      </Timeline>
-    </Paper>
+        </React.Fragment>
+      ))}
+    </Timeline>
+  </Paper>
   );
 }
 
@@ -204,6 +243,7 @@ function ProgrammingSkills() {
   })
   const classes = useStyles();
   return (
+
     <Paper className={classes.root}>
       <Typography variant="h5" className={classes.title}>
         Programming Skills
