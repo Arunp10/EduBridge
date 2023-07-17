@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     height: "100%",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#f5f5f5",
     borderRadius: theme.spacing(5),
     boxShadow: theme.shadows[4],
     transition: "transform 0.3s",
