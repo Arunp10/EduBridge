@@ -16,6 +16,7 @@ const useStyles = makeStyles({
     direction: "coloum",
     alignItems: "center",
     justify: "center",
+    backgroundColor: "#f8f9fa",
   },
 });
 

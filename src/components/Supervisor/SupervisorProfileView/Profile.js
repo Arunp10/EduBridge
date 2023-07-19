@@ -207,7 +207,7 @@ const Profile = (props) => {
       }
     );
     const json = await response.json();
-    alert(json.message);
+    alert(json.message,Day);
     handleClose();
   };
 
@@ -236,8 +236,7 @@ const Profile = (props) => {
               }
             >
               {existingRequest === "Accpeted" || existingRequest === "pending"
-                ? "Already Booked"
-                : "Book Appointment"}
+                ? "Already Booked" : "Book Appointment"}
             </button>
             <button
               className="highlighted-btn"
@@ -264,7 +263,6 @@ const Profile = (props) => {
         <DialogTitle>Book an Appointment</DialogTitle>
         <DialogContent>
           <TextField
-            label="Date"
             variant="outlined"
             fullWidth
             type="Date"
@@ -276,13 +274,20 @@ const Profile = (props) => {
             style={{ marginTop: "16px" }}
           />
 
-          <TextField
-            label="Day"
-            variant="outlined"
-            fullWidth
-            value={!Day ? "Day Not Available" : Day}
-            style={{ marginTop: "16px" }}
-          />
+          {!selected_Date ? 
+          <p style={{ color: "red" }}>
+            Please select the date.
+          </p>:
+          (
+            <TextField
+              label="Day"
+              variant="outlined"
+              fullWidth
+              value={!Day ? "Not Available" : Day}
+              style={{ marginTop: "16px" }}
+            />
+          )}
+
           {!isTeacherAvailable ? (
             <p style={{ color: "red" }}>
               Srry! Not available on {selectedDay}.
@@ -333,7 +338,8 @@ const Profile = (props) => {
                 !selectedDate ||
                 !purpose ||
                 !selectedTimeSlot ||
-                !isTeacherAvailable
+                !isTeacherAvailable ||
+                !Day
               }
             >
               Book

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     height: "100%",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#f5f5f5",
     borderRadius: theme.spacing(5),
     boxShadow: theme.shadows[4],
     transition: "transform 0.3s",
@@ -166,6 +166,7 @@ const Appointment = () => {
       console.error(error);
       alert("Failed to Reject Appointment request");
     }
+
   };
   return (
     <Grid container spacing={2}>
@@ -266,7 +267,10 @@ const Appointment = () => {
                   <Button
                     variant="contained"
                     className={`${classes.rejectBtn}`}
-                    onClick={() => handleRejectAppointment(appointment._id)}
+                    onClick={() =>{
+                      handleRejectAppointment(appointment._id)
+                      handleCancelAppointment(appointment._id)
+                    }}
                     startIcon={<CloseIcon />}
                   >
                     Reject
