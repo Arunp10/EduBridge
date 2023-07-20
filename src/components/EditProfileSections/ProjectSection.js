@@ -104,6 +104,26 @@ export default function ProjectSection() {
   };
   const handleEditSubmit = () => {
     if (validateForm()) {
+      const startDate = new Date(project.startDate);
+      const endDate = new Date(project.endDate);
+    
+      // Check if the start date is a valid date
+      if (isNaN(startDate.getTime())) {
+        alert("Invalid start date format. Please use the MM/DD/YYYY format.");
+        return;
+      }
+    
+      // Check if the end date is a valid date
+      if (project.endDate && isNaN(endDate.getTime())) {
+        alert("Invalid end date format. Please use the MM/DD/YYYY format.");
+        return;
+      }
+    
+      // Check if the start date is after the end date
+      if (project.endDate && startDate > endDate) {
+        alert("Start date cannot be after the end date.");
+        return;
+      }
       
       // Check if the project with the same title already exists excluding the current project being edited
       if (

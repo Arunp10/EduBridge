@@ -40,6 +40,27 @@ export default function WorkExperienceSection() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
+      
+      const startDate = new Date(work.startDate);
+      const endDate = new Date(work.endDate);
+    
+      // Check if the start date is a valid date
+      if (isNaN(startDate.getTime())) {
+        alert("Invalid start date format. Please use the MM/DD/YYYY format.");
+        return;
+      }
+    
+      // Check if the end date is a valid date
+      if (work.endDate && isNaN(endDate.getTime())) {
+        alert("Invalid end date format. Please use the MM/DD/YYYY format.");
+        return;
+      }
+    
+      // Check if the start date is after the end date
+      if (work.endDate && startDate > endDate) {
+        alert("Start date cannot be after the end date.");
+        return;
+      }
         AddWork(
           work.title,
           work.employee,
@@ -89,6 +110,26 @@ export default function WorkExperienceSection() {
 
   const handleEditSubmit = () => {
     if (validateForm()) {
+      const startDate = new Date(work.startDate);
+      const endDate = new Date(work.endDate);
+    
+      // Check if the start date is a valid date
+      if (isNaN(startDate.getTime())) {
+        alert("Invalid start date format. Please use the MM/DD/YYYY format.");
+        return;
+      }
+    
+      // Check if the end date is a valid date
+      if (work.endDate && isNaN(endDate.getTime())) {
+        alert("Invalid end date format. Please use the MM/DD/YYYY format.");
+        return;
+      }
+    
+      // Check if the start date is after the end date
+      if (work.endDate && startDate > endDate) {
+        alert("Start date cannot be after the end date.");
+        return;
+      }
       const endDateValue = work.endDate === "Present" ? null : work.endDate;
         updateWorkExperience(work.id, {
           title: work.title,
