@@ -1,6 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Alert from "@mui/material/Alert";
+import axios from "axios";
+import { format } from "date-fns";
 import {
   Button,
   Dialog,
@@ -15,61 +17,20 @@ import {
   makeStyles,
   createStyles,
 } from "@material-ui/core";
-import DatePicker from "react-datepicker";
 
 const Profile = (props) => {
+  // for Send Connection Request usestates
   const [connectOpen, setConnectOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [Error, setError] = useState("");
   const [requestSent, setRequestSent] = useState(false);
+  const [existing, setexisting] = useState("");
+
   const [Connection, setConnection] = useState({
     supervisor: "",
     interest: "",
     comment: "",
   });
-
-  const onchangehandle = (e) => {
-    setConnection({ ...Connection, [e.target.name]: e.target.value });
-  };
-
-  const handleConnectOpen = () => {
-    setConnectOpen(true);
-  };
-
-  const handleConnect = async () => {
-    try {
-      Connection.supervisor = props.id;
-      if (Connection.interest === "" || Connection.comment === "") {
-        setError("Please fill in all the required fields");
-        return;
-      }
-       // API Call 
-       const response = await fetch(`http://localhost:8080/api/connection/AddConnection`, {
-         method: 'POST',
-         headers: {
-           'Content-Type': 'application/json',
-           "auth-token": localStorage.getItem('token')
-         },
-         //Sending Json in form of Data in Body
-         body: JSON.stringify(Connection)
-       });
-   
-       const data = await response.json();
-
-      // Request sent successfully
-      // setError('');
-      setRequestSent(true);
-      
-   } catch (error) {
-      setError(error.message);
-   }
-    setIsOpen(false);
-  };
-  const handleCancel = () => {
-    // Handle the cancel action here
-    console.log("Cancel");
-    setIsOpen(false);
-  };
 
   // for Book an appointment usestates
   const [open, setOpen] = useState(false);
@@ -78,6 +39,18 @@ const Profile = (props) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [purpose, setPurpose] = useState("");
   const [isTeacherAvailable, setIsTeacherAvailable] = useState(true);
+  const [Availability, setAvailability] = useState([]);
+  const [Day, setDay] = useState("");
+  const [timeSlots, setTimeSlots] = useState([]);
+  const [existingRequest, setexistingAppointment] = useState("");
+
+  const onchangehandle = (e) => {
+    setConnection({ ...Connection, [e.target.name]: e.target.value });
+  };
+
+  const handleConnectOpen = () => {
+    setConnectOpen(true);
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -91,17 +64,6 @@ const Profile = (props) => {
     setOpen(false);
   };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    const day = date.toLocaleDateString("en-US", { weekday: "long" });
-    setSelectedDay(day);
-    if (day === "Saturday" || day === "Sunday") {
-      setIsTeacherAvailable(false);
-    } else {
-      setIsTeacherAvailable(true);
-    }
-  };
-
   const handleTimeSlotChange = (event) => {
     setSelectedTimeSlot(event.target.value);
   };
@@ -110,58 +72,143 @@ const Profile = (props) => {
     setPurpose(event.target.value);
   };
 
-  const handleSubmit = () => {
-    // Handle the form submission
-    if (selectedDate && selectedTimeSlot && purpose) {
-      const appointmentDetails = {
-        date: selectedDate,
-        day: selectedDay,
-        timeSlot: selectedTimeSlot,
-        purpose: purpose,
-      };
-      console.log(appointmentDetails);
-      handleClose();
+  // Handle the cancel action here
+  const handleCancel = () => {
+    console.log("Cancel");
+    setIsOpen(false);
+  };
+  const formatDate = (date) => {
+    return format(date, "yyyy-MM-dd");
+  };
+  const [selected_Date, setselected_Date] = useState("");
+
+  const existingAppointment = async () => {
+    const response = await fetch(
+      `http://localhost:8080/api/appointment/existingRequest/${props.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+      }
+    )
+    const data = await response.json();
+    const saveData = data.status;
+    setexistingAppointment(saveData);
+  };
+  //Function to Fetch Existing Request:
+  const existingConnection = async () => {
+    const response = await fetch(
+      `http://localhost:8080/api/connection/existingRequest/${props.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+      }
+    )
+    const data = await response.json();
+    const saveData = data.status;
+    setexisting(saveData);
+  };
+  //Function to Connect with other User through API
+  const handleConnect = async () => {
+    try {
+      Connection.supervisor = props.id;
+      if (Connection.interest === "" || Connection.comment === "") {
+        setError("Please fill in all the required fields");
+        return;
+      }
+      // API Call
+      const response = await fetch(
+        `http://localhost:8080/api/connection/AddConnection`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+          //Sending Json in form of Data in Body
+          body: JSON.stringify(Connection),
+        }
+      );
+
+      const data = await response.json();
+      setRequestSent(true);
+    } catch (error) {
+      setError(error.message);
+    }
+    setIsOpen(false);
+  };
+
+  //Handle to fetch Date from text Field
+  const handleDateChange = async (event) => {
+    const selected_DateValue = event.target.value;
+    setselected_Date(selected_DateValue);
+    const formattedDate = formatDate(new Date(selected_Date));
+  };
+
+  //Function to Fetch the Availability through Date:
+  const availability = async () => {
+    const userId = props.id;
+    try {
+      //API Call
+      const response = await axios.post(
+        "http://localhost:8080/api/Appointment/Availability/fetch",
+        {
+          date: selected_Date,
+          userId: userId,
+        }
+      );
+      setAvailability(response.data);
+
+      const day = response.data[0]?.day; // the response of the day selected as a Day
+      setDay(day);
+
+      const times = response.data.map((item) => item.time);
+      setTimeSlots(times);
+    } catch (error) {
+      console.error("Error fetching availability:", error);
     }
   };
 
-  const generateTimeSlots = () => {
-    const timeSlotsByDay = {
-      Monday: [
-        { startTime: "10:00 AM", endTime: "11:00 AM" },
-        { startTime: "11:30 AM", endTime: "12:30 PM" },
-        { startTime: "01:00 PM", endTime: "02:00 PM" },
-        { startTime: "02:30 PM", endTime: "03:30 PM" },
-        { startTime: "04:00 PM", endTime: "04:30 PM" },
-      ],
-      Tuesday: [
-        { startTime: "01:00 PM", endTime: "02:00 PM" },
-        { startTime: "02:30 PM", endTime: "03:30 PM" },
-        { startTime: "03:45 PM", endTime: "04:00 PM" },
-      ],
-      Wednesday: [
-        { startTime: "09:00 AM", endTime: "10:00 AM" },
-        { startTime: "10:30 AM", endTime: "11:30 AM" },
-        { startTime: "12:00 PM", endTime: "01:00 PM" },
-      ],
-      Thursday: [
-        { startTime: "11:00 AM", endTime: "12:00 PM" },
-        { startTime: "12:30 PM", endTime: "01:30 PM" },
-        { startTime: "02:00 PM", endTime: "03:00 PM" },
-      ],
-      Friday: [
-        { startTime: "10:00 AM", endTime: "11:00 AM" },
-        { startTime: "11:30 AM", endTime: "12:30 PM" },
-        { startTime: "01:00 PM", endTime: "02:00 PM" },
-        { startTime: "02:30 PM", endTime: "03:30 PM" },
-      ],
-    };
+  useEffect(() => {
+    availability();
+  }, [selected_Date]); // Add selected_Date as a dependency
+  
+  useEffect(() => {
+    existingAppointment();
+  }, [existingRequest]); // Add props.id as a dependency
+  
+  useEffect(() => {
+    existingConnection();
+  }, [existing]); 
 
-    return (
-      timeSlotsByDay[selectedDay]?.map((slot) => ({
-        label: `${slot.startTime} - ${slot.endTime}`,
-        value: `${slot.startTime} - ${slot.endTime}`,
-      })) || []
+  const handleSubmit = async () => {
+    const supervisor = props.id;
+    const response = await fetch(
+      "http://localhost:8080/api/Appointment/Request",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+        //Sending Json in form of Data in Body
+        body: JSON.stringify({
+          supervisor,
+          day: Day,
+          date: selected_Date,
+          timeSlot: selectedTimeSlot,
+          purpose,
+        }),
+      }
     );
+    const json = await response.json();
+    alert(json.message,Day);
+    handleClose();
   };
 
   return (
@@ -171,7 +218,7 @@ const Profile = (props) => {
           <div className="profile-details-name">
             <span className="primary-text">
               <span className="highlighted-text">
-                {props.firstName} {""} {props.lastName}{" "}
+                {props.firstName} {""} {props.lastName}
               </span>
             </span>
           </div>
@@ -181,40 +228,66 @@ const Profile = (props) => {
             </span>
           </div>
           <div className="profile-options">
-            <button className="primary-btn" onClick={handleOpen}>
-              Book Appointment
+            <button
+              className="primary-btn"
+              onClick={handleOpen}
+              disabled={
+                existingRequest === "Accepted" || existingRequest === "pending"
+              }
+            >
+              {existingRequest === "Accpeted" || existingRequest === "pending"
+                ? "Already Booked" : "Book Appointment"}
             </button>
-            <button className="highlighted-btn" onClick={() => setIsOpen(true)}>
-              Connect
+            <button
+              className="highlighted-btn"
+              onClick={() => setIsOpen(true)}
+              disabled={existing === "approved" || existing === "pending"}
+            >
+              {existing === "approved" || existing === "pending"
+                ? existing
+                : "Connect"}
             </button>
           </div>
         </div>
         <div className="profile-picture">
-          <div className="profile-picture-background"></div>
+          <img
+            className="profile-picture-background"
+            src={props.img}
+            alt="Profile"
+          />
         </div>
       </div>
+
       {/* Book an appointment popup dialog box */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Book an Appointment</DialogTitle>
         <DialogContent>
-          <DatePicker
-            selected={selectedDate}
-            onChange={handleDateChange}
-            dateFormat="MM/dd/yyyy"
-            minDate={new Date()}
-            required
-            showYearDropdown
-            scrollableYearDropdown
-            yearDropdownItemNumber={10}
-            customInput={<TextField variant="outlined" fullWidth />}
-          />
           <TextField
-            label="Day"
             variant="outlined"
             fullWidth
-            value={selectedDay}
+            type="Date"
+            onChange={handleDateChange}
+            minDate={new Date()}
+            inputProps={{
+              min: new Date().toISOString().split("T")[0], // Set minimum date to today
+            }}
             style={{ marginTop: "16px" }}
           />
+
+          {!selected_Date ? 
+          <p style={{ color: "red" }}>
+            Please select the date.
+          </p>:
+          (
+            <TextField
+              label="Day"
+              variant="outlined"
+              fullWidth
+              value={!Day ? "Not Available" : Day}
+              style={{ marginTop: "16px" }}
+            />
+          )}
+
           {!isTeacherAvailable ? (
             <p style={{ color: "red" }}>
               Srry! Not available on {selectedDay}.
@@ -231,15 +304,16 @@ const Profile = (props) => {
                 <Select
                   value={selectedTimeSlot}
                   onChange={handleTimeSlotChange}
-                  label="Time Slot"
+                  labsel="Time Slot"
                 >
-                  {generateTimeSlots().map((slot) => (
-                    <MenuItem key={slot.value} value={slot.value}>
-                      {slot.label}
+                  {timeSlots.map((time) => (
+                    <MenuItem key={time} value={time}>
+                      {time}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
+
               <TextField
                 label="Purpose"
                 variant="outlined"
@@ -254,19 +328,23 @@ const Profile = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            color="primary"
-            disabled={
-              !selectedDate ||
-              !purpose ||
-              !selectedTimeSlot ||
-              !isTeacherAvailable
-            }
-          >
-            Book
-          </Button>
+          {/* Check the TimeSlot is NotAvailable */}
+          {!timeSlots.includes("Not Available") && (
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              color="primary"
+              disabled={
+                !selectedDate ||
+                !purpose ||
+                !selectedTimeSlot ||
+                !isTeacherAvailable ||
+                !Day
+              }
+            >
+              Book
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
 

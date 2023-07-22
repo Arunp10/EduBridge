@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Card,
   CardContent,
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.spacing(5),
-    boxShadow: theme.shadows[4],
+    backgroundColor: "#f5f5f5",
     transition: "transform 0.3s",
     "&:hover": {
       transform: "scale(1.03)",
@@ -75,73 +76,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const appointmentsData = [
-  {
-    id: 1,
-    studentName: "John Doe",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Monday",
-    message: "i want to book an appointment to discuss about my fyp idea ",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-  {
-    id: 2,
-    studentName: "John Doe ",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Tuesday",
-    message: "i want to book an appointment to discuss about my fyp idea  ",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-  {
-    id: 3,
-    studentName: "John Doe",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Wednesday",
-    message: "i want to book an appointment to discuss about my fyp idea ",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-  {
-    id: 4,
-    studentName: "John Doe",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Friday",
-    message: "i want to book an appointment to discuss about my fyp idea",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-  {
-    id: 5,
-    studentName: "John Doe",
-    interestedDomain: "Computer Science",
-    bookedTime: "10:00 AM",
-    bookedDate: "2023-06-20",
-    day: "Monday",
-    message: "i want to book an appointment to discuss about my fyp idea",
-    appointmentStatus: "Pending",
-    studentPicture: "https://example.com/john_doe.jpg",
-  },
-];
 
 const AppointmentRecord = () => {
   const classes = useStyles();
-  const [appointments, setAppointments] = useState(appointmentsData);
+  const [appointments, setAppointments] = useState([]);
 
-  const handleCancelAppointment = (appointmentId) => {
-    const updatedAppointments = appointments.filter(
-      (appointment) => appointment.id !== appointmentId
-    );
-    setAppointments(updatedAppointments);
+  //Function to Fetch the Appointment
+  const fetchAppointment = async()=>{
+    try {
+      const response = await fetch('http://localhost:8080/api/Appointment/StudentFetch',{
+        method: 'GET',
+        headers:{
+          "Content-Type": "application/json",
+          "auth-token" : localStorage.getItem('token')
+        }
+      })
+      const json = await response.json();
+      setAppointments(json);
+    } catch (error) {
+      
+    }
+  }
+  useEffect(() => {
+    fetchAppointment();
+  })
+  
+  const handleCancelAppointment = async(appointmentId) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/Appointment/${appointmentId}/delete`).
+      then((response)=>{
+      });
+      fetchAppointment();
+      
+    } catch (error) {
+        console.error(error);
+        alert("Failed to Delete Appointment request")
+    }
   };
 
   return (
@@ -155,20 +125,20 @@ const AppointmentRecord = () => {
                   <Grid container alignItems="center">
                     <Grid item>
                       <Avatar
-                        src={appointment.studentPicture}
+                        src={`http://localhost:8080/${appointment.supervisor.image}`}
                         alt="Student"
                         className={classes.avatar}
                       />
                     </Grid>
                     <Grid item>
                       <Typography variant="h6" className={classes.studentName}>
-                        {appointment.studentName}
+                        {appointment.supervisor.firstName} {" "} {appointment.supervisor.lastName}
                       </Typography>
                       <Typography
                         variant="body2"
                         className={classes.interestedDomain}
                       >
-                        {appointment.interestedDomain}
+                        {appointment.supervisor.occupation}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -188,7 +158,7 @@ const AppointmentRecord = () => {
                         Time:
                       </Typography>
                       <Typography variant="body2" className={classes.value}>
-                        {appointment.bookedTime}
+                        {appointment.timeSlot}
                       </Typography>
                     </Grid>
                     <Grid item xs={6} sm={4}>
@@ -196,7 +166,7 @@ const AppointmentRecord = () => {
                         Date:
                       </Typography>
                       <Typography variant="body2" className={classes.value}>
-                        {appointment.bookedDate}
+                        {appointment.date}
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sm={8}>
@@ -204,7 +174,7 @@ const AppointmentRecord = () => {
                         Purpose:
                       </Typography>
                       <Typography variant="body2" className={classes.value}>
-                        {appointment.message}
+                        {appointment.purpose}
                       </Typography>
                     </Grid>
                     <Grid item xs={6} sm={4}>
@@ -212,7 +182,7 @@ const AppointmentRecord = () => {
                         Status:
                       </Typography>
                       <Typography variant="body2" className={classes.value}>
-                        {appointment.appointmentStatus}
+                        {appointment.status}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -221,13 +191,15 @@ const AppointmentRecord = () => {
             </CardContent>
             <CardActions>
               <div>
+              {appointment.status === "pending" && (
                 <Button
                   variant="contained"
                   className={`${classes.acceptBtn}`}
-                  onClick={() => handleCancelAppointment(appointment.id)}
+                  onClick={() => handleCancelAppointment(appointment._id)}
                 >
                   Cancel
                 </Button>
+              )}
               </div>
             </CardActions>
           </Card>

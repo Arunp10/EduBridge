@@ -5,16 +5,20 @@ import { Chat as ChatIcon } from '@mui/icons-material';
 import { useState } from 'react';
 
 export default function ConnectionCard(props) {
-  const { firstName,lastName, sentDate, status, avatarSrc} = props;
+  const { firstName,lastName, sentDate, status, img,connection,onDelete} = props;
+
+  const handleDeleteClick = ()=>{
+    onDelete(connection._id);
+  }
   const isAccepted = status === 'approved';
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardHeader
-        avatar={<Avatar src={avatarSrc} />}
+        avatar={<Avatar src={`http://localhost:8080/${img}`} />}
         title={`${firstName} ${lastName}`}
         subheader={`Sent on ${sentDate}`}
         action={
-          <IconButton aria-label="Cancel">
+          <IconButton aria-label="Cancel" onClick={handleDeleteClick}>
             <Cancel />
           </IconButton>
         }

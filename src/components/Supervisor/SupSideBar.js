@@ -30,7 +30,7 @@ const SupSidebar = (props) => {
         </li>
         <li class="nav-item mb-2">
             <Link class="nav-link text-secondary" to="/EditProfile">
-              <i class="fas fa-user font-weight-bold"></i>
+              <i class="fas fa-edit font-weight-bold"></i>
               <span className="ml-3">Edit Profile</span>
             </Link>
         </li>
@@ -41,10 +41,10 @@ const SupSidebar = (props) => {
           </Link>
         </li>
         <li class="nav-item mb-2">
-          <a class="nav-link text-secondary" href="/ShowFunding">
-            <i class="far fa-chart-bar font-weight-bold"></i>
+          <Link class="nav-link text-secondary" to="/ShowFunding">
+            <i class="fa fa-twitch font-weight-bold"></i>
             <span className="ml-3">Post Funding</span>
-          </a>
+          </Link>
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/SupConnection">
@@ -60,7 +60,7 @@ const SupSidebar = (props) => {
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/ShowAvailability">
-            <i class="far fa-calendar font-weight-bold"></i>
+            <i class="far fa-clock-o font-weight-bold"></i>
             <span className="ml-3">Availablity</span>
           </Link>
         </li>

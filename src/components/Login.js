@@ -137,11 +137,6 @@ export default function Login({onLogin,occupation}) {
               </Button>
             {/* </Link> */}
             <Grid container>
-              <Grid item xs>
-                <Link className="nav-link" to="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item xs={10}>
                 <Link className="nav-link" to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}

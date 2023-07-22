@@ -52,7 +52,7 @@ export default function Dashboard() {
           {Users.map((user) => (
             <div className="Card-pattren" key={user._id}>
               <div className="card-image">
-                <img src={profileImage} alt="profile" className="circle-img" />
+                <img src={`http://localhost:8080/${user.image}`} alt="profile" className="circle-img" />
               </div>
               <div className="card-content">
                 <h2>
