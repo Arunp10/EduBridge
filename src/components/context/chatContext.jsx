@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { getRequest, baseUrl, postRequest } from "../utils/server";
 import { useCallback } from "react";
+import {io} from 'socket.io-client';
 
 export const ChatContext = createContext();
 
@@ -8,9 +9,40 @@ export const ChatContextProvider = ({ children, user }) => {
   const [userChats, setUserChats] = useState(null);
   const [userChatLoading, setuserChatLoading] = useState(null);
   const [userChatError, setuserChatError] = useState(null);
-  const [potentialChats, setpotentialChats] = useState(null);
-  const [currentChats, setcurrentChats] = useState(null);
+  const [potentialChats, setpotentialChats] = useState([]);
+  const [currentChat, setcurrentChat] = useState(null);
+  //useStates for messages
+  const [messages, setMessages] = useState(null);
+  const [messagesLoading, setMessagesLoading] = useState(false);
+  const [messagesError, setMessagesError] = useState(null);
+  //Send Text Message
+  const [sendTextMessageError, setsendTextMessageError] = useState(null);
+  const [newMessage, setnewMessage] = useState(null);
+  //Socket UseState
+  const [socket, setsocket] = useState(null)
+  const [onlineUsers, setonlineUsers] = useState([]);
+
+  console.log("Online Users",onlineUsers);
+  //Initiate Socket
+  useEffect(() => {
+    const NewSocket = io('http://localhost:5000');
+    setsocket(NewSocket);
+
+    return () => {
+      NewSocket.disconnect();
+    }
+    }, [user]);
+
+    useEffect(() => {
+      if(socket === null) return
+      socket.emit("addNewUser",user?._id);
+      socket.on("getOnlineUsers",(res)=>{
+        setonlineUsers(res);
+      })
+    }, [socket])
+    
   
+  //UseEffect for getUserChats
   useEffect(() => {
     const getUserChats = async () => {
       setuserChatLoading(true);
@@ -28,6 +60,47 @@ export const ChatContextProvider = ({ children, user }) => {
 
     getUserChats();
   }, [user]);
+
+  //Fetch the Current Chat
+  const updateCurrentChat = useCallback((chat) => {
+    setcurrentChat(chat);
+  }, []);
+
+  useEffect(() => {
+    const getMessages = async () => {
+      setMessagesLoading(true);
+      setMessagesError(null);
+
+      const response = await getRequest(
+        `${baseUrl}/messages/${currentChat?._id}`
+      );
+      setMessagesLoading(false);
+      if (response.error) {
+        return setMessagesError(response);
+      }
+      setMessages(response);
+    };
+    getMessages();
+  }, [currentChat]);
+
+  const sendTextMessage = useCallback(
+    async (textMessage, sender, currentChartId, setTextMessage) => {
+      if (!textMessage) return console.log("No message to send");
+
+      const response = await postRequest(`${baseUrl}/messages`, {
+        chatId: currentChartId,
+        senderId: sender._id,
+        text: textMessage,
+      });
+      if (response.error) {
+        return setsendTextMessageError(response);
+      }
+      setnewMessage(response);
+      setMessages((prev) => [...prev, response]);
+      setTextMessage("");
+    },
+    []
+  );
 
   //UseEffect for getAllUsers
   useEffect(() => {
@@ -53,21 +126,17 @@ export const ChatContextProvider = ({ children, user }) => {
     getUsers();
   }, [userChats]);
 
-  //Fetch the Current Chat
-  const updateCurrentChat = useCallback((chat)=>{
-    setcurrentChats(chat)
-  },[])
-
-  const createChat = useCallback(async(firstId,secondId)=>{
-    const response = await postRequest(`${baseUrl}/chats`,{
-      firstId,secondId
+  const createChat = useCallback(async (firstId, secondId) => {
+    const response = await postRequest(`${baseUrl}/chats`, {
+      firstId,
+      secondId,
     });
-    if(response.error){
-      return console.log("Error cheating Chat",response);
+    if (response.error) {
+      return console.log("Error cheating Chat", response);
     }
-    setUserChats((prev)=>[...prev,response])
+    setUserChats((prev) => [...prev, response]);
+  }, []);
 
-  },[])
   return (
     <ChatContext.Provider
       value={{
@@ -76,7 +145,14 @@ export const ChatContextProvider = ({ children, user }) => {
         userChatError,
         potentialChats,
         createChat,
-        updateCurrentChat
+        currentChat,
+        updateCurrentChat,
+        messages,
+        messagesLoading,
+        messagesError,
+        sendTextMessage,
+        newMessage,
+        sendTextMessageError,
       }}
     >
       {children}

@@ -9,10 +9,8 @@ router.post('/Availability', fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
     const selectedTimeslots = req.body;
-    
-    
-    const notAvailableSelected = selectedTimeslots.some((timeslot) => timeslot.time === "Not Available");
 
+    const notAvailableSelected = selectedTimeslots.some((timeslot) => timeslot.time === "Not Available");
 
     if (notAvailableSelected) {
       const dayToRemove = selectedTimeslots.find((timeslot) => timeslot.time === "Not Available").day;

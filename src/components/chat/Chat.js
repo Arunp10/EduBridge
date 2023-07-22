@@ -8,9 +8,9 @@ import Stack from 'react-bootstrap/Stack'
 import UserChats from './userChats';
 import { useState,useEffect } from 'react';
 import PotentialChats from './potentialChats';
+import ChatBox from './ChatBox';
 
 function Chat(props) {
-
   const [user, setuser] = useState([]);
   const {userChats,userChatLoading,updateCurrentChat} = useContext(ChatContext);
 
@@ -60,7 +60,7 @@ function Chat(props) {
               })}
               </Stack>
               </Stack>
-              <p>Chat Box</p>
+              <ChatBox user={user}></ChatBox>
               </Stack>)}
           </Container>
         </Box>
