@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import imgSrc from "./Assets/student_1.jpg";
 import { Avatar } from "@mui/material";
+import ChatIcon from '@mui/icons-material/Chat';
 
 const Sidebar = (props) => {
   let navigate = useNavigate();
@@ -35,7 +36,7 @@ const Sidebar = (props) => {
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/EditProfile">
-            <i class="fas fa-user font-weight-bold"></i>
+            <i class="fas fa-edit font-weight-bold"></i>
             <span className="ml-3">Edit Profile</span>
           </Link>
           <ul
@@ -52,7 +53,7 @@ const Sidebar = (props) => {
         </li>
         <li class="nav-item mb-2">
           <Link class="nav-link text-secondary" to="/UserFundingDetails">
-            <i class="far fa-chart-bar font-weight-bold"></i>
+            <i class="fa fa-twitch font font-weight-bold"></i>
             <span className="ml-3">Funding</span>
           </Link>
         </li>
@@ -66,6 +67,12 @@ const Sidebar = (props) => {
           <Link class="nav-link text-secondary" to="/ShowAppointments">
             <i class="far fa-calendar font-weight-bold"></i>
             <span className="ml-3">Appointment</span>
+          </Link>
+        </li>
+        <li class="nav-item mb-2">
+          <Link class="nav-link text-secondary" to="/chat">
+            <i class="fas fa-comment-alt font-weight-bold"></i>
+            <span className="ml-3">Chat</span>
           </Link>
         </li>
         <li class="nav-item mb-2 mt-5">

@@ -59,6 +59,27 @@ export default function EducationSection() {
       setIsEditMode(false);
     } else {
       if (validateForm() === true) {
+
+        const startDate = new Date(education.startDate);
+        const endDate = new Date(education.endDate);
+      
+        // Check if the start date is a valid date
+        if (isNaN(startDate.getTime())) {
+          alert("Invalid start date format. Please use the MM/DD/YYYY format.");
+          return;
+        }
+      
+        // Check if the end date is a valid date
+        if (education.endDate && isNaN(endDate.getTime())) {
+          alert("Invalid end date format. Please use the MM/DD/YYYY format.");
+          return;
+        }
+      
+        // Check if the start date is after the end date
+        if (education.endDate && startDate > endDate) {
+          alert("Start date cannot be after the end date.");
+          return;
+        }
         // Add new education
         AddEducation(
           education.InstituteName,
@@ -115,6 +136,27 @@ export default function EducationSection() {
   // Function to handle the edit submission
   const handleEditSubmit = () => {
     if (validateForm()) {
+      const startDate = new Date(education.startDate);
+      const endDate = new Date(education.endDate);
+    
+      // Check if the start date is a valid date
+      if (isNaN(startDate.getTime())) {
+        alert("Invalid start date format. Please use the MM/DD/YYYY format.");
+        return;
+      }
+    
+      // Check if the end date is a valid date
+      if (education.endDate && isNaN(endDate.getTime())) {
+        alert("Invalid end date format. Please use the MM/DD/YYYY format.");
+        return;
+      }
+    
+      // Check if the start date is after the end date
+      if (education.endDate && startDate > endDate) {
+        alert("Start date cannot be after the end date.");
+        return;
+      }
+
       const endDateValue = education.endDate === "Present" ? null : education.endDate;
       // Call your update function here
       updateEducation(education.id, {

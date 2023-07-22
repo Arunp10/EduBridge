@@ -166,6 +166,7 @@ const Appointment = () => {
       console.error(error);
       alert("Failed to Reject Appointment request");
     }
+
   };
   return (
     <Grid container spacing={2}>
@@ -266,7 +267,10 @@ const Appointment = () => {
                   <Button
                     variant="contained"
                     className={`${classes.rejectBtn}`}
-                    onClick={() => handleRejectAppointment(appointment._id)}
+                    onClick={() =>{
+                      handleRejectAppointment(appointment._id)
+                      handleCancelAppointment(appointment._id)
+                    }}
                     startIcon={<CloseIcon />}
                   >
                     Reject

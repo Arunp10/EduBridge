@@ -3,16 +3,14 @@ const router = express.Router();
 const fetchUser  = require('../MiddleWare/fetchUser');
 const Availability = require('../models/Availability');
 const Appointment = require('../models/Appointment');
-
+const chatModel = require('../models/chatModel')
 //Route 1: To Add availability through selection the array
 router.post('/Availability', fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
     const selectedTimeslots = req.body;
 
-    
     const notAvailableSelected = selectedTimeslots.some((timeslot) => timeslot.time === "Not Available");
-
 
     if (notAvailableSelected) {
       const dayToRemove = selectedTimeslots.find((timeslot) => timeslot.time === "Not Available").day;
