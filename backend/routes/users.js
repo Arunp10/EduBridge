@@ -27,6 +27,28 @@ router.post("/", async (req, res) => {
 	}
 });
 
+router.get('/find/:userId',async(req,res)=>{
+	const userId = req.params.userId;
+
+	try {
+		const user = await User.findById(userId);
+		res.status(200).json(user);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json(error);
+	}
+})
+
+router.get('/getAllUsers',async(req,res)=>{
+
+	try {
+		const user = await User.find();
+		res.status(200).json(user);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json(error);
+	}
+})
 
 //Route 2 : To Upload profile Image of User
 // Configure multer storage

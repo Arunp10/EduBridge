@@ -24,14 +24,14 @@ import ShowFunding from "./components/Supervisor/SupervisorFunding/ShowFunding"
 import ViewAppointment from "./components/Supervisor/SupervisorAppointments/ViewAppointments"
 import ShowAppointments from "./components/UserAppointmentsPage/ShowAppointments"
 import UserFundingDetails from "./components/UserFunding/UserFundingDetails"
+import { ChatContextProvider } from "./components/context/chatContext";
+import Chat from "./components/chat/Chat";
 
 const App = () => {
   //Fetch API
   const host = "http://localhost:8080";
-  const initialUser = [];
 
-  const [user, setuser] = useState(initialUser);
-
+  const [user, setuser] = useState([]);
   //Function to get User Details:
   const getUser = async () => {
     //API Calling:
@@ -71,6 +71,7 @@ const App = () => {
 
   return (
     <div>
+      <ChatContextProvider user={user}>
       <SkillState>
         <WorkState>
           <ProjectState>
@@ -137,6 +138,10 @@ const App = () => {
                               element={<ProfileView />}
                             />
                             <Route
+                              path="/chat"
+                              element={<Chat user={user} />}
+                            />
+                            <Route
                               path="/ViewAppointment"
                               element={<ViewAppointment />}
                             />
@@ -191,6 +196,7 @@ const App = () => {
           </ProjectState>
         </WorkState>
       </SkillState>
+      </ChatContextProvider>
     </div>
   );
 };
