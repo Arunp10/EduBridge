@@ -3,7 +3,7 @@ import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import ConnectionCard from "./SupConnectionCard";
 import { useState,useEffect } from "react";
 import axios from 'axios';
-
+import {useNavigate } from "react-router-dom";
 
 export function SupConnection() {
   const [Connections, setConnections] = useState([]);
@@ -37,6 +37,30 @@ export function SupConnection() {
     fetchApprovedConnection();
   
   },[])
+
+  const [Users, setUsers] = useState([]);
+
+  const getStudent = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/auth/getStudent",
+        {
+          method: "GET",
+        }
+      );
+      const json = await response.json();
+      setUsers(json);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getStudent();
+  }, []);
+  const navigate = useNavigate();
+  const navigateToProfile = (id) => {
+    navigate(`/StudentProfileView/${id}`);
+  };
   
   return (
     <>
@@ -59,6 +83,7 @@ export function SupConnection() {
                   recipientLastName={connection.user.lastName}
                   avatarSrc={connection.user.image}
                   connection={connection}
+                  onNavigate={navigateToProfile}
                   onDelete={handleDelete}
                 />
               </Grid>

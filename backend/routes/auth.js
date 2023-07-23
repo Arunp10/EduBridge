@@ -90,6 +90,17 @@ router.get('/fetchUser/:userId',async(req,res)=>{
 		
 	}
 })
-
+//Route 5: It Fetch All Professionals
+router.get('/getStudent',async(req,res)=>{
+	try{
+		const occupation = "Student";
+		
+		const user = await User.find({occupation});
+		res.send(user);
+	}catch(error){
+		console.error(error.message);
+		res.status(500).json({Error : "Internal Server Error"})
+	}
+})
 
 module.exports = router;
