@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate, Switch } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/signup";
@@ -32,7 +32,8 @@ const App = () => {
   //Fetch API
   const host = "http://localhost:8080";
 
-  const [user, setuser] = useState([]);
+  const [user, setuser] = useState([])
+
   //Function to get User Details:
   const getUser = async () => {
     //API Calling:
@@ -68,7 +69,7 @@ const App = () => {
     } else {
       setIsLoggedIn(false);
     }
-  });
+  },[]);
 
   return (
     <div>

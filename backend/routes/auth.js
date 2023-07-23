@@ -75,7 +75,6 @@ router.get('/getAllUsers',async(req,res)=>{
 })
 
 //Route 4: Fetch all Data of User on Request of User_id
-
 router.get('/fetchUser/:userId',async(req,res)=>{
 	const userId = req.params.userId;
 	try{

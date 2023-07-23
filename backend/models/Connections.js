@@ -4,11 +4,14 @@ const Joi = require("joi");
 const ConnectionSchema = new mongoose.Schema({
     user: {
         type : mongoose.Schema.Types.ObjectId,
-        ref : 'user'
+        ref : 'user',
+        default: null
+        
     },
     supervisor:{
         type: mongoose.Schema.Types.ObjectId,
-        ref : 'user'
+        ref : 'user',
+        default: null
     },
     interest:{type: String},
     comment: {type:String},

@@ -86,7 +86,6 @@ router.get('/fetch',fetchUser,async(req,res)=>{
 })
 
 //supervisorFetch
-
 router.get('/supervisorfundingsfetch', fetchUser, async (req, res) => {
   const { id: postBy } = req.user;
   try {

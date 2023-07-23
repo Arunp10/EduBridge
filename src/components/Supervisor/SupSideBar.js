@@ -65,6 +65,12 @@ const SupSidebar = (props) => {
           </Link>
         </li>
         <li class="nav-item mb-2">
+          <Link class="nav-link text-secondary" to="/chat">
+            <i class="fas fa-comment-alt font-weight-bold"></i>
+            <span className="ml-3">Chat</span>
+          </Link>
+        </li>
+        <li class="nav-item mb-2">
           <a class="nav-link text-secondary" href="#"></a>
         </li>
         <li class="nav-item mb-2">

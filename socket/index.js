@@ -1,3 +1,4 @@
+const { DiscountRounded } = require("@mui/icons-material");
 const { Server } = require("socket.io");
 
 const io = new Server({cors: "http://localhost:3000"});
@@ -16,8 +17,20 @@ io.on("connection", (socket) => {
         console.log("Online Users",onlineUser);
         io.emit("getOnlineUsers",onlineUser)
     });
-    
 
+    //add messages
+    socket.on("sendMessage",(message)=>{
+        const user = onlineUser.find(user => user.userId === message.recipientId);
+
+        if(user){
+            io.to(user.socketId).emit("getMessage",message);
+        }
+    });
+    //Disconnect the user if he exit and remove from array
+    socket.on("disconnect",()=>{
+        onlineUser = onlineUser.filter(user=> user.socketId !== socket.id)
+        io.emit("getOnlineUsers",onlineUser)
+    })
 });
 
 
