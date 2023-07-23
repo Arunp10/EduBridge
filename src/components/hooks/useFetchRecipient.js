@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { baseUrl, getRequest } from "../utils/server";
+import { ChatContext } from "../context/chatContext";
 
 export const useFetchRecipientUser = (chat, user) => {
   const [RecipientUser, setRecipientUser] = useState(null);
   const [error, seterror] = useState(null);
 
+  
   const recipientId = chat?.members.find((id) => id !== user?._id);
 
   useEffect(() => {
