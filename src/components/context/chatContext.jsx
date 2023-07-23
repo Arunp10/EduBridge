@@ -124,28 +124,69 @@ export const ChatContextProvider = ({ children, user }) => {
     []
   );
 
-  //UseEffect for getAllUsers
-  useEffect(() => {
-    const getUsers = async () => {
-      const response = await getRequest(`${baseUrl}/users/getAllUsers`);
-      if (response.error) {
-        return console.log("Error fetching users...", response);
-      }
-      const pChats = response.filter((u) => {
-        let isChatCreated = false;
-        if (user._id === u._id) return false;
+// UseEffect for getAllUsers
+//   useEffect(() => {
+//     const getUsers = async () => {
+//       const response = await getRequest(`${baseUrl}/users/getAllUsers`);
+//       if (response.error) {
+//         return console.log("Error fetching users...", response);
+//       }
+//       const pChats = response.filter((u) => {
+//         let isChatCreated = false;
+//         if (user._id === u._id) return false;
 
-        if (userChats) {
-          isChatCreated = userChats?.some((chat) => {
-            return chat.members[0] === u._id || chat.members[1] === u._id;
+//         if (userChats) {
+//           isChatCreated = userChats?.some((chat) => {
+//             return chat.members[0] === u._id || chat.members[1] === u._id;
+//           });
+//         }
+//         return !isChatCreated;
+//       });
+//       setpotentialChats(pChats);
+//     };
+//     getUsers();
+//   }, [userChats]);
+
+  
+  // //UseEffect for getAllUsers
+    useEffect(() => {
+      const getUsers = async () => {
+        try {
+          // Replace 'your_backend_api_url' with the actual URL of your API
+          const response = await fetch(`${baseUrl}/connection/fetchChatUsers/${user?._id}`);
+          const data = await response.json();
+  
+          if (!response.ok) {
+            console.error("Error fetching users...", data);
+            return;
+          }
+  
+          const pChats = data.filter((connection) => {
+            const userId = user?._id;
+  
+            if (userId === connection.user?._id) {
+              return false;
+            }
+  
+            if (userChats) {
+              const isChatCreated = userChats.some((chat) => {
+                return chat.members[0] === userId || chat.members[1] === connection.user?._id;
+              });
+              return !isChatCreated;
+            }
+            return true;
           });
+          setpotentialChats(pChats);
+        } catch (error) {
+          console.error("Error fetching potential chats:", error);
         }
-        return !isChatCreated;
-      });
-      setpotentialChats(pChats);
-    };
-    getUsers();
-  }, [userChats]);
+      };
+  
+      getUsers();
+    }, [userChats, user?._id]); // Will be triggered whenever userChats or user._id changes
+  
+
+  
 
   const createChat = useCallback(async (firstId, secondId) => {
     const response = await postRequest(`${baseUrl}/chats`, {
@@ -181,3 +222,4 @@ export const ChatContextProvider = ({ children, user }) => {
     </ChatContext.Provider>
   );
 };
+

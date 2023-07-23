@@ -3,6 +3,8 @@ const router = express.Router();
 const fetchUser = require("../MiddleWare/fetchUser");
 const { Connections, validate } = require("../models/Connections");
 const { User } = require("../models/user");
+const mongoose = require('mongoose');
+
 
 //Route 1 : API to add connection with user to send Request
 router.post("/AddConnection", fetchUser, async (req, res) => {
@@ -152,6 +154,33 @@ router.delete('/deleteConnection/:id',async(req,res)=>{
     
   }
 
-})
+});
+
+router.get('/fetchChatUsers/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const connections = await Connections.find({
+      $or: [
+        { user: userId , status: "approved" },
+        { supervisor: userId , status: "approved" }
+      ]
+    }).populate({
+      path: 'user',
+      select: 'firstName lastName occupation image',
+    }).populate({
+      path: 'supervisor',
+      select: 'firstName lastName occupation image',
+    });
+
+    if (connections.length > 0) {
+      res.status(200).json(connections);
+    } else {
+      res.status(404).json("User not found");
+    }
+  } catch (error) {
+    console.error("Error fetching connections:", error);
+    res.status(500).json("Internal server error");
+  }
+});
 
 module.exports = router;

@@ -9,7 +9,7 @@ function UserChats({chat,user}) {
     const {RecipientUser} = useFetchRecipientUser(chat , user);
     const {onlineUsers} = useContext(ChatContext);
     const isOnline = onlineUsers?.some((user) => user?.userId === RecipientUser?._id);
-
+    
   return (
     <Stack direction="horizontal" gap={3} className='user-card align-items-cener p-2 justify-content-between'
      role='button'>
@@ -24,7 +24,7 @@ function UserChats({chat,user}) {
         </div>
         <div className='d-flex flex-column align-items-end'>
             <div className='date'>12/12/2022</div>
-            <div className='this-user-notifications'>2</div>
+            {/* <div className='this-user-notifications'>2</div> */}
             <span className={isOnline ? 'user-online' : ""}></span>
         </div>
     </Stack>
