@@ -31,7 +31,7 @@ export default function Dashboard() {
   return (
     <>
       <div className="col main pt-5 mt-3">
-        <p className="lead d-none d-sm-block">Suggested Supervisor</p>
+        <p className="lead d-none d-sm-block">Supervisor Available</p>
         <div
           className="alert alert-warning fade collapse"
           role="alert"
