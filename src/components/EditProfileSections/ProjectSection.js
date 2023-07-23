@@ -17,6 +17,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ProjectContext from "../context/project/ProjectContext";
+import PopupMessage from "../PopupMessage";
 import { useEffect } from "react";
 export default function ProjectSection() {
   const context = useContext(ProjectContext);
@@ -24,6 +25,8 @@ export default function ProjectSection() {
     context;
 
   const [isEditMode, setisEditMode] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
   const [project, setProject] = useState({
     projectTitle: "",
     startDate: "",
@@ -34,33 +37,39 @@ export default function ProjectSection() {
     getProject();
   }, [project]);
 
+  const showPopupWithMessage = (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  };
+
+  useEffect(() => {
+    if (showPopup) {
+      // Close the popup after 3 seconds
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+        setPopupMessage("");
+      }, 3000);
+
+      // Cleanup the timer when the component unmounts or when showPopup is set to false
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
       const startDate = new Date(project.startDate);
       const endDate = new Date(project.endDate);
     
-      // Check if the start date is a valid date
-      if (isNaN(startDate.getTime())) {
-        alert("Invalid start date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
-    
-      // Check if the end date is a valid date
-      if (project.endDate && isNaN(endDate.getTime())) {
-        alert("Invalid end date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
-    
       // Check if the start date is after the end date
       if (project.endDate && startDate > endDate) {
-        alert("Start date cannot be after the end date.");
+        showPopupWithMessage("Start date cannot be after the end date.");
         return;
       }
 
       // Check if the project with the same title already exists
       if (Project.some((proj) => proj.projectTitle === project.projectTitle)) {
-        alert("Project with the same title already exists.");
+        showPopupWithMessage("Project with the same title already exists.");
         return;
       }
       AddProject(
@@ -69,13 +78,14 @@ export default function ProjectSection() {
         project.endDate === null ? "Present" : project.endDate,
         project.description
       );
+      showPopupWithMessage("Project details added successfully!");
       setProject({
         projectTitle: "",
         startDate: "",
         endDate: "",
         description: "",
       });
-      alert("Project details added successfully!");
+      
     }
   };
 
@@ -107,21 +117,9 @@ export default function ProjectSection() {
       const startDate = new Date(project.startDate);
       const endDate = new Date(project.endDate);
     
-      // Check if the start date is a valid date
-      if (isNaN(startDate.getTime())) {
-        alert("Invalid start date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
-    
-      // Check if the end date is a valid date
-      if (project.endDate && isNaN(endDate.getTime())) {
-        alert("Invalid end date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
-    
       // Check if the start date is after the end date
       if (project.endDate && startDate > endDate) {
-        alert("Start date cannot be after the end date.");
+        showPopupWithMessage("Start date cannot be after the end date.");
         return;
       }
       
@@ -133,7 +131,7 @@ export default function ProjectSection() {
             proj._id !== project.id
         )
       ) {
-        alert("Project with the same title already exists.");
+        showPopupWithMessage("Project with the same title already exists.");
         return;
       }
       // Call your update function here
@@ -144,7 +142,7 @@ export default function ProjectSection() {
         endDate: endDateValue,
         description: project.description,
       });
-
+      showPopupWithMessage("Project record updated successfully!");
       // Reset form and edit mode
       clearForm();
     }
@@ -266,6 +264,12 @@ export default function ProjectSection() {
             />
           </Grid>
         </Grid>
+        {showPopup && (
+        <PopupMessage
+          message={popupMessage}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
         <Button
           variant="contained"
           color="primary"
