@@ -83,12 +83,12 @@ router.put("/:connectionId/approved", async (req, res) => {
 //Router 4 : API to update the status if user reject the connection request
 router.put("/:connectionId/rejected", async (req, res) => {
   try {
-    const { connectionId } = req.params;
-    const connection = await Connections.Connections.findByIdAndDelete(connectionId);
+    const  {connectionId } = req.params;
+
+    const connection = await Connections.findByIdAndDelete(connectionId);
     if (!connection) {
       res.status(401).json({ error: "Connection request not found" });
     }
-
     res.json({ message: "Connection Requestion rejected Successful" });
   } catch (error) {
     console.error(error);

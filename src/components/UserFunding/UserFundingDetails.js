@@ -22,7 +22,6 @@ const App = () => {
   useEffect(() => {
     fetchFunding();
   })
-  console.log(funding);
   return (
     <Box sx={{ width: "83%", pt: 2, pl: 2 }}>
       <Box sx={{ alignItems: "center", display: "flex" }}>

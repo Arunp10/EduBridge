@@ -31,7 +31,7 @@ const App = () => {
   //Fetch API
   const host = "http://localhost:8080";
 
-  const [user, setuser] = useState([]);
+  const [user, setuser] = useState([])
 
   //Function to get User Details:
   const getUser = async () => {
