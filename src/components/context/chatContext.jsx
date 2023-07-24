@@ -32,6 +32,7 @@ export const ChatContextProvider = ({ children, user }) => {
       NewSocket.disconnect();
     };
   }, [user]);
+  
   // Add Online Users on Socket Array
   useEffect(() => {
     if (socket === null) return;
