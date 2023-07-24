@@ -29,23 +29,26 @@ import { ChatContextProvider } from "./components/context/chatContext";
 import Chat from "./components/chat/Chat";
 
 const App = () => {
-  //Fetch API
   const host = "http://localhost:8080";
 
-  const [user, setuser] = useState([])
+  const [user, setUser] = useState([]);
 
-  //Function to get User Details:
+  // Function to get User Details:
   const getUser = async () => {
-    //API Calling:
-    const response = await fetch(`${host}/api/auth/getUser`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-      },
-    });
-    const json = await response.json();
-    setuser(json);
+    try {
+      // API Calling:
+      const response = await fetch(`${host}/api/auth/getUser`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+      });
+      const json = await response.json();
+      setUser(json);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   };
 
   let [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -62,14 +65,21 @@ const App = () => {
     window.location.href = "/"; // Redirect to the home page
   };
 
+  const [isDataFetched, setIsDataFetched] = useState(false);
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      getUser();
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-  },[]);
+
+    if (isLoggedIn) {
+      getUser().then(() => {
+        setIsDataFetched(true);
+      });
+    }
+  }, [isLoggedIn]);
 
   return (
     <div>
