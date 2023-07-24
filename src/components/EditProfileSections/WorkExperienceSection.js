@@ -17,12 +17,16 @@ import React, { useState, useContext, useEffect } from "react";
 import WorkContext from "../context/WorkExperience/WorkContext";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PopupMessage from "../PopupMessage";
+
 export default function WorkExperienceSection() {
   const context = useContext(WorkContext);
   const { Work, AddWork, deleteWork, getWork, updateWorkExperience } = context;
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isEmployeeEmpty, setIsEmployeeEmpty] = useState(false);
   const [isStartDateEmpty, setIsStartDateEmpty] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
 
   const [work, setWork] = useState({
     id: "",
@@ -37,30 +41,38 @@ export default function WorkExperienceSection() {
     getWork();
   }, [work]);
 
+  const showPopupWithMessage = (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  };
+
+  useEffect(() => {
+    if (showPopup) {
+      // Close the popup after 3 seconds
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+        setPopupMessage("");
+      }, 3000);
+
+      // Cleanup the timer when the component unmounts or when showPopup is set to false
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
       
       const startDate = new Date(work.startDate);
       const endDate = new Date(work.endDate);
-    
-      // Check if the start date is a valid date
-      if (isNaN(startDate.getTime())) {
-        alert("Invalid start date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
-    
-      // Check if the end date is a valid date
-      if (work.endDate && isNaN(endDate.getTime())) {
-        alert("Invalid end date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
+  
     
       // Check if the start date is after the end date
       if (work.endDate && startDate > endDate) {
-        alert("Start date cannot be after the end date.");
+        showPopupWithMessage("Start date cannot be after the end date.");
         return;
       }
+      
         AddWork(
           work.title,
           work.employee,
@@ -68,6 +80,7 @@ export default function WorkExperienceSection() {
           work.endDate,
           work.description
         );
+        showPopupWithMessage("Work Record added successfully!");
       clearForm();
     }
   };
@@ -113,21 +126,9 @@ export default function WorkExperienceSection() {
       const startDate = new Date(work.startDate);
       const endDate = new Date(work.endDate);
     
-      // Check if the start date is a valid date
-      if (isNaN(startDate.getTime())) {
-        alert("Invalid start date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
-    
-      // Check if the end date is a valid date
-      if (work.endDate && isNaN(endDate.getTime())) {
-        alert("Invalid end date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
-    
       // Check if the start date is after the end date
       if (work.endDate && startDate > endDate) {
-        alert("Start date cannot be after the end date.");
+        showPopupWithMessage("Start date cannot be after the end date.");
         return;
       }
       const endDateValue = work.endDate === "Present" ? null : work.endDate;
@@ -138,6 +139,7 @@ export default function WorkExperienceSection() {
           endDate: endDateValue,
           description: work.description,
         });
+        showPopupWithMessage("Work record updated successfully!");
       clearForm();
       setIsEditMode(false);
     }
@@ -270,6 +272,12 @@ export default function WorkExperienceSection() {
               multiline
             />
           </Grid>
+          {showPopup && (
+          <PopupMessage
+            message={popupMessage}
+            onClose={() => setShowPopup(false)}
+          />
+          )}
           <Grid item xs={12}>
             <Button
               variant="contained"

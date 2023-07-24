@@ -17,11 +17,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useState, useContext, useEffect } from "react";
 import EducationContext from "../context/Education/EducationContext";
+import PopupMessage from "../PopupMessage";
+
 
 export default function EducationSection() {
   const [isInstituteNameEmpty, setIsInstituteNameEmpty] = useState(false);
   const [isDegreeEmpty, setIsDegreeEmpty] = useState(false);
   const [isStartDateEmpty, setIsStartDateEmpty] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
 
   // Calling Education Context API
   const context = useContext(EducationContext);
@@ -40,10 +44,28 @@ export default function EducationSection() {
     endDate: "",
   });
 
+  const showPopupWithMessage = (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  };
+
   useEffect(() => {
     // Retrieve education data from the server or local storage
     getEducation();
-  }, [education]);
+  }, [Education]);
+
+  useEffect(() => {
+    if (showPopup) {
+      // Close the popup after 3 seconds
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+        setPopupMessage("");
+      }, 3000);
+
+      // Cleanup the timer when the component unmounts or when showPopup is set to false
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,21 +85,10 @@ export default function EducationSection() {
         const startDate = new Date(education.startDate);
         const endDate = new Date(education.endDate);
       
-        // Check if the start date is a valid date
-        if (isNaN(startDate.getTime())) {
-          alert("Invalid start date format. Please use the MM/DD/YYYY format.");
-          return;
-        }
-      
-        // Check if the end date is a valid date
-        if (education.endDate && isNaN(endDate.getTime())) {
-          alert("Invalid end date format. Please use the MM/DD/YYYY format.");
-          return;
-        }
       
         // Check if the start date is after the end date
         if (education.endDate && startDate > endDate) {
-          alert("Start date cannot be after the end date.");
+          showPopupWithMessage("Start date cannot be after the end date.");
           return;
         }
         // Add new education
@@ -87,6 +98,7 @@ export default function EducationSection() {
           education.startDate,
           education.endDate === null ? "Present" : education.endDate
         );
+        showPopupWithMessage("Education record added successfully!");
         // Reset form
         setEducation({
           id: "",
@@ -139,21 +151,10 @@ export default function EducationSection() {
       const startDate = new Date(education.startDate);
       const endDate = new Date(education.endDate);
     
-      // Check if the start date is a valid date
-      if (isNaN(startDate.getTime())) {
-        alert("Invalid start date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
-    
-      // Check if the end date is a valid date
-      if (education.endDate && isNaN(endDate.getTime())) {
-        alert("Invalid end date format. Please use the MM/DD/YYYY format.");
-        return;
-      }
     
       // Check if the start date is after the end date
       if (education.endDate && startDate > endDate) {
-        alert("Start date cannot be after the end date.");
+        showPopupWithMessage("Start date cannot be after the end date.");
         return;
       }
 
@@ -165,7 +166,7 @@ export default function EducationSection() {
         startDate: education.startDate,
         endDate: endDateValue
       });
-
+      showPopupWithMessage("Education record updated successfully!");
       // Reset form and edit mode
       setEducation({
         id: "",
@@ -317,6 +318,12 @@ export default function EducationSection() {
             )}
           </Grid>
         </Grid>
+        {showPopup && (
+        <PopupMessage
+          message={popupMessage}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
       </Box>
       {Education.length > 0 && (
         <Box mt={4} sx={{ width: "100%" }}>
